@@ -591,14 +591,8 @@ const VARIANTS_QUERY = `#graphql
 /** @typedef {import('@shopify/hydrogen/storefront-api-types').SelectedOption} SelectedOption */
 /** @typedef {import('@shopify/remix-oxygen').SerializeFrom<typeof loader>} LoaderReturnData */
 
-export async function action({request}) {
-  console.log('process.env.PUBLIC_STORE_DOMAIN');
-  console.log('process.env');
-  console.log(process.env);
-  console.log('process.env.NODE_ENV');
-  console.log(process.env.NODE_ENV);
-  console.log('process.env.PUBLIC_STORE_DOMAIN');
-  console.log(process.env.PUBLIC_STORE_DOMAIN);
+export async function action({context, request}) {
+  const publicStoreDomain = context.env.PUBLIC_STORE_DOMAIN;
 
   const formData = await request.formData();
   const product = JSON.parse(formData.get('product'));
@@ -611,9 +605,8 @@ export async function action({request}) {
     selectedVariant,
   };
 
-  const storeName = process.env.PUBLIC_STORE_DOMAIN;
-  const ADMIN_TOKEN = process.env.PRIVATE_SHOPIFY_ADMIN_TOKEN;
-
+  const storeName = context.env.PUBLIC_STORE_DOMAIN;
+  const ADMIN_TOKEN = context.env.PRIVATE_SHOPIFY_ADMIN_TOKEN;
   const method = 'POST';
   const apiVersion = '2023-10';
 
@@ -668,8 +661,6 @@ export async function action({request}) {
 
   const url = `https://${storeName}/admin/api/${apiVersion}/products/${postBody.variant.product_id}/variants.json`;
 
-  console.log('url');
-  console.log(url);
   return {
     status: 'success',
     message: '',

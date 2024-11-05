@@ -344,7 +344,6 @@ export function ProductForm({
   useEffect(() => {
     const AddCreatedProductToCart = async () => {
       if (addToCartButtonRef.current) {
-        console.log('simulate click');
         addToCartButtonRef.current.click();
         setNewVariantId(null);
         setIsLoading(false);

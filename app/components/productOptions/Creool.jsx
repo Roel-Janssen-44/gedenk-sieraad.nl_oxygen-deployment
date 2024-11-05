@@ -26,8 +26,6 @@ export default function Creool({value, onChange, setOptionErrors, showErrors}) {
     onChange(newValue);
   };
 
-  // return <p>khabsd</p>;
-
   return (
     <div className="relative">
       {showErrors && (

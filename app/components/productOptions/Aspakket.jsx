@@ -1,9 +1,7 @@
-"use client";
+import {useState, useEffect} from 'react';
 
-import { useState, useEffect } from "react";
-
-import InputRadio from "../InputRadio";
-import { aspakketOptions } from "./optionSets";
+import InputRadio from '../InputRadio';
+import {aspakketOptions} from './optionSets';
 
 export default function Aspakket({
   value,
@@ -15,16 +13,16 @@ export default function Aspakket({
 
   useEffect(() => {
     if (value.length === 0) {
-      setError("* Kies een optie");
+      setError('* Kies een optie');
       setOptionErrors((prevState) => ({
         ...prevState,
-        ["Aspakket"]: true,
+        ['Aspakket']: true,
       }));
     } else {
       setError(null);
       setOptionErrors((prevState) => ({
         ...prevState,
-        ["Aspakket"]: false,
+        ['Aspakket']: false,
       }));
     }
   }, [value]);

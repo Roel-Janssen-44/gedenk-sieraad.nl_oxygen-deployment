@@ -1,12 +1,19 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
-import { Button, Modal } from "@mui/material";
+import {useState, useEffect, useRef} from 'react';
 
-import InputImageSwatch from "../InputImageSwatch";
-import InputRadio from "../InputRadio";
-import { harsKleurOptions, glitterOptions } from "./optionSets";
+import {Button} from '~/components/chadcn/Button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '~/components/chadcn/modal';
+import InputImageSwatch from '../InputImageSwatch';
+import InputRadio from '../InputRadio';
+import {harsKleurOptions, glitterOptions} from './optionSets';
 
 export default function HarsKleur({
   value,
@@ -23,41 +30,41 @@ export default function HarsKleur({
   useEffect(() => {
     if (Array.isArray(value)) {
       const harsKleurValue = value.find(
-        (item) => item.key === "Harskleur"
+        (item) => item.key === 'Harskleur',
       ).value;
-      const glitterValue = value.find((item) => item.key === "Glitter").value;
+      const glitterValue = value.find((item) => item.key === 'Glitter').value;
 
-      if (harsKleurValue != "" && glitterValue != "") {
+      if (harsKleurValue != '' && glitterValue != '') {
         setError([]);
         setOptionErrors((prevState) => ({
           ...prevState,
-          ["hars"]: false,
+          ['hars']: false,
         }));
       } else {
         setOptionErrors((prevState) => ({
           ...prevState,
-          ["hars"]: true,
+          ['hars']: true,
         }));
-        if (harsKleurValue == "") {
+        if (harsKleurValue == '') {
           setError((prevState) => ({
             ...prevState,
-            ["Harskleur"]: "* Kies een harskleur",
+            ['Harskleur']: '* Kies een harskleur',
           }));
         } else {
           setError((prevState) => ({
             ...prevState,
-            ["Harskleur"]: "",
+            ['Harskleur']: '',
           }));
         }
-        if (glitterValue == "") {
+        if (glitterValue == '') {
           setError((prevState) => ({
             ...prevState,
-            ["Glitter"]: "* Kies een optie",
+            ['Glitter']: '* Kies een optie',
           }));
         } else {
           setError((prevState) => ({
             ...prevState,
-            ["Glitter"]: "",
+            ['Glitter']: '',
           }));
         }
       }
@@ -65,8 +72,8 @@ export default function HarsKleur({
   }, [value]);
 
   const [values, setValues] = useState([
-    { key: "Harskleur", value: value?.harsKleur?.value || "" },
-    { key: "Glitter", value: value?.glitter?.value || "" },
+    {key: 'Harskleur', value: value?.harsKleur?.value || ''},
+    {key: 'Glitter', value: value?.glitter?.value || ''},
   ]);
 
   const isInitialRender = useRef(true);
@@ -83,28 +90,28 @@ export default function HarsKleur({
   const handleChange = (changedKey, newValue) => {
     setValues((prevValues) =>
       prevValues.map((item) =>
-        item.key === changedKey ? { ...item, value: newValue } : item
-      )
+        item.key === changedKey ? {...item, value: newValue} : item,
+      ),
     );
 
     onChange(values);
   };
 
-  useEffect(() => {
-    onChange(values);
-  }, []);
+  // useEffect(() => {
+  //   onChange(values);
+  // }, []);
 
   return (
     <>
       <div className="relative">
         {showErrors && (
           <p className="absolute  -bottom-6 left-0 text-red-700">
-            {error["Harskleur"]}
+            {error['Harskleur']}
           </p>
         )}
         <InputImageSwatch
-          value={values.find((item) => item.key === "Harskleur")?.value || ""}
-          onChange={(newHarsValue) => handleChange("Harskleur", newHarsValue)}
+          value={values.find((item) => item.key === 'Harskleur')?.value || ''}
+          onChange={(newHarsValue) => handleChange('Harskleur', newHarsValue)}
           title="Harskleur:"
           options={harsKleurOptions}
         />
@@ -112,44 +119,39 @@ export default function HarsKleur({
       <div className="relative">
         {showErrors && (
           <p className="absolute  -bottom-6 left-0 text-red-700">
-            {error["Glitter"]}
+            {error['Glitter']}
           </p>
         )}
       </div>
 
       <div className="flex flex-row">
         <InputRadio
-          value={values.find((item) => item.key === "Glitter")?.value || ""}
+          value={values.find((item) => item.key === 'Glitter')?.value || ''}
           onChange={(newGlitterValue) =>
-            handleChange("Glitter", newGlitterValue)
+            handleChange('Glitter', newGlitterValue)
           }
           title="Glitter:"
           options={glitterOptions}
         />
-        <Button onClick={handleOpen}>
-          <Image
-            src={"/images/glitter.webp"}
-            className="rounded"
-            width={150}
-            height={150}
-          />
-        </Button>
+        <Dialog>
+          <DialogTrigger>
+            <img
+              src={'/images/glitter.webp'}
+              className="rounded cursor-pointer"
+              width={150}
+              height={150}
+            />
+          </DialogTrigger>
+          <DialogContent>
+            <img
+              src={'/images/glitter.webp'}
+              className="rounded"
+              width={528}
+              height={528}
+            />
+          </DialogContent>
+        </Dialog>
       </div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <div className="fixed overflow-hidden left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-[528px] max-h-[528px]">
-          <Image
-            src={"/images/glitter.webp"}
-            className="mx-auto my-auto rounded-lg"
-            width={528}
-            height={528}
-          />
-        </div>
-      </Modal>
     </>
   );
 }

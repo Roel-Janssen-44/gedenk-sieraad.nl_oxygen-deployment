@@ -1,5 +1,3 @@
-'use client';
-
 import {
   Select,
   SelectContent,
@@ -15,23 +13,6 @@ export default function InputSelect({
   title,
   options,
 }) {
-  // console.log(value);
-  // console.log(options);
-  // return (
-  //   <div>
-  //     asd
-  //     <Select>
-  //       <SelectTrigger className="min-w-[140px] w-full">
-  //         <SelectValue placeholder="Theme" />
-  //       </SelectTrigger>
-  //       <SelectContent>
-  //         <SelectItem value="light">Light</SelectItem>
-  //         <SelectItem value="dark">Dark</SelectItem>
-  //         <SelectItem value="system">System</SelectItem>
-  //       </SelectContent>
-  //     </Select>
-  //   </div>
-  // );
   return (
     <div>
       <div className="flex flex-wrap items-center text-sm mb-2">

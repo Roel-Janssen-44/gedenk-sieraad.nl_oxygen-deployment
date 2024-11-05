@@ -1,6 +1,6 @@
 import Creool from './productOptions/Creool';
-// import Aspakket from './productOptions/Aspakket';
-// import Hars from './productOptions/Hars';
+import Aspakket from './productOptions/Aspakket';
+import Hars from './productOptions/Hars';
 // import Tekst from './productOptions/Tekst';
 // import Armbandmaat from './productOptions/Armbandmaat';
 // import Woord from './productOptions/Woord';
@@ -98,8 +98,8 @@ export default function ExtraProductOptions({
 const components = {
   //   gravure: Gravure,
   creool: Creool,
-  //   hars: Hars,
-  //   aspakket: Aspakket,
+  hars: Hars,
+  aspakket: Aspakket,
   //   kleuren: Hars,
   //   tekst: Tekst,
   //   armbandmaat: Armbandmaat,
