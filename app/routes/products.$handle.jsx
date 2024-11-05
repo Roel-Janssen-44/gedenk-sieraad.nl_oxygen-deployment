@@ -1,4 +1,4 @@
-import {Suspense} from 'react';
+import {Suspense, useState, useEffect} from 'react';
 import {defer, redirect} from '@shopify/remix-oxygen';
 import {Await, useLoaderData} from '@remix-run/react';
 import {
@@ -7,9 +7,12 @@ import {
   useOptimisticVariant,
 } from '@shopify/hydrogen';
 import {getVariantUrl} from '~/lib/variants';
-import {ProductPrice} from '~/components/ProductPrice';
+import {FormatedPrice} from '~/components/ProductPrice';
 import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
+import ExtraProductOptions from '~/components/ExtraProductOptions';
+import {calculatePrice} from '~/lib/utils';
+import * as OptionSets from '~/components/productOptions/optionSets';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -127,6 +130,29 @@ function redirectToFirstVariant({product, request}) {
   );
 }
 
+const colors = [
+  'Transparent',
+  'Aqua',
+  'Black',
+  'Blush',
+  'Brown',
+  'Blue',
+  'Fluo',
+  'Gold',
+  'Green',
+  'Orange',
+  'Marine',
+  'Olive',
+  'Purple',
+  'Red',
+  'Baby',
+  'Silver',
+  'Soft',
+  'White',
+  'Turquoise',
+  'Yellow',
+];
+
 export default function Product() {
   /** @type {LoaderReturnData} */
   const {product, variants} = useLoaderData();
@@ -135,17 +161,254 @@ export default function Product() {
     variants,
   );
 
-  const {title, descriptionHtml} = product;
+  const {title, tags, descriptionHtml} = product;
+  const tempTags = [
+    'ringmaat',
+    'ringmaatsy',
+    'cord',
+    'satijn',
+    'creool',
+    'armbandmaat',
+    'vulset',
+    'kleuren',
+    'hars',
+    'gravure',
+    'upload',
+    'aspakket',
+    'vppakket',
+    'vppakketup',
+    'aszijde',
+    'tekst',
+    'poot',
+    'woord',
+    'letter',
+    'positie',
+    'naamdatum',
+    'print',
+  ];
+
+  const [loading, setLoading] = useState(false);
+  const [extraOptions, setExtraOptions] = useState([]);
+  const [optionErrors, setOptionErrors] = useState([]);
+  const [showErrors, setShowErrors] = useState(false);
+  const [error, setError] = useState('');
+  const [tempHarskleur, setTempHarskleur] = useState(null);
+
+  useEffect(() => {
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    setTempHarskleur(randomColor);
+  }, []);
+  let hasTrueValue = Object.values(optionErrors).some(
+    (value) => value === true,
+  );
+
+  useEffect(() => {
+    hasTrueValue = Object.values(optionErrors).some((value) => value === true);
+    if (!hasTrueValue) {
+      setError('');
+    } else {
+      setError('* Niet alle velden zijn correct ingevuld.');
+    }
+  }, [optionErrors]);
+
+  // useEffect(() => {
+  //   if (!selectedVariant) return;
+
+  //   const currentVariant = variants.find(
+  //     (variant) => variant.id == selectedVariant.id
+  //   );
+
+  //   let activeMaterial = "";
+  //   const zilver = ["zilver 925 sterling", "9 kt witgoud", "14 kt witgoud"];
+  //   const geelgoud = [
+  //     "9 kt geelgoud",
+  //     "14 kt geelgoud",
+  //     "zilver/geelgoud verguld",
+  //   ];
+  //   const rosegoud = [
+  //     "9 kt roségoud",
+  //     "14 kt roségoud",
+  //     "zilver/roségoud verguld",
+  //   ];
+
+  //   let availableMaterialOrder = [];
+  //   product.variants.nodes.forEach((variant) => {
+  //     const variantMaterial = variant.title.split(" / ")[0].toLowerCase();
+  //     if (zilver.includes(variantMaterial)) {
+  //       if (!availableMaterialOrder.includes("zilver")) {
+  //         availableMaterialOrder.push("zilver");
+  //       }
+  //     } else if (geelgoud.includes(variantMaterial)) {
+  //       if (!availableMaterialOrder.includes("geelgoud")) {
+  //         availableMaterialOrder.push("geelgoud");
+  //       }
+  //     } else if (rosegoud.includes(variantMaterial)) {
+  //       if (!availableMaterialOrder.includes("rosegoud")) {
+  //         availableMaterialOrder.push("rosegoud");
+  //       }
+  //     }
+  //   });
+
+  //   let newThumbnails = [];
+
+  //   const selectedVariantMaterial =
+  //     currentVariant.selectedOptions[0].value.toLowerCase();
+  //   if (!product.tags.includes("kleuren")) {
+  //     newThumbnails.push(currentVariant.image);
+  //   }
+
+  //   if (zilver.includes(selectedVariantMaterial)) {
+  //     activeMaterial = "zilver";
+  //   } else if (geelgoud.includes(selectedVariantMaterial)) {
+  //     activeMaterial = "geelgoud";
+  //   } else if (rosegoud.includes(selectedVariantMaterial)) {
+  //     activeMaterial = "rosegoud";
+  //   }
+
+  //   const harskleurOption = extraOptions.find((obj) => obj.key === "kleuren");
+
+  //   const randomColor = colors[Math.floor(Math.random() * colors.length)];
+  //   const harsKleur =
+  //     harskleurOption?.value[0].value.split(" ")[0] ||
+  //     tempHarskleur ||
+  //     randomColor;
+
+  //   if (product.tags.includes("kleuren")) {
+  //     newThumbnails.forEach((thumbnail, index) => {
+  //       if (!thumbnail.altText?.includes(harsKleur)) {
+  //         newThumbnails.splice(index, 1);
+  //       }
+  //     });
+  //     extraImages?.forEach((image) => {
+  //       if (image.altText?.toLowerCase().includes(harsKleur.toLowerCase())) {
+  //         newThumbnails.push(image);
+  //       }
+  //     });
+
+  //     // Image order based on selected material
+  //     if (availableMaterialOrder[0] != activeMaterial) {
+  //       if (availableMaterialOrder[1] == activeMaterial) {
+  //         [newThumbnails[0], newThumbnails[1]] = [
+  //           newThumbnails[1],
+  //           newThumbnails[0],
+  //         ];
+  //       } else if (availableMaterialOrder[2] == activeMaterial) {
+  //         [newThumbnails[0], newThumbnails[2]] = [
+  //           newThumbnails[2],
+  //           newThumbnails[0],
+  //         ];
+  //       }
+  //     }
+  //   }
+
+  //   extraImages?.forEach((image) => {
+  //     if (!newThumbnails[0]) return;
+  //     if (product.tags.includes("geboorte")) {
+  //       if (
+  //         newThumbnails[0].altText?.toLowerCase() ==
+  //           image.altText.toLowerCase() ||
+  //         image.altText?.toLowerCase().includes("alle") ||
+  //         newThumbnails[0].altText
+  //           ?.toLowerCase()
+  //           .includes(image.altText.toLowerCase())
+  //       ) {
+  //         if (
+  //           !newThumbnails.some(
+  //             (thumbnail) =>
+  //               thumbnail.url === image.url &&
+  //               thumbnail.altText === image.altText
+  //           )
+  //         ) {
+  //           newThumbnails.push(image);
+  //         }
+  //       }
+  //     } else {
+  //       if (
+  //         newThumbnails[0].altText
+  //           ?.toLowerCase()
+  //           .includes(image.altText?.toLowerCase())
+  //       ) {
+  //         if (
+  //           !newThumbnails.some(
+  //             (thumbnail) =>
+  //               thumbnail.url === image.url &&
+  //               thumbnail.altText === image.altText
+  //           )
+  //         ) {
+  //           newThumbnails.push(image);
+  //         }
+  //       } else if (product.tags.includes("letter")) {
+  //         if (image.altText?.toLowerCase().includes("alle")) {
+  //           newThumbnails.push(image);
+  //         }
+  //       } else {
+  //         if (
+  //           (selectedVariantMaterial.includes("zilver 925 sterling") ||
+  //             selectedVariantMaterial.includes("witgoud")) &&
+  //           (image.altText?.toLowerCase().includes("zilver 925 sterling") ||
+  //             image.altText?.toLowerCase().includes("witgoud") ||
+  //             image.altText?.toLowerCase().includes("alle"))
+  //         ) {
+  //           newThumbnails.push(image);
+  //         } else if (
+  //           selectedVariantMaterial.includes("geelgoud") &&
+  //           (image.altText?.toLowerCase().includes("geelgoud") ||
+  //             image.altText?.toLowerCase().includes("alle"))
+  //         ) {
+  //           newThumbnails.push(image);
+  //         } else if (
+  //           (selectedVariantMaterial.includes("rosegoud") ||
+  //             selectedVariantMaterial.includes("roségoud")) &&
+  //           (image.altText?.toLowerCase().includes("rosegoud") ||
+  //             image.altText?.toLowerCase().includes("roségoud") ||
+  //             image.altText?.toLowerCase().includes("alle"))
+  //         ) {
+  //           newThumbnails.push(image);
+  //         }
+  //       }
+  //     }
+  //   });
+
+  //   if (tags.includes("positie")) {
+  //     extraImages?.forEach((image) => {
+  //       newThumbnails.push(image);
+  //     });
+  //   }
+
+  //   const uniqueUrls = {};
+  //   newThumbnails = newThumbnails.filter((obj) => {
+  //     if (uniqueUrls[obj?.url]) {
+  //       return false;
+  //     }
+  //     uniqueUrls[obj?.url] = true;
+  //     return true;
+  //   });
+
+  //   setActiveImage(newThumbnails[0]);
+  //   setCurrentThumbnails(newThumbnails);
+  //   setActiveThumbnailIndex(0);
+  // }, [selectedVariant, extraOptions]);
+
+  useEffect(() => {
+    console.log('extraOptions', extraOptions);
+    // console.log(calculatePrice(extraOptions, OptionSets));
+  }, [extraOptions]);
 
   return (
     <div className="product">
       <ProductImage image={selectedVariant?.image} />
       <div className="product-main">
         <h1>{title}</h1>
-        <ProductPrice
-          price={selectedVariant?.price}
-          compareAtPrice={selectedVariant?.compareAtPrice}
-        />
+
+        {selectedVariant?.price?.amount && (
+          <FormatedPrice
+            value={(
+              parseFloat(selectedVariant?.price?.amount) +
+              parseFloat(calculatePrice(extraOptions, OptionSets))
+            ).toFixed(2)}
+          />
+        )}
+
         <br />
         <Suspense
           fallback={
@@ -153,6 +416,15 @@ export default function Product() {
               product={product}
               selectedVariant={selectedVariant}
               variants={[]}
+              tags={tempTags}
+              extraOptions={extraOptions}
+              setExtraOptions={setExtraOptions}
+              showErrors={showErrors}
+              error={error}
+              hasTrueValue={hasTrueValue}
+              setShowErrors={setShowErrors}
+              optionErrors={optionErrors}
+              setOptionErrors={setOptionErrors}
             />
           }
         >
@@ -165,10 +437,20 @@ export default function Product() {
                 product={product}
                 selectedVariant={selectedVariant}
                 variants={data?.product?.variants.nodes || []}
+                tags={tempTags}
+                extraOptions={extraOptions}
+                setExtraOptions={setExtraOptions}
+                showErrors={showErrors}
+                error={error}
+                hasTrueValue={hasTrueValue}
+                setShowErrors={setShowErrors}
+                optionErrors={optionErrors}
+                setOptionErrors={setOptionErrors}
               />
             )}
           </Await>
         </Suspense>
+
         <br />
         <br />
         <p>
@@ -242,6 +524,7 @@ const PRODUCT_FRAGMENT = `#graphql
     handle
     descriptionHtml
     description
+    tags
     options {
       name
       optionValues {
@@ -251,7 +534,7 @@ const PRODUCT_FRAGMENT = `#graphql
     selectedVariant: variantBySelectedOptions(selectedOptions: $selectedOptions, ignoreUnknownOptions: true, caseInsensitiveMatch: true) {
       ...ProductVariant
     }
-    variants(first: 1) {
+    variants(first: 50) {
       nodes {
         ...ProductVariant
       }
@@ -307,3 +590,105 @@ const VARIANTS_QUERY = `#graphql
 /** @typedef {import('storefrontapi.generated').ProductFragment} ProductFragment */
 /** @typedef {import('@shopify/hydrogen/storefront-api-types').SelectedOption} SelectedOption */
 /** @typedef {import('@shopify/remix-oxygen').SerializeFrom<typeof loader>} LoaderReturnData */
+
+export async function action({request}) {
+  console.log('process.env.PUBLIC_STORE_DOMAIN');
+  console.log('process.env');
+  console.log(process.env);
+  console.log('process.env.NODE_ENV');
+  console.log(process.env.NODE_ENV);
+  console.log('process.env.PUBLIC_STORE_DOMAIN');
+  console.log(process.env.PUBLIC_STORE_DOMAIN);
+
+  const formData = await request.formData();
+  const product = JSON.parse(formData.get('product'));
+  const selectedVariant = JSON.parse(formData.get('selectedVariant'));
+  const extraOptions = JSON.parse(formData.get('extraOptions'));
+
+  const variantData = {
+    product,
+    extraOptions,
+    selectedVariant,
+  };
+
+  const storeName = process.env.PUBLIC_STORE_DOMAIN;
+  const ADMIN_TOKEN = process.env.PRIVATE_SHOPIFY_ADMIN_TOKEN;
+
+  const method = 'POST';
+  const apiVersion = '2023-10';
+
+  const productIdParts = product.id.split('/');
+  const productId = productIdParts[productIdParts.length - 1];
+
+  const variants = product.variants.nodes;
+
+  const imageIdParts = selectedVariant.image.id.split('/');
+  const imageId = imageIdParts[imageIdParts.length - 1];
+
+  const randomNumber = Math.floor(1000000000 + Math.random() * 9000000000);
+
+  const option1 =
+    selectedVariant.selectedOptions[0].value +
+    ' WD options ' +
+    String(randomNumber);
+  const option2 =
+    selectedVariant.selectedOptions[1]?.value !== undefined
+      ? selectedVariant.selectedOptions[1].value
+      : null;
+  const option3 =
+    selectedVariant.selectedOptions[2]?.value !== undefined
+      ? selectedVariant.selectedOptions[2].value
+      : null;
+
+  const price =
+    parseFloat(selectedVariant.price.amount) +
+    parseFloat(calculatePrice(extraOptions, OptionSets));
+
+  const postBody = {
+    variant: {
+      product_id: productId,
+      option1: option1,
+      option2: option2,
+      option3: option3,
+      price: price,
+      inventory_policy: 'continue',
+      sku: selectedVariant.sku,
+      image_id: imageId,
+    },
+  };
+
+  const options = {
+    method: method,
+    headers: {
+      'X-Shopify-Access-Token': ADMIN_TOKEN,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(postBody),
+  };
+
+  const url = `https://${storeName}/admin/api/${apiVersion}/products/${postBody.variant.product_id}/variants.json`;
+
+  console.log('url');
+  console.log(url);
+  return {
+    status: 'success',
+    message: '',
+    variantId: 49227209015638,
+  };
+
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    return {
+      status: 'success',
+      message: '',
+      variantId: data?.variant?.id,
+    };
+  } catch (error) {
+    console.log(JSON.stringify({error: error.message}));
+    return JSON.stringify({
+      status: 'failed',
+      message: error.message,
+    });
+  }
+}

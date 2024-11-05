@@ -1,3 +1,4 @@
+import {json} from '@remix-run/server-runtime';
 import {CartForm} from '@shopify/hydrogen';
 
 /**
@@ -17,7 +18,8 @@ export function AddToCartButton({
   onClick,
 }) {
   return (
-    <CartForm route="/cart" inputs={{lines}} action={CartForm.ACTIONS.LinesAdd}>
+    // <CartForm route="/cart" inputs={{lines}} action={CartForm.ACTIONS.LinesAdd}>
+    <CartForm route="/cart" inputs={{lines}} action={'CustomAddToCart'}>
       {(fetcher) => (
         <>
           <input
@@ -37,6 +39,3 @@ export function AddToCartButton({
     </CartForm>
   );
 }
-
-/** @typedef {import('@remix-run/react').FetcherWithComponents} FetcherWithComponents */
-/** @typedef {import('@shopify/hydrogen').OptimisticCartLineInput} OptimisticCartLineInput */
