@@ -1,7 +1,7 @@
 import Creool from './productOptions/Creool';
 import Aspakket from './productOptions/Aspakket';
 import Hars from './productOptions/Hars';
-// import Tekst from './productOptions/Tekst';
+import Tekst from './productOptions/Tekst';
 // import Armbandmaat from './productOptions/Armbandmaat';
 // import Woord from './productOptions/Woord';
 // import Upload from './productOptions/Upload';
@@ -101,7 +101,7 @@ const components = {
   hars: Hars,
   aspakket: Aspakket,
   //   kleuren: Hars,
-  //   tekst: Tekst,
+  tekst: Tekst,
   //   armbandmaat: Armbandmaat,
   //   woord: Woord,
   //   upload: Upload,
