@@ -22,6 +22,19 @@ export default async function handleRequest(
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
       storeDomain: context.env.PUBLIC_STORE_DOMAIN,
     },
+    connectSrc: [
+      'https://uploads.pinata.cloud/v3/files',
+      // 'https://api.pinata.cloud/v3/files/groups',
+      'https://api.pinata.cloud/v3/files/groups/',
+      'https://api.pinata.cloud',
+    ],
+
+    imgSrc: [
+      "'self'",
+      'https://cdn.shopify.com',
+      'data:',
+      'https://rose-historic-gayal-881.mypinata.cloud',
+    ],
   });
 
   const body = await renderToReadableStream(

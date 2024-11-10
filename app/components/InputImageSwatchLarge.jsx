@@ -46,7 +46,6 @@ export default function InputImageSwatchLarge({
                       alt={option.image.altText}
                       priority={false}
                       loading="lazy"
-                      loading="lazy"
                     />
                   </div>
                 </Button>

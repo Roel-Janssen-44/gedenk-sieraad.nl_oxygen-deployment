@@ -54,13 +54,26 @@ export function CartLineItem({layout, line}) {
               </small>
             </li>
           ))}
-          {line.attributes.map((option) => (
-            <li key={option.key}>
-              <small>
-                {option.key}: {option.value}
-              </small>
-            </li>
-          ))}
+          {line.attributes.map((option) => {
+            if (option.key == 'upload') {
+              return (
+                <li key={option.key}>
+                  <small className="flex gap-2 flex-col">
+                    {option.key}:
+                    <img width={75} height={75} alt="" src={option.value} />
+                  </small>
+                </li>
+              );
+            } else {
+              return (
+                <li key={option.key}>
+                  <small>
+                    {option.key}: {option.value}
+                  </small>
+                </li>
+              );
+            }
+          })}
         </ul>
         <CartLineQuantity line={line} />
       </div>

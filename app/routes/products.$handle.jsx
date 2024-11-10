@@ -163,28 +163,28 @@ export default function Product() {
 
   const {title, tags, descriptionHtml} = product;
   const tempTags = [
-    'ringmaat',
-    'ringmaatsy',
-    'cord',
-    'satijn',
-    'creool',
+    // 'ringmaat',
+    // 'ringmaatsy',
+    // 'cord',
+    // 'satijn',
+    // 'creool',
     'armbandmaat',
-    'vulset',
-    'kleuren',
-    'hars',
-    'gravure',
+    // 'vulset',
+    // 'kleuren',
+    // 'hars',
+    // 'gravure',
     'upload',
-    'aspakket',
-    'vppakket',
-    'vppakketup',
-    'aszijde',
-    'tekst',
-    'poot',
-    'woord',
-    'letter',
-    'positie',
-    'naamdatum',
-    'print',
+    // 'aspakket',
+    // 'vppakket',
+    // 'vppakketup',
+    // 'aszijde',
+    // 'tekst',
+    // 'poot',
+    // 'woord',
+    // 'letter',
+    // 'positie',
+    // 'naamdatum',
+    // 'print',
   ];
 
   const [loading, setLoading] = useState(false);
@@ -592,94 +592,100 @@ const VARIANTS_QUERY = `#graphql
 /** @typedef {import('@shopify/remix-oxygen').SerializeFrom<typeof loader>} LoaderReturnData */
 
 export async function action({context, request}) {
-  const publicStoreDomain = context.env.PUBLIC_STORE_DOMAIN;
-
   const formData = await request.formData();
-  const product = JSON.parse(formData.get('product'));
-  const selectedVariant = JSON.parse(formData.get('selectedVariant'));
-  const extraOptions = JSON.parse(formData.get('extraOptions'));
+  const action = JSON.parse(formData.get('action'));
 
-  const variantData = {
-    product,
-    extraOptions,
-    selectedVariant,
-  };
+  if (action == 'createproductvariant') {
+    const product = JSON.parse(formData.get('product'));
+    const selectedVariant = JSON.parse(formData.get('selectedVariant'));
+    const extraOptions = JSON.parse(formData.get('extraOptions'));
 
-  const storeName = context.env.PUBLIC_STORE_DOMAIN;
-  const ADMIN_TOKEN = context.env.PRIVATE_SHOPIFY_ADMIN_TOKEN;
-  const method = 'POST';
-  const apiVersion = '2023-10';
+    const variantData = {
+      product,
 
-  const productIdParts = product.id.split('/');
-  const productId = productIdParts[productIdParts.length - 1];
+      extraOptions,
+      selectedVariant,
+    };
 
-  const variants = product.variants.nodes;
+    const publicStoreDomain = context.env.PUBLIC_STORE_DOMAIN;
+    const storeName = context.env.PUBLIC_STORE_DOMAIN;
+    const ADMIN_TOKEN = context.env.PRIVATE_SHOPIFY_ADMIN_TOKEN;
+    const method = 'POST';
+    const apiVersion = '2023-10';
 
-  const imageIdParts = selectedVariant.image.id.split('/');
-  const imageId = imageIdParts[imageIdParts.length - 1];
+    const productIdParts = product.id.split('/');
+    const productId = productIdParts[productIdParts.length - 1];
 
-  const randomNumber = Math.floor(1000000000 + Math.random() * 9000000000);
+    const variants = product.variants.nodes;
 
-  const option1 =
-    selectedVariant.selectedOptions[0].value +
-    ' WD options ' +
-    String(randomNumber);
-  const option2 =
-    selectedVariant.selectedOptions[1]?.value !== undefined
-      ? selectedVariant.selectedOptions[1].value
-      : null;
-  const option3 =
-    selectedVariant.selectedOptions[2]?.value !== undefined
-      ? selectedVariant.selectedOptions[2].value
-      : null;
+    const imageIdParts = selectedVariant.image.id.split('/');
+    const imageId = imageIdParts[imageIdParts.length - 1];
 
-  const price =
-    parseFloat(selectedVariant.price.amount) +
-    parseFloat(calculatePrice(extraOptions, OptionSets));
+    const randomNumber = Math.floor(1000000000 + Math.random() * 9000000000);
 
-  const postBody = {
-    variant: {
-      product_id: productId,
-      option1: option1,
-      option2: option2,
-      option3: option3,
-      price: price,
-      inventory_policy: 'continue',
-      sku: selectedVariant.sku,
-      image_id: imageId,
-    },
-  };
+    const option1 =
+      selectedVariant.selectedOptions[0].value +
+      ' WD options ' +
+      String(randomNumber);
+    const option2 =
+      selectedVariant.selectedOptions[1]?.value !== undefined
+        ? selectedVariant.selectedOptions[1].value
+        : null;
+    const option3 =
+      selectedVariant.selectedOptions[2]?.value !== undefined
+        ? selectedVariant.selectedOptions[2].value
+        : null;
 
-  const options = {
-    method: method,
-    headers: {
-      'X-Shopify-Access-Token': ADMIN_TOKEN,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(postBody),
-  };
+    const price =
+      parseFloat(selectedVariant.price.amount) +
+      parseFloat(calculatePrice(extraOptions, OptionSets));
 
-  const url = `https://${storeName}/admin/api/${apiVersion}/products/${postBody.variant.product_id}/variants.json`;
+    const postBody = {
+      variant: {
+        product_id: productId,
+        option1: option1,
+        option2: option2,
+        option3: option3,
+        price: price,
+        inventory_policy: 'continue',
+        sku: selectedVariant.sku,
+        image_id: imageId,
+      },
+    };
 
-  return {
-    status: 'success',
-    message: '',
-    variantId: 49227209015638,
-  };
+    const options = {
+      method: method,
+      headers: {
+        'X-Shopify-Access-Token': ADMIN_TOKEN,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(postBody),
+    };
 
-  try {
-    const response = await fetch(url, options);
-    const data = await response.json();
+    const url = `https://${storeName}/admin/api/${apiVersion}/products/${postBody.variant.product_id}/variants.json`;
+
     return {
       status: 'success',
       message: '',
-      variantId: data?.variant?.id,
+      variantId: 49227209015638,
     };
-  } catch (error) {
-    console.log(JSON.stringify({error: error.message}));
-    return JSON.stringify({
-      status: 'failed',
-      message: error.message,
-    });
+
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
+      return {
+        status: 'success',
+        message: '',
+        variantId: data?.variant?.id,
+      };
+    } catch (error) {
+      console.log(JSON.stringify({error: error.message}));
+      return JSON.stringify({
+        status: 'failed',
+        message: error.message,
+      });
+    }
+  } else {
+    return 'Action not found';
   }
 }

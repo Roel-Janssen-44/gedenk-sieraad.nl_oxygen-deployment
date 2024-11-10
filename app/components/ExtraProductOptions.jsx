@@ -2,9 +2,9 @@ import Creool from './productOptions/Creool';
 import Aspakket from './productOptions/Aspakket';
 import Hars from './productOptions/Hars';
 import Tekst from './productOptions/Tekst';
-// import Armbandmaat from './productOptions/Armbandmaat';
-// import Woord from './productOptions/Woord';
-// import Upload from './productOptions/Upload';
+import Armbandmaat from './productOptions/Armbandmaat';
+import Woord from './productOptions/Woord';
+import Upload from './productOptions/Upload';
 // import Vppakket from './productOptions/Vppakket';
 // import Vppakketup from './productOptions/Vppakketup';
 // import ParaCord from './productOptions/ParaCord';
@@ -102,9 +102,9 @@ const components = {
   aspakket: Aspakket,
   //   kleuren: Hars,
   tekst: Tekst,
-  //   armbandmaat: Armbandmaat,
-  //   woord: Woord,
-  //   upload: Upload,
+  armbandmaat: Armbandmaat,
+  woord: Woord,
+  upload: Upload,
   //   vppakket: Vppakket,
   //   vppakketup: Vppakketup,
   //   cord: ParaCord,

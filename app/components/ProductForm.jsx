@@ -399,6 +399,11 @@ export function ProductForm({
         action={`/products/${product.handle}`}
         onSubmit={() => setIsLoading(true)}
       >
+        <input
+          type="hidden"
+          name="action"
+          value={JSON.stringify('createproductvariant')}
+        />
         <input type="hidden" name="product" value={JSON.stringify(product)} />
         <input
           type="hidden"
