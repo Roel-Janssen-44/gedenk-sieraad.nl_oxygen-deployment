@@ -592,10 +592,12 @@ const VARIANTS_QUERY = `#graphql
 /** @typedef {import('@shopify/remix-oxygen').SerializeFrom<typeof loader>} LoaderReturnData */
 
 export async function action({context, request}) {
+  console.log('Product page action');
   const formData = await request.formData();
   const action = JSON.parse(formData.get('action'));
 
   if (action == 'createproductvariant') {
+    console.log('createproductvariant');
     const product = JSON.parse(formData.get('product'));
     const selectedVariant = JSON.parse(formData.get('selectedVariant'));
     const extraOptions = JSON.parse(formData.get('extraOptions'));
@@ -667,7 +669,7 @@ export async function action({context, request}) {
     return {
       status: 'success',
       message: '',
-      variantId: 49227209015638,
+      variantId: 49179744829782,
     };
 
     try {

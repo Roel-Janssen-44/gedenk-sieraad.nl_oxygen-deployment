@@ -1,19 +1,15 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef } from "react";
+import {useState, useEffect, useRef} from 'react';
 
-import InputRadio from "../InputRadio";
-import InputFile from "../InputFile";
-import InputSelect from "../InputSelect";
-import InputTextField from "../InputTextField";
-import InputDate from "../InputDate";
-import InputImageSwatchLarge from "../InputImageSwatchLarge";
+import InputRadio from '../InputRadio';
+import InputFile from '../InputFile';
+import InputSelect from '../InputSelect';
+import InputTextField from '../InputTextField';
+import InputDate from '../InputDate';
+import InputImageSwatchLarge from '../InputImageSwatchLarge';
 
-import {
-  gravureAfbeeldingOptions,
-  vppakketKeuzeOptions,
-  vppakketUploadOptions,
-} from "./optionSets";
+import {gravureAfbeeldingOptions, vppakketKeuzeOptions} from './optionSets';
 
 export default function Vppakketup({
   value,
@@ -25,74 +21,74 @@ export default function Vppakketup({
   useEffect(() => {
     if (Array.isArray(value)) {
       const keuzeValue = values.find(
-        (item) => item.key === "Vppakketkeuze"
+        (item) => item.key === 'Vppakketkeuze',
       ).value;
-      const gravure = values.find((item) => item.key === "Gravure").value;
-      const uploadValue = values.find((item) => item.key === "Upload").value;
+      const gravure = values.find((item) => item.key === 'Gravure').value;
+      const uploadValue = values.find((item) => item.key === 'Upload').value;
 
-      if (keuzeValue == "") {
+      if (keuzeValue == '') {
         setError((prevState) => ({
           ...prevState,
-          ["Vppakketkeuze"]: "* Kies een optie",
+          ['Vppakketkeuze']: '* Kies een optie',
         }));
       } else if (
         keuzeValue ==
-        "Ik heb al een vingerafdruk/gravure en wil nu een bestand uploaden"
+        'Ik heb al een vingerafdruk/gravure en wil nu een bestand uploaden'
       ) {
-        if (gravure != "") {
+        if (gravure != '') {
           setError((prevState) => ({
             ...prevState,
-            ["Vppakketkeuze"]: "",
-            ["Gravure"]: "",
+            ['Vppakketkeuze']: '',
+            ['Gravure']: '',
           }));
         } else {
           setError((prevState) => ({
             ...prevState,
-            ["Gravure"]: "* Maak een keuze",
-            ["Vppakketkeuze"]: "",
+            ['Gravure']: '* Maak een keuze',
+            ['Vppakketkeuze']: '',
           }));
         }
-        if (uploadValue == "" || uploadValue == null) {
+        if (uploadValue == '' || uploadValue == null) {
           setError((prevState) => ({
             ...prevState,
-            ["Upload"]: "* Upload een bestand",
-            ["Vppakketkeuze"]: "",
+            ['Upload']: '* Upload een bestand',
+            ['Vppakketkeuze']: '',
           }));
         } else {
           setError((prevState) => ({
             ...prevState,
-            ["Vppakketkeuze"]: "",
-            ["Upload"]: "",
+            ['Vppakketkeuze']: '',
+            ['Upload']: '',
           }));
         }
       } else {
-        if (gravure != "") {
+        if (gravure != '') {
           setError((prevState) => ({
             ...prevState,
-            ["Gravure"]: "",
+            ['Gravure']: '',
           }));
         } else {
           setError((prevState) => ({
             ...prevState,
-            ["Gravure"]: "* Maak een keuze",
+            ['Gravure']: '* Maak een keuze',
           }));
         }
         setError((prevState) => ({
           ...prevState,
-          ["Vppakketkeuze"]: "",
-          ["Upload"]: "",
+          ['Vppakketkeuze']: '',
+          ['Upload']: '',
         }));
       }
     }
   }, [value]);
 
   const [values, setValues] = useState([
-    { key: "Vppakketkeuze", value: value?.vppakketKeuze?.value || "" },
+    {key: 'Vppakketkeuze', value: value?.vppakketKeuze?.value || ''},
     {
-      key: "Gravure",
-      value: value?.gravure?.value || "",
+      key: 'Gravure',
+      value: value?.gravure?.value || '',
     },
-    { key: "Upload", value: value?.upload?.value || "" },
+    {key: 'Upload', value: value?.upload?.value || ''},
   ]);
 
   const isInitialRender = useRef(true);
@@ -109,8 +105,8 @@ export default function Vppakketup({
   const handleChange = (changedKey, newValue) => {
     setValues((prevValues) =>
       prevValues.map((item) =>
-        item.key === changedKey ? { ...item, value: newValue } : item
-      )
+        item.key === changedKey ? {...item, value: newValue} : item,
+      ),
     );
 
     onChange(values);
@@ -118,78 +114,74 @@ export default function Vppakketup({
 
   useEffect(() => {
     const allValuescorrect = Object.values(error).every(
-      (value) => value === ""
+      (value) => value === '',
     );
     if (allValuescorrect) {
       setOptionErrors((prevState) => ({
         ...prevState,
-        ["Vppakket"]: false,
+        ['Vppakket']: false,
       }));
     } else {
       setOptionErrors((prevState) => ({
         ...prevState,
-        ["Vppakket"]: true,
+        ['Vppakket']: true,
       }));
     }
   }, [error]);
 
   const vppakketKeuzeTekst = values.find(
-    (item) => item.key === "Vppakketkeuze"
+    (item) => item.key === 'Vppakketkeuze',
   ).value;
-  const gravure = values.find((item) => item.key === "Gravure").value;
-  const keuzeValue = values.find((item) => item.key === "Vppakketkeuze").value;
-
-  useEffect(() => {
-    onChange(values);
-  }, []);
+  const gravure = values.find((item) => item.key === 'Gravure').value;
+  const keuzeValue = values.find((item) => item.key === 'Vppakketkeuze').value;
 
   return (
     <>
       <div className="relative">
         {showErrors && (
           <p className="absolute  -bottom-6 left-0 text-red-700">
-            {error["Vppakketkeuze"]}
+            {error['Vppakketkeuze']}
           </p>
         )}
         <InputRadio
           value={
-            values.find((item) => item.key === "Vppakketkeuze")?.value || ""
+            values.find((item) => item.key === 'Vppakketkeuze')?.value || ''
           }
-          onChange={(keuzeValue) => handleChange("Vppakketkeuze", keuzeValue)}
+          onChange={(keuzeValue) => handleChange('Vppakketkeuze', keuzeValue)}
           title="Maak een keuze:"
           options={vppakketKeuzeOptions}
         />
         <div className="relative">
           {showErrors && (
             <p className="absolute -bottom-6 left-0 text-red-700">
-              {error["Gravure"]}
+              {error['Gravure']}
             </p>
           )}
           <InputSelect
             value={gravure}
-            onChange={(newTekstValue) => handleChange("Gravure", newTekstValue)}
+            onChange={(newTekstValue) => handleChange('Gravure', newTekstValue)}
             title="Gravure: "
             options={gravureAfbeeldingOptions}
           />
         </div>
         {keuzeValue ==
-          "Ik heb al een vingerafdruk/gravure en wil nu een bestand uploaden" && (
+          'Ik heb al een vingerafdruk/gravure en wil nu een bestand uploaden' && (
           <>
-            {(gravure == "Voet/handafdruk" ||
-              gravure == "Poot/snuitafdruk" ||
-              gravure == "snuitafdruk" ||
-              gravure == "Echo" ||
-              gravure == "Vingerafdruk" ||
-              gravure == "Logo/handtekening" ||
-              gravure == "Twee vingerafdrukken in hartvorm") && (
+            {(gravure == 'Voet/handafdruk' ||
+              gravure == 'Poot/snuitafdruk' ||
+              gravure == 'snuitafdruk' ||
+              gravure == 'Echo' ||
+              gravure == 'Vingerafdruk' ||
+              gravure == 'Logo/handtekening' ||
+              gravure == 'Twee vingerafdrukken in hartvorm') && (
               <div className="relative">
                 {showErrors && (
                   <p className="absolute -bottom-6 left-0 text-red-700">
-                    {error["Upload"]}
+                    {error['Upload']}
                   </p>
                 )}
                 <InputFile
-                  id={"Upload"}
+                  id={'Upload'}
                   setError={setError}
                   title="Bestand toevoegen:"
                   onChange={handleChange}

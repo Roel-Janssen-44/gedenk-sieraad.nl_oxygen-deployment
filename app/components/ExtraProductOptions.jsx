@@ -5,9 +5,9 @@ import Tekst from './productOptions/Tekst';
 import Armbandmaat from './productOptions/Armbandmaat';
 import Woord from './productOptions/Woord';
 import Upload from './productOptions/Upload';
-// import Vppakket from './productOptions/Vppakket';
-// import Vppakketup from './productOptions/Vppakketup';
-// import ParaCord from './productOptions/ParaCord';
+import Vppakket from './productOptions/Vppakket';
+import Vppakketup from './productOptions/Vppakketup';
+import ParaCord from './productOptions/ParaCord';
 // import Satijnen from './productOptions/Satijnen';
 // import Ringmaat from './productOptions/Ringmaat';
 // import RingmaatSeeyou from './productOptions/RingmaatSeeyou';
@@ -17,7 +17,7 @@ import Upload from './productOptions/Upload';
 // import NaamDatum from './productOptions/NaamDatum';
 // import Poot from './productOptions/Poot';
 // import Print from './productOptions/Print';
-// import Gravure from './productOptions/Gravure';
+import Gravure from './productOptions/Gravure';
 // import Positie from './productOptions/Positie';
 
 const tagsOrder = [
@@ -96,18 +96,22 @@ export default function ExtraProductOptions({
 }
 
 const components = {
-  //   gravure: Gravure,
-  creool: Creool,
-  hars: Hars,
-  aspakket: Aspakket,
-  //   kleuren: Hars,
-  tekst: Tekst,
-  armbandmaat: Armbandmaat,
-  woord: Woord,
-  upload: Upload,
-  //   vppakket: Vppakket,
-  //   vppakketup: Vppakketup,
-  //   cord: ParaCord,
+  // =================== Gedaan
+  // gravure: Gravure,
+  // creool: Creool,
+  // hars: Hars,
+  // aspakket: Aspakket,
+  // kleuren: Hars,
+  // tekst: Tekst,
+  // armbandmaat: Armbandmaat,
+  // woord: Woord,
+  // upload: Upload,
+  // vppakket: Vppakket,
+  // vppakketup: Vppakketup,
+  //
+  //
+  //
+  // =============== Moet nog
   //   satijn: Satijnen,
   //   ringmaat: Ringmaat,
   //   ringmaatsy: RingmaatSeeyou,
@@ -118,4 +122,11 @@ const components = {
   //   poot: Poot,
   //   print: Print,
   //   positie: Positie,
+  //
+  //
+  //
+  // ========== Later doen
+  // Multiselect
+  // cord: ParaCord,
+  // Date select
 };

@@ -6,6 +6,9 @@ import {
   SelectValue,
 } from '~/components/chadcn/Select';
 
+import React, {useState} from 'react';
+import {MultiSelect} from '~/components/chadcn/MultiSelect';
+
 export default function InputSelect({
   value,
   multiple,
@@ -13,6 +16,11 @@ export default function InputSelect({
   title,
   options,
 }) {
+  const [selectedFrameworks, setSelectedFrameworks] = useState([
+    'react',
+    'angular',
+  ]);
+
   return (
     <div>
       <div className="flex flex-wrap items-center text-sm mb-2">
@@ -20,7 +28,7 @@ export default function InputSelect({
       </div>
       {multiple && (
         <>
-          <Select
+          {/* <Select
             multiple
             id={title + '-option_select'}
             value={value == '' ? [] : value}
@@ -46,7 +54,8 @@ export default function InputSelect({
                 );
               })}
             </SelectContent>
-          </Select>
+          </Select> */}
+          <MultiSelect />
         </>
       )}
       {!multiple && (
