@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '~/components/chadcn/modal';
+} from '~/components/chadcn/Modal';
 import InputImageSwatch from '../InputImageSwatch';
 import InputRadio from '../InputRadio';
 import {harsKleurOptions, glitterOptions} from './optionSets';
