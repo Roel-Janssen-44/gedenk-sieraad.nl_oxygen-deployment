@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '~/components/chadcn/modal';
+} from '~/components/chadcn/Modal';
 
 export default function InputRadio({onChange, title, options, multiple}) {
   const [open, setOpen] = useState(false);
