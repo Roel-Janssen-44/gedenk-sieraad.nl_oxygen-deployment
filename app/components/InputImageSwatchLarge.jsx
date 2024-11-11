@@ -1,4 +1,4 @@
-import {Button} from '~/components/chadcn/button';
+import {Button} from '~/components/chadcn/Button';
 import {
   Tooltip,
   TooltipContent,
