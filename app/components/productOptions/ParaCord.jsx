@@ -92,7 +92,6 @@ export default function ParaCord({
           ...prevState,
           ['Paracordmulti']: '* Selecteer maximaal twee extra paracords',
         }));
-        // setOpenSnackbar(true);
         setValues((prevValues) => prevValues.map((item) => item));
       } else {
         setValues((prevValues) =>
@@ -111,16 +110,6 @@ export default function ParaCord({
 
     onChange(values);
   };
-
-  // const [openSnackbar, setOpenSnackbar] = useState(false);
-
-  // const closeSnackbar = () => {
-  //   setOpenSnackbar(false);
-  // };
-
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   return (
     <>
@@ -179,24 +168,6 @@ export default function ParaCord({
           options={paraCordOptions}
         />
       </div>
-      {/* <Snackbar
-        open={openSnackbar}
-        autoHideDuration={3000}
-        onClose={closeSnackbar}
-        message="Selecteer maximaal twee extra paracords"
-      >
-        <Alert severity="error" sx={{width: '100%'}}>
-          Selecteer maximaal twee extra paracords
-          <IconButton
-            size="small"
-            aria-label="close"
-            color="inherit"
-            onClick={closeSnackbar}
-          >
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        </Alert>
-      </Snackbar> */}
     </>
   );
 }

@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef } from "react";
+import {useState, useEffect, useRef} from 'react';
 
-import InputSelect from "../InputSelect";
-import InputRadio from "../InputRadio";
-import InputFile from "../InputFile";
-import InputTextField from "../InputTextField";
-import InputImageSwatchLarge from "../InputImageSwatchLarge";
+import InputSelect from '../InputSelect';
+import InputRadio from '../InputRadio';
+import InputFile from '../InputFile';
+import InputTextField from '../InputTextField';
+import InputImageSwatchLarge from '../InputImageSwatchLarge';
 
 import {
   naamdatumOptions,
   lettertypeOptions,
   voorvoegselOptions,
-} from "./optionSets";
-import InputDate from "../InputDate";
+} from './optionSets';
+import InputDate from '../InputDate';
 
 export default function NaamDatum({
   value,
@@ -26,179 +26,179 @@ export default function NaamDatum({
   useEffect(() => {
     if (Array.isArray(value)) {
       const graveerTekstAchterzijde = value.find(
-        (item) => item.key === "Naamdatum"
+        (item) => item.key === 'Naamdatum',
       ).value;
       const voorvoegselValue = value.find(
-        (item) => item.key === "Voorvoegsel"
+        (item) => item.key === 'Voorvoegsel',
       ).value;
-      const naamValue = value.find((item) => item.key === "Naam").value;
-      const datumValue = value.find((item) => item.key === "Datum").value;
+      const naamValue = value.find((item) => item.key === 'Naam').value;
+      const datumValue = value.find((item) => item.key === 'Datum').value;
       const lettertypeValue = value.find(
-        (item) => item.key === "Lettertype"
+        (item) => item.key === 'Lettertype',
       ).value;
 
       switch (graveerTekstAchterzijde) {
-        case "Geen":
+        case 'Geen':
           setError([]);
           setOptionErrors((prevState) => ({
             ...prevState,
-            ["Naamdatum"]: false,
+            ['Naamdatum']: false,
           }));
           break;
-        case "Naam":
-          if (naamValue == "") {
+        case 'Naam':
+          if (naamValue == '') {
             setError((prevState) => ({
               ...prevState,
-              ["Naam"]: "* Vul een naam in",
+              ['Naam']: '* Vul een naam in',
             }));
           } else if (naamValue.length > 14) {
             setError((prevState) => ({
               ...prevState,
-              ["Naam"]: "* Vul maximaal 14 karakters in",
+              ['Naam']: '* Vul maximaal 14 karakters in',
             }));
           } else {
             setError((prevState) => ({
               ...prevState,
-              ["Naam"]: "",
+              ['Naam']: '',
             }));
           }
 
-          if (lettertypeValue == "") {
+          if (lettertypeValue == '') {
             setError((prevState) => ({
               ...prevState,
-              ["Lettertype"]: "* Kies een lettertype",
+              ['Lettertype']: '* Kies een lettertype',
             }));
           } else {
             setError((prevState) => ({
               ...prevState,
-              ["Lettertype"]: "",
+              ['Lettertype']: '',
             }));
           }
 
-          if (voorvoegselValue == "") {
+          if (voorvoegselValue == '') {
             setError((prevState) => ({
               ...prevState,
-              ["Voorvoegsel"]: "* Maak een keuze",
+              ['Voorvoegsel']: '* Maak een keuze',
             }));
           } else {
             setError((prevState) => ({
               ...prevState,
-              ["Voorvoegsel"]: "",
+              ['Voorvoegsel']: '',
             }));
           }
 
           setError((prevState) => ({
             ...prevState,
-            ["Datum"]: "",
-            ["Naamdatum"]: "",
+            ['Datum']: '',
+            ['Naamdatum']: '',
           }));
           break;
 
-        case "Datum":
-          if (datumValue == "") {
+        case 'Datum':
+          if (datumValue == '') {
             setError((prevState) => ({
               ...prevState,
-              ["Datum"]: "* Vul een datum in",
+              ['Datum']: '* Vul een datum in',
             }));
           } else {
             setError((prevState) => ({
               ...prevState,
-              ["Datum"]: "",
+              ['Datum']: '',
             }));
           }
-          if (lettertypeValue == "") {
+          if (lettertypeValue == '') {
             setError((prevState) => ({
               ...prevState,
-              ["Lettertype"]: "* Kies een lettertype",
+              ['Lettertype']: '* Kies een lettertype',
             }));
           } else {
             setError((prevState) => ({
               ...prevState,
-              ["Lettertype"]: "",
+              ['Lettertype']: '',
             }));
           }
-          if (voorvoegselValue == "") {
+          if (voorvoegselValue == '') {
             setError((prevState) => ({
               ...prevState,
-              ["Voorvoegsel"]: "* Maak een keuze",
+              ['Voorvoegsel']: '* Maak een keuze',
             }));
           } else {
             setError((prevState) => ({
               ...prevState,
-              ["Voorvoegsel"]: "",
+              ['Voorvoegsel']: '',
             }));
           }
           setError((prevState) => ({
             ...prevState,
-            ["Naam"]: "",
-            ["Naamdatum"]: "",
+            ['Naam']: '',
+            ['Naamdatum']: '',
           }));
           break;
-        case "Naam + datum":
+        case 'Naam + datum':
           setError((prevState) => ({
             ...prevState,
-            ["Naamdatum"]: "",
+            ['Naamdatum']: '',
           }));
-          if (naamValue == "") {
+          if (naamValue == '') {
             setError((prevState) => ({
               ...prevState,
-              ["Naam"]: "* Vul een naam in",
+              ['Naam']: '* Vul een naam in',
             }));
           } else if (naamValue.length > 14) {
             setError((prevState) => ({
               ...prevState,
-              ["Naam"]: "* Vul maximaal 14 karakters in",
+              ['Naam']: '* Vul maximaal 14 karakters in',
             }));
           } else {
             setError((prevState) => ({
               ...prevState,
-              ["Naam"]: "",
+              ['Naam']: '',
             }));
           }
-          if (datumValue == "") {
+          if (datumValue == '') {
             setError((prevState) => ({
               ...prevState,
-              ["Datum"]: "* Vul een datum in",
+              ['Datum']: '* Vul een datum in',
             }));
           } else {
             setError((prevState) => ({
               ...prevState,
-              ["Datum"]: "",
+              ['Datum']: '',
             }));
           }
-          if (lettertypeValue == "") {
+          if (lettertypeValue == '') {
             setError((prevState) => ({
               ...prevState,
-              ["Lettertype"]: "* Kies een lettertype",
+              ['Lettertype']: '* Kies een lettertype',
             }));
           } else {
             setError((prevState) => ({
               ...prevState,
-              ["Lettertype"]: "",
+              ['Lettertype']: '',
             }));
           }
-          if (voorvoegselValue == "") {
+          if (voorvoegselValue == '') {
             setError((prevState) => ({
               ...prevState,
-              ["Voorvoegsel"]: "* Maak een keuze",
+              ['Voorvoegsel']: '* Maak een keuze',
             }));
           } else {
             setError((prevState) => ({
               ...prevState,
-              ["Voorvoegsel"]: "",
+              ['Voorvoegsel']: '',
             }));
           }
           break;
         default:
-          if (graveerTekstAchterzijde == "") {
+          if (graveerTekstAchterzijde == '') {
             setError((prevState) => ({
               ...prevState,
-              ["Naamdatum"]: "* Kies een optie",
+              ['Naamdatum']: '* Kies een optie',
             }));
           } else {
             setError((prevState) => ({
               ...prevState,
-              ["Naamdatum"]: "",
+              ['Naamdatum']: '',
             }));
           }
           break;
@@ -208,30 +208,30 @@ export default function NaamDatum({
 
   useEffect(() => {
     const allValuescorrect = Object.values(error).every(
-      (value) => value === ""
+      (value) => value === '',
     );
     if (allValuescorrect) {
       setOptionErrors((prevState) => ({
         ...prevState,
-        ["Naamdatum"]: false,
+        ['Naamdatum']: false,
       }));
     } else {
       setOptionErrors((prevState) => ({
         ...prevState,
-        ["Naamdatum"]: true,
+        ['Naamdatum']: true,
       }));
     }
   }, [error]);
 
   const [values, setValues] = useState([
     {
-      key: "Naamdatum",
-      value: value?.graveerTekstAchterzijde?.value || "",
+      key: 'Naamdatum',
+      value: value?.graveerTekstAchterzijde?.value || '',
     },
-    { key: "Naam", value: value?.naam?.value || "" },
-    { key: "Datum", value: value?.datum?.value || "" },
-    { key: "Lettertype", value: value?.lettertype?.value || "" },
-    { key: "Voorvoegsel", value: value?.voorvoegsel?.value || "" },
+    {key: 'Naam', value: value?.naam?.value || ''},
+    {key: 'Datum', value: value?.datum?.value || ''},
+    {key: 'Lettertype', value: value?.lettertype?.value || ''},
+    {key: 'Voorvoegsel', value: value?.voorvoegsel?.value || ''},
   ]);
 
   const isInitialRender = useRef(true);
@@ -248,83 +248,79 @@ export default function NaamDatum({
   const handleChange = (changedKey, newValue) => {
     setValues((prevValues) =>
       prevValues.map((item) =>
-        item.key === changedKey ? { ...item, value: newValue } : item
-      )
+        item.key === changedKey ? {...item, value: newValue} : item,
+      ),
     );
 
     onChange(values);
   };
 
   const graveerTekstAchterzijdeTekst = values.find(
-    (item) => item.key === "Naamdatum"
+    (item) => item.key === 'Naamdatum',
   ).value;
-
-  useEffect(() => {
-    onChange(values);
-  }, []);
 
   return (
     <>
       <div className="relative">
         {showErrors && (
           <p className="absolute -bottom-6 left-0 text-red-700">
-            {error["Naamdatum"]}
+            {error['Naamdatum']}
           </p>
         )}
 
         <InputSelect
-          value={values.find((item) => item.key === "Naamdatum")?.value || ""}
+          value={values.find((item) => item.key === 'Naamdatum')?.value || ''}
           onChange={(newGraveerTekstValue) =>
-            handleChange("Naamdatum", newGraveerTekstValue)
+            handleChange('Naamdatum', newGraveerTekstValue)
           }
           title="Graveertekst:"
           options={naamdatumOptions}
         />
       </div>
-      {(graveerTekstAchterzijdeTekst === "Naam" ||
-        graveerTekstAchterzijdeTekst === "Naam + datum") && (
+      {(graveerTekstAchterzijdeTekst === 'Naam' ||
+        graveerTekstAchterzijdeTekst === 'Naam + datum') && (
         <div className="relative">
           {showErrors && (
             <p className="absolute -bottom-6 left-0 text-red-700">
-              {error["Naam"]}
+              {error['Naam']}
             </p>
           )}
           <InputTextField
-            value={values.find((item) => item.key === "Naam")?.value || ""}
-            onChange={(newNaamValue) => handleChange("Naam", newNaamValue)}
+            value={values.find((item) => item.key === 'Naam')?.value || ''}
+            onChange={(newNaamValue) => handleChange('Naam', newNaamValue)}
             title="Naam:"
           />
         </div>
       )}
-      {(graveerTekstAchterzijdeTekst === "Datum" ||
-        graveerTekstAchterzijdeTekst === "Naam + datum") && (
+      {(graveerTekstAchterzijdeTekst === 'Datum' ||
+        graveerTekstAchterzijdeTekst === 'Naam + datum') && (
         <div className="relative">
           {showErrors && (
             <p className="absolute -bottom-6 left-0 text-red-700">
-              {error["Datum"]}
+              {error['Datum']}
             </p>
           )}
           <InputDate
-            onChange={(newDatumValue) => handleChange("Datum", newDatumValue)}
+            onChange={(newDatumValue) => handleChange('Datum', newDatumValue)}
             title="Datum:"
           />
         </div>
       )}
-      {graveerTekstAchterzijdeTekst != "Geen" &&
-        graveerTekstAchterzijdeTekst != "" && (
+      {graveerTekstAchterzijdeTekst != 'Geen' &&
+        graveerTekstAchterzijdeTekst != '' && (
           <>
             <div className="relative">
               {showErrors && (
                 <p className="absolute -bottom-6 left-0 text-red-700">
-                  {error["Voorvoegsel"]}
+                  {error['Voorvoegsel']}
                 </p>
               )}
               <InputSelect
                 value={
-                  values.find((item) => item.key === "Voorvoegsel")?.value || ""
+                  values.find((item) => item.key === 'Voorvoegsel')?.value || ''
                 }
                 onChange={(newVoorvoegselValue) =>
-                  handleChange("Voorvoegsel", newVoorvoegselValue)
+                  handleChange('Voorvoegsel', newVoorvoegselValue)
                 }
                 title="Graveertekst voorvoegsel:"
                 options={voorvoegselOptions}
@@ -333,15 +329,15 @@ export default function NaamDatum({
             <div className="relative">
               {showErrors && (
                 <p className="absolute -bottom-6 left-0 text-red-700">
-                  {error["Lettertype"]}
+                  {error['Lettertype']}
                 </p>
               )}
               <InputImageSwatchLarge
                 value={
-                  values.find((item) => item.key === "Lettertype")?.value || ""
+                  values.find((item) => item.key === 'Lettertype')?.value || ''
                 }
                 onChange={(newLettertypeValue) =>
-                  handleChange("Lettertype", newLettertypeValue)
+                  handleChange('Lettertype', newLettertypeValue)
                 }
                 title="Lettertype:"
                 options={lettertypeOptions}

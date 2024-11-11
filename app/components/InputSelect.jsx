@@ -16,47 +16,18 @@ export default function InputSelect({
   title,
   options,
 }) {
-  const [selectedFrameworks, setSelectedFrameworks] = useState([
-    'react',
-    'angular',
-  ]);
-
   return (
     <div>
       <div className="flex flex-wrap items-center text-sm mb-2">
         <span className="font-bold min-w-[140px]">{title}</span>
       </div>
       {multiple && (
-        <>
-          {/* <Select
-            multiple
-            id={title + '-option_select'}
-            value={value == '' ? [] : value}
-            onChange={(e) => onChange(e)}
-            className="min-w-[140px] max-w-full"
-            displayEmpty
-            size="small"
-            variant="outlined"
-          >
-            <SelectTrigger className="min-w-[140px] w-auto">
-              <SelectValue placeholder="-selecteer-" />
-            </SelectTrigger>
-            <SelectContent>
-              {options.map((option) => {
-                return (
-                  <SelectItem
-                    key={title + '-' + option.value}
-                    value={option.value}
-                  >
-                    {option.value}{' '}
-                    {option.price !== 0 && `(€${option.price || ''})`}
-                  </SelectItem>
-                );
-              })}
-            </SelectContent>
-          </Select> */}
-          <MultiSelect />
-        </>
+        <MultiSelect
+          value={value}
+          onChange={onChange}
+          title={title}
+          options={options}
+        />
       )}
       {!multiple && (
         <Select

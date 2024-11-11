@@ -1,17 +1,19 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import InputRadio from "../InputRadio";
-import { vulsetOptions } from "./optionSets";
-import { Button, Modal } from "@mui/material";
+import {useState, useEffect} from 'react';
+import InputRadio from '../InputRadio';
+import {vulsetOptions} from './optionSets';
+import {Button} from '~/components/chadcn/Button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '~/components/chadcn/Modal';
 
-export default function Vulset({
-  value,
-  onChange,
-  setOptionErrors,
-  showErrors,
-}) {
+export default function Vulset({value, onChange, setOptionErrors, showErrors}) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -20,16 +22,16 @@ export default function Vulset({
 
   useEffect(() => {
     if (value.length === 0) {
-      setError("* Kies een optie");
+      setError('* Kies een optie');
       setOptionErrors((prevState) => ({
         ...prevState,
-        ["Vulset"]: true,
+        ['Vulset']: true,
       }));
     } else {
       setError(null);
       setOptionErrors((prevState) => ({
         ...prevState,
-        ["Vulset"]: false,
+        ['Vulset']: false,
       }));
     }
   }, [value]);
@@ -37,6 +39,7 @@ export default function Vulset({
   const handleChange = (newValue) => {
     onChange(newValue);
   };
+  // return <p>kashjbd</p>;
   return (
     <div className="relative">
       {showErrors && (
@@ -49,30 +52,25 @@ export default function Vulset({
           title="Vulset:"
           options={vulsetOptions}
         />
-        <Button onClick={handleOpen}>
-          <Image
-            src={"/images/vulset.webp"}
-            className="rounded"
-            width={150}
-            height={150}
-          />
-        </Button>
+        <Dialog>
+          <DialogTrigger className="cursor-pointer">
+            <img
+              src={'/images/vulset.webp'}
+              className="rounded"
+              width={150}
+              height={150}
+            />
+          </DialogTrigger>
+          <DialogContent>
+            <img
+              src={'/images/vulset.webp'}
+              className="mx-auto my-auto rounded-lg"
+              width={528}
+              height={528}
+            />
+          </DialogContent>
+        </Dialog>
       </div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <div className="fixed overflow-hidden left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-[528px] max-h-[528px]">
-          <Image
-            src={"/images/vulset.webp"}
-            className="mx-auto my-auto rounded-lg"
-            width={528}
-            height={528}
-          />
-        </div>
-      </Modal>
     </div>
   );
 }

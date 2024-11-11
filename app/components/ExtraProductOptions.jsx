@@ -8,17 +8,17 @@ import Upload from './productOptions/Upload';
 import Vppakket from './productOptions/Vppakket';
 import Vppakketup from './productOptions/Vppakketup';
 import ParaCord from './productOptions/ParaCord';
-// import Satijnen from './productOptions/Satijnen';
-// import Ringmaat from './productOptions/Ringmaat';
-// import RingmaatSeeyou from './productOptions/RingmaatSeeyou';
-// import Letter from './productOptions/Letter';
-// import Vulset from './productOptions/Vulset';
-// import Aszijde from './productOptions/Aszijde';
-// import NaamDatum from './productOptions/NaamDatum';
-// import Poot from './productOptions/Poot';
-// import Print from './productOptions/Print';
+import Satijnen from './productOptions/Satijnen';
+import Ringmaat from './productOptions/Ringmaat';
+import RingmaatSeeyou from './productOptions/RingmaatSeeyou';
+import Letter from './productOptions/Letter';
+import Vulset from './productOptions/Vulset';
+import Aszijde from './productOptions/Aszijde';
+import NaamDatum from './productOptions/NaamDatum';
+import Poot from './productOptions/Poot';
+import Print from './productOptions/Print';
 import Gravure from './productOptions/Gravure';
-// import Positie from './productOptions/Positie';
+import Positie from './productOptions/Positie';
 
 const tagsOrder = [
   'ringmaat',
@@ -108,25 +108,25 @@ const components = {
   // upload: Upload,
   // vppakket: Vppakket,
   // vppakketup: Vppakketup,
+  // ringmaat: Ringmaat,
+  // ringmaatsy: RingmaatSeeyou,
+  // letter: Letter,
+  // vulset: Vulset,
+  // aszijde: Aszijde,
+  // naamdatum: NaamDatum,
+  // poot: Poot,
+  // print: Print,
+  // positie: Positie,
+  // cord: ParaCord,
   //
   //
   //
   // =============== Moet nog
-  //   satijn: Satijnen,
-  //   ringmaat: Ringmaat,
-  //   ringmaatsy: RingmaatSeeyou,
-  //   letter: Letter,
-  //   vulset: Vulset,
-  //   aszijde: Aszijde,
-  //   naamdatum: NaamDatum,
-  //   poot: Poot,
-  //   print: Print,
-  //   positie: Positie,
+  satijn: Satijnen,
   //
   //
   //
   // ========== Later doen
   // Multiselect
-  // cord: ParaCord,
   // Date select
 };
