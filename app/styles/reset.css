@@ -43,7 +43,6 @@ p {
 }
 
 a {
-  color: #000;
   text-decoration: none;
 }
 
@@ -68,7 +67,7 @@ body {
 }
 
 body > main {
-  margin: 0 1rem 1rem 1rem;
+  margin: 0;
 }
 
 section {

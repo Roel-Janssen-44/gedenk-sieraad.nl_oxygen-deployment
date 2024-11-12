@@ -37,7 +37,6 @@ export default function InputImageSwatch({value, onChange, title, options}) {
                       width={32}
                       height={32}
                       alt={option.image.altTekst}
-                      priority={false}
                       loading="lazy"
                     />
                   </div>

@@ -98,6 +98,7 @@ export function HeaderMenu({
             prefetch="intent"
             style={activeLinkStyle}
             to="/"
+            className={'mb-3'}
           >
             Home
           </NavLink>

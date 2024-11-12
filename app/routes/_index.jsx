@@ -3,6 +3,12 @@ import {Await, useLoaderData, Link} from '@remix-run/react';
 import {Suspense} from 'react';
 import {Image, Money} from '@shopify/hydrogen';
 
+import Hero from '~/components/Hero';
+// import CollectionCollage from "~/components/CollectionCollage";
+// import CollectionSlider from "~/components/CollectionSlider";
+import TextWithImage from '~/components/TextWithImage';
+import Video from '~/components/Video';
+
 /**
  * @type {MetaFunction}
  */
@@ -63,10 +69,21 @@ export default function Homepage() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
   return (
-    <div className="home">
-      <FeaturedCollection collection={data.featuredCollection} />
-      <RecommendedProducts products={data.recommendedProducts} />
-    </div>
+    <>
+      <Hero />
+      {/*  <CollectionCollage collections={collectionJson.data} />
+       <CollectionSlider collectionHandle="luxury-hand-made" /> */}
+      <TextWithImage />
+      {/*
+       <CollectionSlider collectionHandle="exquisite-hand-made" /> */}
+      <Video />
+    </>
+
+    // Oud
+    // <div className="home">
+    //   <FeaturedCollection collection={data.featuredCollection} />
+    //   <RecommendedProducts products={data.recommendedProducts} />
+    // </div>
   );
 }
 

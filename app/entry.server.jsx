@@ -24,7 +24,6 @@ export default async function handleRequest(
     },
     connectSrc: [
       'https://uploads.pinata.cloud/v3/files',
-      // 'https://api.pinata.cloud/v3/files/groups',
       'https://api.pinata.cloud/v3/files/groups/',
       'https://api.pinata.cloud',
     ],
@@ -35,6 +34,8 @@ export default async function handleRequest(
       'data:',
       'https://rose-historic-gayal-881.mypinata.cloud',
     ],
+    frameSrc: ['https://www.youtube.com'],
+    fontSrc: ["'self'", 'https://fonts.gstatic.com'],
   });
 
   const body = await renderToReadableStream(

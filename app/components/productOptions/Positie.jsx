@@ -797,7 +797,6 @@ export default function Positie({
             ['Woord2midden']: '',
             ['Woord3midden']: '',
             ['Woord4midden']: '',
-            ['Uploadmidden']: '',
           }));
           break;
         case 'Hartje ♥ symbool':
@@ -1367,7 +1366,6 @@ export default function Positie({
             ['Woord2rechts']: '',
             ['Woord3rechts']: '',
             ['Woord4rechts']: '',
-            ['Uploadrechts']: '',
           }));
           break;
         case 'Hartje ♥ symbool':

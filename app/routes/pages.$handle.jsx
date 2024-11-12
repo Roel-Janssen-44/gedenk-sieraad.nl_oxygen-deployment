@@ -66,9 +66,12 @@ export default function Page() {
   return (
     <div className="page">
       <header>
-        <h1>{page.title}</h1>
+        <h1 className="sr-only">{page.title}</h1>
       </header>
-      <main dangerouslySetInnerHTML={{__html: page.body}} />
+      <main
+        className="container"
+        dangerouslySetInnerHTML={{__html: page.body}}
+      />
     </div>
   );
 }

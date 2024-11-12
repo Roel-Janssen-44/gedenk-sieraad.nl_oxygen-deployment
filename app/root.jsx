@@ -151,7 +151,7 @@ export function Layout({children}) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="font-roboto">
         <Breadcrumb />
         {data ? (
           <Analytics.Provider

@@ -3,6 +3,7 @@
 import {NavLink} from '@remix-run/react';
 import {useAside} from '~/components/Aside';
 import {useLocation} from 'react-router-dom';
+import {ChevronDown} from 'lucide-react';
 
 export default function NavItem({
   item,
@@ -39,8 +40,9 @@ export default function NavItem({
           style={activeLinkStyle}
           to={url}
         >
-          <span className="relative text-left w-auto no-underline hover:no-underline group-hover:underline z-20">
-            {item.title}
+          <span className="flex flex-row relative gap-1 text-left items-center justify-center w-auto no-underline hover:no-underline group-hover:underline z-20">
+            {item.title}{' '}
+            {item.items.length > 0 && <ChevronDown size={'16px'} />}
           </span>
         </NavLink>
 
@@ -72,7 +74,7 @@ export default function NavItem({
           </div>
         ) : null}
       </div>
-      <div className="block xl:hidden">
+      <div className="block xl:hidden mb-3">
         <NavLink
           className="header-menu-item relative text-md w-20 xl:w-28 xl:flex xl:items-center xl:justify-center"
           end

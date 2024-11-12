@@ -24,7 +24,6 @@ export default function BreadcrumbComp() {
           alt="decoratieve foto drie kettingen met gouden hangers eraan"
           width={1920}
           height={1080}
-          priority
           className="w-full h-full object-cover"
         />
       </div>
