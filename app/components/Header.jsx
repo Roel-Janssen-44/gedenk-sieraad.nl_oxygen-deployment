@@ -2,17 +2,53 @@ import {Suspense} from 'react';
 import {Await, NavLink, useAsyncValue} from '@remix-run/react';
 import {useAnalytics, useOptimisticCart} from '@shopify/hydrogen';
 import {useAside} from '~/components/Aside';
+import NavItem from '~/components/NavItem';
+import {ShoppingCart, Search} from 'lucide-react';
+import {useEffect, useState} from 'react';
 
 /**
  * @param {HeaderProps}
  */
 export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
   const {shop, menu} = header;
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   return (
-    <header className="header">
-      <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-        <strong>{shop.name}</strong>
-      </NavLink>
+    <header
+      className={`header fixed pb-4 flex flex-row flex-wrap top-0 left-0 w-full z-30 text-white pb-2 ${
+        scrolled ? 'bg-[#C79385]' : 'bg-transparent'
+      }`}
+    >
+      <div className="w-full container h-auto py-3 block px-2 mt-2 mx-auto">
+        <NavLink
+          className="mb-10"
+          prefetch="intent"
+          to="/"
+          style={activeLinkStyle}
+          end
+        >
+          <img
+            src={'/images/logo-groot-wit.svg'}
+            width={275}
+            height={50}
+            alt="=Logo gedenk-sieraad.nl"
+            className="w-[325px] h-auto mx-auto"
+          />
+        </NavLink>
+        <hr className="my-2 h-[1px-] mt-6" />
+      </div>
       <HeaderMenu
         menu={menu}
         viewport="desktop"
@@ -32,6 +68,7 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
  *   publicStoreDomain: HeaderProps['publicStoreDomain'];
  * }}
  */
+
 export function HeaderMenu({
   menu,
   primaryDomainUrl,
@@ -39,43 +76,46 @@ export function HeaderMenu({
   publicStoreDomain,
 }) {
   const className = `header-menu-${viewport}`;
-  const {close} = useAside();
+
+  function closeAside(event) {
+    if (viewport === 'mobile') {
+      event.preventDefault();
+      window.location.href = event.currentTarget.href;
+    }
+  }
 
   return (
-    <nav className={className} role="navigation">
+    <nav
+      className={`${className} container font-semibold  flex-1 flex-row justify-between mt-0 hidden xl:flex xl:gap-20`}
+      role="navigation"
+      style={{gap: 0}}
+    >
       {viewport === 'mobile' && (
-        <NavLink
-          end
-          onClick={close}
-          prefetch="intent"
-          style={activeLinkStyle}
-          to="/"
-        >
-          Home
-        </NavLink>
-      )}
-      {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
-        if (!item.url) return null;
-
-        // if the url is internal, we strip the domain
-        const url =
-          item.url.includes('myshopify.com') ||
-          item.url.includes(publicStoreDomain) ||
-          item.url.includes(primaryDomainUrl)
-            ? new URL(item.url).pathname
-            : item.url;
-        return (
+        <>
           <NavLink
-            className="header-menu-item"
             end
-            key={item.id}
-            onClick={close}
+            onClick={closeAside}
             prefetch="intent"
             style={activeLinkStyle}
-            to={url}
+            to="/"
           >
-            {item.title}
+            Home
           </NavLink>
+        </>
+      )}
+      {(menu || FALLBACK_HEADER_MENU).items.map((item, index) => {
+        const isLastIndex =
+          index === (menu || FALLBACK_HEADER_MENU).items.length - 1;
+        if (!item.url) return null;
+        return (
+          <NavItem
+            key={item.id}
+            item={item}
+            primaryDomainUrl={primaryDomainUrl}
+            publicStoreDomain={publicStoreDomain}
+            closeAside={closeAside}
+            isLastIndex={isLastIndex}
+          />
         );
       })}
     </nav>
@@ -87,15 +127,12 @@ export function HeaderMenu({
  */
 function HeaderCtas({isLoggedIn, cart}) {
   return (
-    <nav className="header-ctas" role="navigation">
+    <nav
+      className="header-ctas justify-end w-full text-white container"
+      role="navigation"
+    >
       <HeaderMenuMobileToggle />
-      <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
-        <Suspense fallback="Sign in">
-          <Await resolve={isLoggedIn} errorElement="Sign in">
-            {(isLoggedIn) => (isLoggedIn ? 'Account' : 'Sign in')}
-          </Await>
-        </Suspense>
-      </NavLink>
+
       <SearchToggle />
       <CartToggle cart={cart} />
     </nav>
@@ -106,10 +143,10 @@ function HeaderMenuMobileToggle() {
   const {open} = useAside();
   return (
     <button
-      className="header-menu-mobile-toggle reset"
+      className="header-menu-mobile-toggle flex-1 reset mr-auto w-auto h-12 flex items-center justify-start text-black"
       onClick={() => open('mobile')}
     >
-      <h3>☰</h3>
+      <h3 className="text-white flex flex-row gap-2">☰ Menu</h3>
     </button>
   );
 }
@@ -117,8 +154,11 @@ function HeaderMenuMobileToggle() {
 function SearchToggle() {
   const {open} = useAside();
   return (
-    <button className="reset" onClick={() => open('search')}>
-      Search
+    <button
+      className="reset text-white flex items-center justify-center w-12 h-12 text-black cursor-pointer"
+      onClick={() => open('search')}
+    >
+      <Search />
     </button>
   );
 }
@@ -131,21 +171,29 @@ function CartBadge({count}) {
   const {publish, shop, cart, prevCart} = useAnalytics();
 
   return (
-    <a
-      href="/cart"
-      onClick={(e) => {
-        e.preventDefault();
-        open('cart');
-        publish('cart_viewed', {
-          cart,
-          prevCart,
-          shop,
-          url: window.location.href || '',
-        });
-      }}
-    >
-      Cart {count === null ? <span>&nbsp;</span> : count}
-    </a>
+    <div className="relative w-12 h-12">
+      <a
+        href="/cart"
+        onClick={(e) => {
+          e.preventDefault();
+          open('cart');
+          publish('cart_viewed', {
+            cart,
+            prevCart,
+            shop,
+            url: window.location.href || '',
+          });
+        }}
+        className="text-white w-full flex relative items-center justify-center h-full group relative cursor-pointer"
+      >
+        <ShoppingCart color="#fff" />
+        {count !== 0 && (
+          <span className="text-white absolute top-0 right-[3px] text-black">
+            {count}
+          </span>
+        )}
+      </a>
+    </div>
   );
 }
 

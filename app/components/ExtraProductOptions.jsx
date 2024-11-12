@@ -118,15 +118,10 @@ const components = {
   // print: Print,
   // positie: Positie,
   // cord: ParaCord,
+  // satijn: Satijnen,
   //
   //
   //
   // =============== Moet nog
-  satijn: Satijnen,
-  //
-  //
-  //
-  // ========== Later doen
-  // Multiselect
   // Date select
 };
