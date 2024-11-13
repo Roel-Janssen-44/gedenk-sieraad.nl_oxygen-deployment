@@ -84,7 +84,6 @@ export default function Homepage() {
       <CollectionCollage collections={data.collections} />
       <Suspense fallback={<div>Collectie aan het laden...</div>}>
         <Await resolve={data.collectionLuxury}>
-          {/* <CollectionSlider collection={data.collectionLuxury} /> */}
           {(resolvedCollectionLuxury) => (
             <CollectionSlider collection={resolvedCollectionLuxury} />
           )}
