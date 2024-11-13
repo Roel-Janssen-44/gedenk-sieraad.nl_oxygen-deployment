@@ -4,8 +4,8 @@ import {Suspense} from 'react';
 import {Image, Money} from '@shopify/hydrogen';
 
 import Hero from '~/components/Hero';
-// import CollectionCollage from "~/components/CollectionCollage";
-// import CollectionSlider from "~/components/CollectionSlider";
+import CollectionCollage from '~/components/CollectionCollage';
+import CollectionSlider from '~/components/CollectionSlider';
 import TextWithImage from '~/components/TextWithImage';
 import Video from '~/components/Video';
 
@@ -35,13 +35,14 @@ export async function loader(args) {
  * @param {LoaderFunctionArgs}
  */
 async function loadCriticalData({context}) {
-  const [{collections}] = await Promise.all([
-    context.storefront.query(FEATURED_COLLECTION_QUERY),
+  const [collections] = await Promise.all([
+    context.storefront.query(getCollectionsQuery),
     // Add other queries here, so that they are loaded in parallel
   ]);
 
   return {
-    featuredCollection: collections.nodes[0],
+    // featuredCollection: collections,
+    collections: collections,
   };
 }
 
@@ -52,154 +53,173 @@ async function loadCriticalData({context}) {
  * @param {LoaderFunctionArgs}
  */
 function loadDeferredData({context}) {
-  const recommendedProducts = context.storefront
-    .query(RECOMMENDED_PRODUCTS_QUERY)
+  const collectionLuxury = context.storefront
+    .query(getCollectionLuxury)
     .catch((error) => {
-      // Log query errors, but don't throw them so the page can still render
       console.error(error);
       return null;
     });
 
+  const collectionExquisite = context.storefront
+    .query(getCollectionExquisite)
+    .catch((error) => {
+      console.error(error);
+      return null;
+    });
+  console.log('Loaded collections:', {collectionLuxury, collectionExquisite});
+
   return {
-    recommendedProducts,
+    collectionLuxury,
+    collectionExquisite,
   };
 }
 
 export default function Homepage() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
+
   return (
     <>
       <Hero />
-      {/*  <CollectionCollage collections={collectionJson.data} />
-       <CollectionSlider collectionHandle="luxury-hand-made" /> */}
-      <TextWithImage />
-      {/*
-       <CollectionSlider collectionHandle="exquisite-hand-made" /> */}
-      <Video />
-    </>
-
-    // Oud
-    // <div className="home">
-    //   <FeaturedCollection collection={data.featuredCollection} />
-    //   <RecommendedProducts products={data.recommendedProducts} />
-    // </div>
-  );
-}
-
-/**
- * @param {{
- *   collection: FeaturedCollectionFragment;
- * }}
- */
-function FeaturedCollection({collection}) {
-  if (!collection) return null;
-  const image = collection?.image;
-  return (
-    <Link
-      className="featured-collection"
-      to={`/collections/${collection.handle}`}
-    >
-      {image && (
-        <div className="featured-collection-image">
-          <Image data={image} sizes="100vw" />
-        </div>
-      )}
-      <h1>{collection.title}</h1>
-    </Link>
-  );
-}
-
-/**
- * @param {{
- *   products: Promise<RecommendedProductsQuery | null>;
- * }}
- */
-function RecommendedProducts({products}) {
-  return (
-    <div className="recommended-products">
-      <h2>Recommended Products</h2>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Await resolve={products}>
-          {(response) => (
-            <div className="recommended-products-grid">
-              {response
-                ? response.products.nodes.map((product) => (
-                    <Link
-                      key={product.id}
-                      className="recommended-product"
-                      to={`/products/${product.handle}`}
-                    >
-                      <Image
-                        data={product.images.nodes[0]}
-                        aspectRatio="1/1"
-                        sizes="(min-width: 45em) 20vw, 50vw"
-                      />
-                      <h4>{product.title}</h4>
-                      <small>
-                        <Money data={product.priceRange.minVariantPrice} />
-                      </small>
-                    </Link>
-                  ))
-                : null}
-            </div>
+      <CollectionCollage collections={data.collections} />
+      <Suspense fallback={<div>Collectie aan het laden...</div>}>
+        <Await resolve={data.collectionLuxury}>
+          {/* <CollectionSlider collection={data.collectionLuxury} /> */}
+          {(resolvedCollectionLuxury) => (
+            <CollectionSlider collection={resolvedCollectionLuxury} />
           )}
         </Await>
       </Suspense>
-      <br />
-    </div>
+      <TextWithImage />
+      <Suspense fallback={<div>Collectie aan het laden...</div>}>
+        <Await resolve={data.collectionExquisite}>
+          {(resolvedCollectionExquisite) => (
+            <CollectionSlider collection={resolvedCollectionExquisite} />
+          )}
+        </Await>
+      </Suspense>
+      <Video />
+    </>
   );
 }
 
-const FEATURED_COLLECTION_QUERY = `#graphql
-  fragment FeaturedCollection on Collection {
-    id
+const getCollectionsQuery = `#graphql
+  query Collections {
+    collection1: collection(handle: "sieraden-met-vingerprint") {
+      ...collectionFields
+    }
+    collection2: collection(handle: "assieraden") {
+      ...collectionFields
+    }
+    collection3: collection(handle: "dieren") {
+      ...collectionFields
+    }
+  }
+
+  fragment collectionFields on Collection {
     title
+    handle
+    descriptionHtml
+    products(first: 15) {
+      nodes {
+        title
+      }
+    }
     image {
-      id
-      url
+      height
       altText
       width
-      height
-    }
-    handle
-  }
-  query FeaturedCollection($country: CountryCode, $language: LanguageCode)
-    @inContext(country: $country, language: $language) {
-    collections(first: 1, sortKey: UPDATED_AT, reverse: true) {
-      nodes {
-        ...FeaturedCollection
-      }
+      url
     }
   }
 `;
 
-const RECOMMENDED_PRODUCTS_QUERY = `#graphql
-  fragment RecommendedProduct on Product {
-    id
-    title
-    handle
-    priceRange {
-      minVariantPrice {
-        amount
-        currencyCode
-      }
-    }
-    images(first: 1) {
-      nodes {
-        id
-        url
+const getCollectionLuxury = `#graphql
+  query Collection {
+    collection(handle: "luxury-hand-made") {
+      handle
+      title
+      descriptionHtml
+      image {
         altText
-        width
         height
+        url
+        width
+      }
+      seo {
+        description
+        title
+      }
+      products(first: 3) {
+        nodes {
+          title
+          id
+          handle
+          images(first: 2) {
+            nodes {
+              altText
+              height
+              url
+              width
+            }
+          }
+          priceRange {
+            maxVariantPrice {
+              amount
+              currencyCode
+            }
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          vendor
+        }
       }
     }
   }
-  query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
-    @inContext(country: $country, language: $language) {
-    products(first: 4, sortKey: UPDATED_AT, reverse: true) {
-      nodes {
-        ...RecommendedProduct
+`;
+const getCollectionExquisite = `#graphql
+  query Collection {
+    collection(handle: "exquisite-hand-made") {
+      handle
+      title
+      descriptionHtml
+      image {
+        altText
+        height
+        url
+        width
+      }
+      seo {
+        description
+        title
+      }
+      products(first: 3) {
+        nodes {
+          title
+          id
+          handle
+          images(first: 2) {
+            nodes {
+              altText
+              height
+              url
+              width
+            }
+          }
+          priceRange {
+            maxVariantPrice {
+              amount
+              currencyCode
+            }
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          vendor
+        }
       }
     }
   }
