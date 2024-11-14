@@ -24,9 +24,10 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '~/components/chadcn/accordion';
+} from '~/components/chadcn/Accordion';
 import {RadioGroup, RadioGroupItem} from '~/components/chadcn/Radio';
 import {Label} from '~/components/chadcn/label';
+import InputTextField from './InputTextField';
 
 const menu = [
   {
@@ -139,27 +140,26 @@ const menu = [
   },
 ];
 
-export default function FilterDrawerFilters(props, {products, pageProps}) {
+export default function FilterDrawerFilters({
+  products,
+  pageProps,
+  filterProducts,
+}) {
   const [expanded, setExpanded] = useState(false);
 
-  console.log('props');
-  console.log(props);
-  console.log('pageProps');
-  console.log(pageProps);
   const [pathname, setPathname] = useState(null);
   //   const { replace } = useRouter();
 
   const [material, setMaterial] = useState(null);
   const [vendor, setVendor] = useState(null);
-  const [minPrice, setMinPrice] = useState(null);
-  const [maxPrice, setMaxPrice] = useState(null);
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(99999);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
   useEffect(() => {
     const browserParams = getClientBrowserParameters();
-    console.log('Client Browser Parameters:', browserParams);
     setPathname(browserParams.path);
     const searchParams = new URLSearchParams(browserParams.search);
     setMaterial(searchParams.get('Materiaal'));
@@ -176,6 +176,7 @@ export default function FilterDrawerFilters(props, {products, pageProps}) {
       url.searchParams.delete(key);
     }
     window.history.replaceState({}, '', url);
+    filterProducts();
   };
 
   const handleMaterialChange = (newMaterial) => {
@@ -188,10 +189,12 @@ export default function FilterDrawerFilters(props, {products, pageProps}) {
     updateSearchParams('Merk', newVendor);
   };
 
-  const handlePriceChange = (min, max) => {
+  const handleMinPriceChange = (min) => {
     setMinPrice(min);
-    setMaxPrice(max);
     updateSearchParams('MinPrijs', min);
+  };
+  const handleMaxPriceChange = (max) => {
+    setMaxPrice(max);
     updateSearchParams('MaxPrijs', max);
   };
 
@@ -365,20 +368,11 @@ export default function FilterDrawerFilters(props, {products, pageProps}) {
         <div>
           <hr className="h-[3px] rounded-full bg-gray-800" />
         </div>
-        {/* <button onClick={() => handleMaterialChange('Gold')}>
-          Set Material to Gold
-        </button>
-        <button onClick={() => handleVendorChange('Elegant')}>
-          Set Vendor to Elegant
-        </button>
-        <button onClick={() => handlePriceChange(50, 200)}>
-          Set Price Range to 50-200
-        </button> */}
 
         <Accordion type="single" collapsible className="w-full">
           {menu.map((menuSet, index) => (
             <div className="" key={`accordion-${index}`}>
-              <AccordionItem value="item-1">
+              <AccordionItem value={`accordion-${index}`}>
                 <AccordionTrigger>{menuSet.label}</AccordionTrigger>
                 <AccordionContent>
                   <ul className="list-disc pl-8">
@@ -409,19 +403,7 @@ export default function FilterDrawerFilters(props, {products, pageProps}) {
             <div className="mb-2">
               <hr className="h-[3px] rounded-full bg-gray-800" />
             </div>
-            <RadioGroup>
-              {materials.map((material) => (
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value={material.name} id={material.name} />
-                  <Label htmlFor={material.name}>{material.name}</Label>
-                </div>
-              ))}
-            </RadioGroup>
-            {/* <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              name="radio-buttons-group"
-              value={material}
-            >
+            <RadioGroup onValueChange={handleMaterialChange} value={material}>
               {materials.map((material) => {
                 if (
                   material.name.includes('WD options') ||
@@ -430,42 +412,50 @@ export default function FilterDrawerFilters(props, {products, pageProps}) {
                   return null;
                 } else {
                   return (
-                    <FormControlLabel
-                      key={'materialfacet' + material.name}
-                      value={material.name}
-                      control={
-                        <Radio
-                          disabled={material.amount === 0}
-                          sx={{'&.Mui-checked': {color: '#222'}}}
-                        />
-                      }
-                      label={material.name + ` (${material.amount})`}
-                      className="mb-1.5 last:mb-0 "
-                      onChange={(e) => {
-                        const params = new URLSearchParams(searchParams);
-                        params.set('Materiaal', e.target.value);
-                        replace(`${pathname}?${params.toString()}`);
-                        setMaterial(e.target.value);
-                      }}
-                    />
+                    <div
+                      key={material.name}
+                      className={`flex items-center space-x-2 ${
+                        material.amount == 0
+                          ? 'cursor-not-allowed'
+                          : 'cursor-pointer'
+                      }`}
+                    >
+                      <RadioGroupItem
+                        className={`${
+                          material.amount == 0
+                            ? 'cursor-not-allowed'
+                            : 'cursor-pointer'
+                        }`}
+                        disabled={material.amount === 0}
+                        value={material.name}
+                        id={material.name}
+                      />
+                      <Label
+                        htmlFor={material.name}
+                        className={` ${
+                          material.amount == 0
+                            ? 'cursor-not-allowed'
+                            : 'cursor-pointer'
+                        }`}
+                      >
+                        {material.name} ({material.amount})
+                      </Label>
+                    </div>
                   );
                 }
               })}
+            </RadioGroup>
 
-              <Button
-                onClick={() => {
-                  const params = new URLSearchParams(searchParams);
-                  params.delete('Materiaal');
-                  replace(`${pathname}?${params.toString()}`);
-                  setMaterial(null);
-                }}
-                size="large"
-                variant="outlined"
-                className="mt-3"
-              >
-                Reset filter
-              </Button>
-            </RadioGroup> */}
+            <Button
+              onClick={() => {
+                handleMaterialChange(null);
+              }}
+              size="large"
+              variant="outlined"
+              className="mt-3"
+            >
+              Reset filter
+            </Button>
           </div>
         )}
 
@@ -477,58 +467,47 @@ export default function FilterDrawerFilters(props, {products, pageProps}) {
             <div className="mb-2">
               <hr className="h-[3px] rounded-full bg-gray-800" />
             </div>
-            <RadioGroup>
+            <RadioGroup onValueChange={handleVendorChange} value={vendor}>
               {Object.values(vendors).map((vendor) => (
-                <div className="flex items-center space-x-2" key={vendor.name}>
-                  <RadioGroupItem value={vendor.name} id={vendor.name} />
-                  <Label htmlFor={vendor.name}>{vendor.name}</Label>
+                <div
+                  key={vendor.name}
+                  className={`flex items-center space-x-2 ${
+                    vendor.amount == 0 ? 'cursor-not-allowed' : 'cursor-pointer'
+                  }`}
+                >
+                  <RadioGroupItem
+                    className={`${
+                      vendor.amount == 0
+                        ? 'cursor-not-allowed'
+                        : 'cursor-pointer'
+                    }`}
+                    disabled={vendor.amount === 0}
+                    value={vendor.name}
+                    id={vendor.name}
+                  />
+                  <Label
+                    htmlFor={vendor.name}
+                    className={` ${
+                      vendor.amount == 0
+                        ? 'cursor-not-allowed'
+                        : 'cursor-pointer'
+                    }`}
+                  >
+                    {vendor.name} ({vendor.amount})
+                  </Label>
                 </div>
               ))}
             </RadioGroup>
-            {/* <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              name="radio-buttons-group"
-              value={vendor}
+            <Button
+              variant="outlined"
+              onClick={() => {
+                handleVendorChange(null);
+              }}
+              size="large"
+              className="mt-3"
             >
-              {Object.keys(vendors).map((vendorKey) => (
-                <>
-                  <FormControlLabel
-                    key={'vendorfacet' + vendors[vendorKey].name}
-                    value={vendors[vendorKey].name}
-                    control={
-                      <Radio
-                        disabled={vendors[vendorKey].amount === 0}
-                        sx={{'&.Mui-checked': {color: '#222'}}}
-                      />
-                    }
-                    label={
-                      vendors[vendorKey].name +
-                      ` (${vendors[vendorKey].amount})`
-                    }
-                    className="mb-1.5 last:mb-0 "
-                    onChange={(e) => {
-                      const params = new URLSearchParams(searchParams);
-                      params.set('Merk', e.target.value);
-                      replace(`${pathname}?${params.toString()}`);
-                      setVendor(e.target.value);
-                    }}
-                  />
-                </>
-              ))}
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  const params = new URLSearchParams(searchParams);
-                  params.delete('Merk');
-                  replace(`${pathname}?${params.toString()}`);
-                  setVendor(null);
-                }}
-                size="large"
-                className="mt-3"
-              >
-                Reset filter
-              </Button>
-            </RadioGroup> */}
+              Reset filter
+            </Button>
           </div>
         )}
       </div>
@@ -543,72 +522,51 @@ export default function FilterDrawerFilters(props, {products, pageProps}) {
         <div className="flex flex-wrap items-center text-sm mb-2 mt-4">
           <span className="font-bold min-w-[140px]">Van €</span>
         </div>
-        {/* <TextField
-          type="number"
+
+        <input
           value={minPrice}
-          variant="outlined"
-          onBlur={(e) => {
-            const params = new URLSearchParams(searchParams);
-            if (e.target.value === "") {
-              params.delete("MinPrijs");
-            } else {
-              params.set("MinPrijs", e.target.value);
-            }
-            replace(`${pathname}?${params.toString()}`);
-            setMinPrice(e.target.value);
-          }}
           onChange={(e) => {
-            setMinPrice(e.target.value);
-          }}
-          InputProps={{
-            startAdornment: <InputAdornment position="start">€</InputAdornment>,
+            const value = parseInt(e.target.value);
+            if (typeof value === 'number') {
+              updateSearchParams('MinPrijs', value);
+              setMinPrice(value);
+            } else {
+              setMinPrice(9999);
+            }
           }}
         />
+
         <div className="flex flex-wrap items-center text-sm mb-2 mt-4">
           <span className="font-bold min-w-[140px]">Tot €</span>
         </div>
-        <TextField
-          type="number"
+        <input
           value={maxPrice}
-          variant="outlined"
-          onBlur={(e) => {
-            const params = new URLSearchParams(searchParams);
-            if (e.target.value === "") {
-              params.delete("MaxPrijs");
-            } else {
-              params.set("MaxPrijs", e.target.value);
-            }
-            replace(`${pathname}?${params.toString()}`);
-            setMaxPrice(e.target.value);
-          }}
           onChange={(e) => {
-            setMaxPrice(e.target.value);
-          }}
-          InputProps={{
-            startAdornment: <InputAdornment position="start">€</InputAdornment>,
+            const value = parseInt(e.target.value);
+            if (typeof value === 'number') {
+              updateSearchParams('MaxPrijs', value);
+              setMaxPrice(value);
+            } else {
+              setMaxPrice(9999);
+            }
           }}
         />
         <div>
           <Button
             onClick={() => {
+              updateSearchParams('MinPrijs', 0);
+              updateSearchParams('MaxPrijs', 9999);
               setMinPrice(0);
               setMaxPrice(9999);
-              const params = new URLSearchParams(searchParams);
-              params.delete("MinPrijs");
-              params.delete("MaxPrijs");
-              replace(`${pathname}?${params.toString()}`);
             }}
             size="large"
             variant="outlined"
-            className="mt-3 w-full"
+            className="mb-3"
           >
             Reset filter
           </Button>
         </div>
         <Button
-          className="bg-primary w-full mt-8"
-          variant="contained"
-          size="large"
           onClick={() => {
             window.scrollTo({
               top: 200,
@@ -617,7 +575,7 @@ export default function FilterDrawerFilters(props, {products, pageProps}) {
           }}
         >
           Producten zoeken
-        </Button> */}
+        </Button>
       </div>
     </>
   );

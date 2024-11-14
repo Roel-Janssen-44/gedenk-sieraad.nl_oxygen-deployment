@@ -1,17 +1,19 @@
 import {defer, redirect} from '@shopify/remix-oxygen';
-import {useLoaderData, Link} from '@remix-run/react';
+import {Await, useLoaderData, Link} from '@remix-run/react';
 import {
   getPaginationVariables,
   Image,
   Money,
   Analytics,
 } from '@shopify/hydrogen';
+import {useEffect, useState, Suspense} from 'react';
 import {useVariantUrl} from '~/lib/variants';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import ProductGridItem from '~/components/ProductGridItem';
 import SortCollection from '~/components/SortCollection';
 import ProductGrid from '~/components/ProductGrid';
 import FilterCollection from '~/components/FilterCollection';
+import {getClientBrowserParameters} from '@shopify/hydrogen-react';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -42,7 +44,7 @@ async function loadCriticalData({context, params, request}) {
   const {handle} = params;
   const {storefront} = context;
   const paginationVariables = getPaginationVariables(request, {
-    pageBy: 8,
+    pageBy: 30,
   });
 
   if (!handle) {
@@ -77,65 +79,98 @@ function loadDeferredData({context}) {
   return {};
 }
 
-export default function Collection() {
+export default function Collection({pageProps}) {
   /** @type {LoaderReturnData} */
   const {collection} = useLoaderData();
 
-  console.log('collection');
-  console.log(collection);
+  const [renderedProducts, setRenderedProducts] = useState(
+    collection.products.nodes,
+  );
+
+  const filterProducts = () => {
+    const searchParams = new URLSearchParams(window.location.search);
+
+    const material = searchParams.get('Materiaal');
+    const vendor = searchParams.get('Merk');
+    const minPrice = parseFloat(searchParams.get('MinPrijs')) || 0;
+    const maxPrice = parseFloat(searchParams.get('MaxPrijs')) || Infinity;
+
+    const filteredList = collection.products.nodes.filter((product, index) => {
+      const matchesMaterial = material
+        ? product.options.some(
+            (option) =>
+              option.name === 'Materiaal' && option.values.includes(material),
+          )
+        : true;
+
+      const matchesVendor = vendor ? product.vendor === vendor : true;
+
+      const productMinPrice = parseFloat(
+        product.priceRange.minVariantPrice.amount,
+      );
+      const productMaxPrice = parseFloat(
+        product.priceRange.maxVariantPrice.amount,
+      );
+
+      let matchesPrice = false;
+
+      if (minPrice <= productMinPrice) {
+        if (maxPrice >= productMinPrice) {
+          matchesPrice = true;
+        } else {
+          matchesPrice = false;
+        }
+      } else if (minPrice > productMinPrice) {
+        if (maxPrice > productMaxPrice) {
+          matchesPrice = false;
+        } else {
+          matchesPrice = true;
+        }
+      }
+
+      return matchesMaterial && matchesVendor && matchesPrice;
+    });
+
+    setRenderedProducts(filteredList);
+  };
 
   return (
-    // <div className="collection container">
-    //   <h1>{collection.title}</h1>
-    //   <p className="collection-description">{collection.description}</p>
-    //   <PaginatedResourceSection
-    //     connection={collection.products}
-    //     resourcesClassName="products-grid"
-    //   >
-    //     {({node: product, index}) => (
-    //       <ProductGridItem
-    //         key={product.id}
-    //         product={product}
-    //       />
-
-    //     )}
-    //   </PaginatedResourceSection>
-    //   <Analytics.CollectionView
-    //     data={{
-    //       collection: {
-    //         id: collection.id,
-    //         handle: collection.handle,
-    //       },
-    //     }}
-    //   />
-    // </div>
-    <div className="relative container flex flex-col gap-8 md:flex-row">
-      <FilterCollection products={collection.products.nodes} />
-      <div className="flex-1">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4 border-[1px] border-gray-200 p-4 mb-8 bg-white rounded-md">
-          <div className="min-w-[150px]">
-            <img
-              className="rounded"
-              src={collection.image.url}
-              width={150}
-              height={150}
-            />
+    <>
+      <div className="relative container flex flex-col gap-8 md:flex-row">
+        <FilterCollection
+          filterProducts={filterProducts}
+          products={collection.products.nodes}
+        />
+        <div className="flex-1">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 border-[1px] border-gray-200 p-4 mb-8 bg-white rounded-md">
+            <div className="min-w-[150px]">
+              <img
+                className="rounded"
+                src={collection.image.url}
+                width={150}
+                height={150}
+              />
+            </div>
+            <div className="">
+              <h1 className="text-3xl font-roboto mb-4">{collection.title}</h1>
+              <p dangerouslySetInnerHTML={{__html: collection.description}}></p>
+            </div>
           </div>
-          <div className="">
-            <h1 className="text-3xl font-roboto mb-4">{collection.title}</h1>
-            {/* {isClient ? (
-              <p
-                dangerouslySetInnerHTML={{ __html: sanitizedHtmlDescription }}
-              ></p>
-            ) : (
-              <p>Aan het laden...</p>
-            )} */}
-          </div>
+          <SortCollection />
+          <Suspense fallback={<div>Collectie aan het laden...</div>}>
+            <ProductGrid collectionProducts={renderedProducts} />
+          </Suspense>
         </div>
-        <SortCollection />
-        <ProductGrid collectionProducts={collection.products.nodes} />
       </div>
-    </div>
+      <Analytics.CollectionView
+        data={{
+          collection: {
+            id: collection.id,
+            handle: collection.handle,
+          },
+        }}
+      />
+    </>
   );
 }
 
@@ -163,6 +198,10 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
       }
     }
     vendor
+    options(first: 1) {
+      name
+      values
+    }
   }
 
 `;
@@ -195,6 +234,7 @@ const COLLECTION_QUERY = `#graphql
         last: $last,
         before: $startCursor,
         after: $endCursor
+        
       ) {
         nodes {
           ...ProductItem

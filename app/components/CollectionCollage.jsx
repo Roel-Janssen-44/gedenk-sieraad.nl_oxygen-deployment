@@ -1,6 +1,5 @@
 'use client';
 
-// import sanitizeHtml from "sanitize-html-react";
 import {useEffect, useState} from 'react';
 import {Button} from '~/components/chadcn/Button';
 
@@ -15,14 +14,13 @@ export default function CollectionCollage({collections}) {
       {Object.keys(collections).map((key, index) => {
         const collection = collections[key];
         const sanitizedHtmlContent = collection.descriptionHtml;
-        // const sanitizedHtmlContent = sanitizeHtml(collection.descriptionHtml);
         return (
           <div
             key={key}
             className={`mb-10 bg-white rounded-lg shadow relative max-w-md lg:mb-20 lg:flex lg:aspect-[2/1] lg:gap-4 lg:max-w-[850px] xl:mb-0 xl:h-auto
             ${
               index === 0
-                ? 'lg:flex-row-reverse xl:mx-auto xl:max-w-4xl xl:w-full'
+                ? 'lg:flex-row-reverse xl:mx-auto xl:max-w-4xl xl:w-full 2xl:h-[448px]'
                 : ''
             }
             ${
@@ -68,11 +66,12 @@ export default function CollectionCollage({collections}) {
                   : ''
               }
               ${index == 1 ? 'xl:rounded-b-lg xl:rounded-t-none' : ''}
+              ${index == 0 ? '2xl:rounded-l-lg 2xl:rounded-r-b-[4px]' : ''}
               `}
             >
               <img
                 className={`absolute 
-                ${index == 0 ? 'lg:top-10' : ''}
+                ${index == 0 ? 'lg:top-10 2xl:rounded-none' : ''}
                 ${
                   index == 1
                     ? 'top-1/2 -translate-y-1/2'
