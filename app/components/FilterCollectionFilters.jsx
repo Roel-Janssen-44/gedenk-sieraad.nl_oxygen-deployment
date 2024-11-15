@@ -1,23 +1,7 @@
 'use client';
 
 import {useState, useEffect} from 'react';
-// import Link from "next/link";
-// import { useSearchParams, usePathname, useRouter } from "next/navigation";
-
-// import Accordion from "@mui/material/Accordion";
-// import AccordionDetails from "@mui/material/AccordionDetails";
-// import AccordionSummary from "@mui/material/AccordionSummary";
-// import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
-// import Drawer from "@mui/material/Drawer";
-// import Typography from "@mui/material/Typography";
-// import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import {Button} from '~/components/chadcn/Button';
-// import IconButton from "@mui/material/IconButton";
-// import InputRadio from "./InputRadio";
-// import { TextField, Input } from "@mui/material";
-// import { RadioGroup, FormControlLabel, Radio } from "@mui/material";
-// import InputAdornment from "@mui/material/InputAdornment";
 import {getClientBrowserParameters} from '@shopify/hydrogen-react';
 import {
   Accordion,
@@ -26,7 +10,7 @@ import {
   AccordionTrigger,
 } from '~/components/chadcn/Accordion';
 import {RadioGroup, RadioGroupItem} from '~/components/chadcn/Radio';
-import {Label} from '~/components/chadcn/label';
+import {Label} from '~/components/chadcn/Label';
 import InputTextField from './InputTextField';
 
 const menu = [
@@ -148,7 +132,6 @@ export default function FilterDrawerFilters({
   const [expanded, setExpanded] = useState(false);
 
   const [pathname, setPathname] = useState(null);
-  //   const { replace } = useRouter();
 
   const [material, setMaterial] = useState(null);
   const [vendor, setVendor] = useState(null);

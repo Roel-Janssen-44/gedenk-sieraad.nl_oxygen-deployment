@@ -110,37 +110,67 @@ function ProductItem({product, loading}) {
   );
 }
 
+// const PRODUCT_ITEM_FRAGMENT = `#graphql
+//   fragment MoneyProductItem on MoneyV2 {
+//     amount
+//     currencyCode
+//   }
+//   fragment ProductItem on Product {
+//     id
+//     handle
+//     title
+//     featuredImage {
+//       id
+//       altText
+//       url
+//       width
+//       height
+//     }
+//     priceRange {
+//       minVariantPrice {
+//         ...MoneyProductItem
+//       }
+//       maxVariantPrice {
+//         ...MoneyProductItem
+//       }
+//     }
+//     variants(first: 1) {
+//       nodes {
+//         selectedOptions {
+//           name
+//           value
+//         }
+//       }
+//     }
+//   }
+// `;
 const PRODUCT_ITEM_FRAGMENT = `#graphql
-  fragment MoneyProductItem on MoneyV2 {
-    amount
-    currencyCode
-  }
   fragment ProductItem on Product {
+    title
     id
     handle
-    title
-    featuredImage {
-      id
-      altText
-      url
-      width
-      height
+    images(first: 2) {
+      nodes {
+        altText
+        height
+        url
+        width
+      }
     }
     priceRange {
       minVariantPrice {
-        ...MoneyProductItem
+        amount
+        currencyCode
       }
       maxVariantPrice {
-        ...MoneyProductItem
+        amount
+        currencyCode
       }
     }
-    variants(first: 1) {
-      nodes {
-        selectedOptions {
-          name
-          value
-        }
-      }
+    vendor
+    options(first: 1) {
+      name
+      values
     }
   }
 `;

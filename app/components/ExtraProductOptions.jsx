@@ -71,7 +71,7 @@ export default function ExtraProductOptions({
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 mb-6">
       {tagsOrder
         .filter((tag) => tags.includes(tag))
         .map((tag, index) => {
@@ -96,32 +96,28 @@ export default function ExtraProductOptions({
 }
 
 const components = {
-  // =================== Gedaan
-  // gravure: Gravure,
-  // creool: Creool,
-  // hars: Hars,
-  // aspakket: Aspakket,
-  // kleuren: Hars,
-  // tekst: Tekst,
-  // armbandmaat: Armbandmaat,
-  // woord: Woord,
-  // upload: Upload,
-  // vppakket: Vppakket,
-  // vppakketup: Vppakketup,
-  // ringmaat: Ringmaat,
-  // ringmaatsy: RingmaatSeeyou,
-  // letter: Letter,
-  // vulset: Vulset,
-  // aszijde: Aszijde,
-  // naamdatum: NaamDatum,
-  // poot: Poot,
-  // print: Print,
-  // positie: Positie,
-  // cord: ParaCord,
-  // satijn: Satijnen,
-  //
-  //
-  //
+  gravure: Gravure,
+  creool: Creool,
+  hars: Hars,
+  aspakket: Aspakket,
+  kleuren: Hars,
+  tekst: Tekst,
+  armbandmaat: Armbandmaat,
+  woord: Woord,
+  upload: Upload,
+  vppakket: Vppakket,
+  vppakketup: Vppakketup,
+  ringmaat: Ringmaat,
+  ringmaatsy: RingmaatSeeyou,
+  letter: Letter,
+  vulset: Vulset,
+  aszijde: Aszijde,
+  naamdatum: NaamDatum,
+  poot: Poot,
+  print: Print,
+  positie: Positie,
+  cord: ParaCord,
+  satijn: Satijnen,
   // =============== Moet nog
   // Date select
 };

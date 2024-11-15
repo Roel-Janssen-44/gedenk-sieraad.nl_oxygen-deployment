@@ -80,7 +80,7 @@ function loadDeferredData({context}) {
   return {};
 }
 
-export default function Collection({pageProps}) {
+export default function CollectionHandle({pageProps}) {
   /** @type {LoaderReturnData} */
   const {collection} = useLoaderData();
 
@@ -164,8 +164,6 @@ export default function Collection({pageProps}) {
         break;
     }
 
-    console.log('Sorted products:', sortedProducts);
-
     setRenderedProducts(sortedProducts);
   };
 
@@ -238,7 +236,6 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
       values
     }
   }
-
 `;
 
 // NOTE: https://shopify.dev/docs/api/storefront/2022-04/objects/collection
@@ -258,7 +255,7 @@ const COLLECTION_QUERY = `#graphql
       handle
       title
       description
-      image {
+      image { 
         altText
         height
         url
@@ -267,11 +264,11 @@ const COLLECTION_QUERY = `#graphql
       products(
         first: $first,
         last: $last,
-        before: $startCursor,
+        before: $startCursor, 
         after: $endCursor
         
       ) {
-        nodes {
+        nodes { 
           ...ProductItem
         }
         pageInfo {
