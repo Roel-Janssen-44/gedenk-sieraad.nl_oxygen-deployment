@@ -168,6 +168,7 @@ button.reset:hover:not(:has(> *)) {
   display: flex;
   flex-direction: column;
   grid-gap: 1rem;
+  padding-left: 4px !important;
 }
 
 .header-menu-desktop {

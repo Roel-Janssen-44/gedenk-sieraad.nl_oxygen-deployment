@@ -4,6 +4,7 @@ import {Aside} from '~/components/Aside';
 import Footer from '~/components/Footer';
 import {Header, HeaderMenu} from '~/components/Header';
 import {CartMain} from '~/components/CartMain';
+import {Button} from '~/components/chadcn/Button';
 import {
   SEARCH_ENDPOINT,
   SearchFormPredictive,
@@ -49,8 +50,8 @@ export function PageLayout({
  */
 function CartAside({cart}) {
   return (
-    <Aside type="cart" heading="CART">
-      <Suspense fallback={<p>Loading cart ...</p>}>
+    <Aside type="cart" heading="Winkelmand">
+      <Suspense fallback={<p>Winkelmandje aan het laden ...</p>}>
         <Await resolve={cart}>
           {(cart) => {
             return <CartMain cart={cart} layout="aside" />;
@@ -64,24 +65,25 @@ function CartAside({cart}) {
 function SearchAside() {
   const queriesDatalistId = useId();
   return (
-    <Aside type="search" heading="SEARCH">
+    <Aside type="search" heading="Zoeken">
       <div className="predictive-search">
         <br />
         <SearchFormPredictive>
           {({fetchResults, goToSearch, inputRef}) => (
-            <>
+            <div className="flex flex-col ">
               <input
                 name="q"
                 onChange={fetchResults}
                 onFocus={fetchResults}
-                placeholder="Search"
+                placeholder="Zoeken"
                 ref={inputRef}
                 type="search"
                 list={queriesDatalistId}
               />
-              &nbsp;
-              <button onClick={goToSearch}>Search</button>
-            </>
+              <Button className="w-32" onClick={goToSearch}>
+                Zoeken
+              </Button>
+            </div>
           )}
         </SearchFormPredictive>
 
@@ -90,7 +92,7 @@ function SearchAside() {
             const {articles, collections, pages, products, queries} = items;
 
             if (state === 'loading' && term.current) {
-              return <div>Loading...</div>;
+              return <div>Aan het laden...</div>;
             }
 
             if (!total) {
@@ -129,7 +131,7 @@ function SearchAside() {
                     to={`${SEARCH_ENDPOINT}?q=${term.current}`}
                   >
                     <p>
-                      View all results for <q>{term.current}</q>
+                      Bekijk alle resultaten voor <q>{term.current}</q>
                       &nbsp; →
                     </p>
                   </Link>
@@ -153,7 +155,7 @@ function MobileMenuAside({header, publicStoreDomain}) {
   return (
     header.menu &&
     header.shop.primaryDomain?.url && (
-      <Aside type="mobile" heading="MENU">
+      <Aside type="mobile" heading="Menu">
         <HeaderMenu
           menu={header.menu}
           viewport="mobile"

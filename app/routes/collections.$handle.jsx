@@ -14,6 +14,7 @@ import SortCollection from '~/components/SortCollection';
 import ProductGrid from '~/components/ProductGrid';
 import FilterCollection from '~/components/FilterCollection';
 import {getClientBrowserParameters} from '@shopify/hydrogen-react';
+import {collapseTextChangeRangesAcrossMultipleVersions} from 'typescript';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -133,6 +134,40 @@ export default function Collection({pageProps}) {
 
     setRenderedProducts(filteredList);
   };
+  const sortProducts = (sort) => {
+    let sortedProducts = [...renderedProducts];
+    //     aanbevolen
+    // bestsellers
+    // laag naar hoog
+    // hoog naar laag
+    switch (sort) {
+      case 'laag naar hoog':
+        console.log('laag naar hoog');
+        sortedProducts.sort((a, b) => {
+          const priceA = parseFloat(a.priceRange.minVariantPrice.amount);
+          const priceB = parseFloat(b.priceRange.minVariantPrice.amount);
+          return priceA - priceB;
+        });
+        break;
+
+      case 'hoog naar laag':
+        sortedProducts.sort((a, b) => {
+          const priceA = parseFloat(a.priceRange.minVariantPrice.amount);
+          const priceB = parseFloat(b.priceRange.minVariantPrice.amount);
+          return priceB - priceA;
+        });
+        break;
+
+      case 'aanbevolen':
+      case 'bestsellers':
+        sortedProducts.sort(() => Math.random() - 0.5);
+        break;
+    }
+
+    console.log('Sorted products:', sortedProducts);
+
+    setRenderedProducts(sortedProducts);
+  };
 
   return (
     <>
@@ -156,7 +191,7 @@ export default function Collection({pageProps}) {
               <p dangerouslySetInnerHTML={{__html: collection.description}}></p>
             </div>
           </div>
-          <SortCollection />
+          <SortCollection sortProducts={sortProducts} />
           <Suspense fallback={<div>Collectie aan het laden...</div>}>
             <ProductGrid collectionProducts={renderedProducts} />
           </Suspense>

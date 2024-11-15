@@ -12,6 +12,7 @@ import {CartForm} from '@shopify/hydrogen';
 import {json} from '@remix-run/server-runtime';
 import ExtraProductOptions from '~/components/ExtraProductOptions';
 import {useFetcher} from '@remix-run/react';
+import {Button} from './chadcn/Button';
 
 /**
  * @param {{
@@ -99,8 +100,6 @@ export function ProductForm({
         {({option}) => <ProductOptions key={option.name} option={option} />}
       </VariantSelector>
 
-      <br />
-
       <ExtraProductOptions
         tags={tags}
         extraOptions={extraOptions}
@@ -110,8 +109,20 @@ export function ProductForm({
         setOptionErrors={setOptionErrors}
       />
 
-      <br />
-      <br />
+      <h6
+        style={{marginBottom: '20px'}}
+        className="font-bold text-md flex flex-row"
+      >
+        <div className="min-w-[140px]">{'Merk/collectie:'}</div>
+        <span className="font-light ml-2">{product.vendor}</span>
+      </h6>
+      <h6
+        style={{marginBottom: '20px'}}
+        className="font-bold text-md flex flex-row"
+      >
+        <div className="min-w-[140px]">{'Artikelnr:'}</div>
+        <span className="font-light ml-2">{product.selectedVariant.sku}</span>
+      </h6>
 
       <Form
         method="post"
@@ -136,39 +147,40 @@ export function ProductForm({
         />
 
         <p className="text-red-500">{error}</p>
-        <button
+        <Button
           disabled={hasTrueValue}
           type="submit"
-          className="bg-green-400 mt-2 p-3 rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="mt-2 p-3 rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? 'Aan het laden...' : 'Toevoegen aan winkelwagen'}
-        </button>
+        </Button>
       </Form>
 
       {responseData != null && (
-        <CartForm route="/cart" action={'CustomAddToCart'}>
-          {(fetcher) => (
-            <>
-              <input
-                type="hidden"
-                value={JSON.stringify({
-                  merchandiseId: `gid://shopify/ProductVariant/${newVariantId}`,
-                  quantity: 1,
-                  attributes: extraOptionsArray,
-                  // attributes: [],
-                })}
-                name="lines"
-              />
-              <button
-                onClick={() => open('cart')}
-                type="submit"
-                ref={addToCartButtonRef}
-              >
-                Submit
-              </button>
-            </>
-          )}
-        </CartForm>
+        <div className="sr-only">
+          <CartForm route="/cart" action={'CustomAddToCart'}>
+            {(fetcher) => (
+              <>
+                <input
+                  type="hidden"
+                  value={JSON.stringify({
+                    merchandiseId: `gid://shopify/ProductVariant/${newVariantId}`,
+                    quantity: 1,
+                    attributes: extraOptionsArray,
+                  })}
+                  name="lines"
+                />
+                <button
+                  onClick={() => open('cart')}
+                  type="submit"
+                  ref={addToCartButtonRef}
+                >
+                  Aan winkelmand toevoegen
+                </button>
+              </>
+            )}
+          </CartForm>
+        </div>
       )}
     </div>
   );
@@ -180,24 +192,23 @@ export function ProductForm({
 function ProductOptions({option}) {
   return (
     <div className="product-options" key={option.name}>
-      <h5>{option.name}</h5>
+      <h5 style={{marginBottom: '4px'}} className="font-bold">
+        {option.name}:
+      </h5>
       <div className="product-options-grid">
         {option.values.map(({value, isAvailable, isActive, to}) => {
           if (value.includes('WD options')) return;
           return (
             <Link
-              className="product-options-item"
               key={option.name + value}
               prefetch="intent"
               preventScrollReset
               replace
               to={to}
-              style={{
-                border: isActive ? '1px solid black' : '1px solid transparent',
-                opacity: isAvailable ? 1 : 0.3,
-              }}
             >
-              {value}
+              <Button variant={isActive ? 'default' : 'secondary'}>
+                {value}
+              </Button>
             </Link>
           );
         })}

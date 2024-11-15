@@ -394,49 +394,158 @@ export default function Product() {
     // console.log(calculatePrice(extraOptions, OptionSets));
   }, [extraOptions]);
 
+  // =========== Images ===========
+  const variantImages = product.variants.nodes;
+  let extraImages = [];
+  product.media.nodes.forEach((media) => {
+    if (!variantImages.some((image) => image.url === media.image.url)) {
+      extraImages.push(media.image);
+    }
+  });
+
+  const [activeImage, setActiveImage] = useState(product.selectedVariant.image);
+  const [currentThumbnails, setCurrentThumbnails] = useState([]);
+  const [activeThumbnailIndex, setActiveThumbnailIndex] = useState(0);
+
+  // useEffect(() => {
+  //   const sliderAmount =
+  //     sliderRef?.current?.props?.responsive.find(
+  //       (breakpoint) => window.innerWidth <= breakpoint.breakpoint,
+  //     ).settings.slidesToShow || null;
+  //   if (currentThumbnails.length > sliderAmount) {
+  //     setHasNextSlide(true);
+  //   }
+  //   sliderRef?.current?.slickGoTo(0);
+  // }, [currentThumbnails]);
+
+  console.log('activeImage');
+  console.log(activeImage);
+
   return (
-    <div className="product">
-      <ProductImage image={selectedVariant?.image} />
-      <div className="product-main">
-        <h1>{title}</h1>
+    <div className="flex flex-col gap-12">
+      <div className="container flex flex-col items-start lg:flex-row">
+        {/* Image section */}
+        <div className="mb-8 px-0 relative block w-full md:flex md:flex-row-reverse lg:flex-col lg:max-w-lg lg:sticky lg:top-40 lg:mb-0 xl:flex-row-reverse xl:max-w-none 2xl:max-w-2xl 2xl:ml-auto">
+          <div className="md:flex-1 lg:mb-4">
+            {activeImage && (
+              <div
+                key={activeImage.url}
+                className="animate-fadeIn mb-4 flex justify-center items-center aspect-square lg:mr-8 lg:mb-0"
+              >
+                <div className="relative group w-full h-full overflow-hidden">
+                  <img
+                    src={activeImage.url}
+                    alt={activeImage.altText}
+                    loading="eager"
+                    className="max-w-full max-h-full object-contain rounded block w-full h-full z-20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                  />
+                  {/* <Zoom
+                    loading="eager"
+                    img={activeImage.url}
+                    zoomScale={2}
+                    height={600}
+                    width={600}
+                    className="max-w-full max-h-full object-contain rounded block w-full h-full z-20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                  /> */}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
 
-        {selectedVariant?.price?.amount && (
-          <FormatedPrice
-            value={(
-              parseFloat(selectedVariant?.price?.amount) +
-              parseFloat(calculatePrice(extraOptions, OptionSets))
-            ).toFixed(2)}
-          />
-        )}
+        {/* {currentThumbnails.length > 1 && (
+              <div className="max-w-lg mx-auto relative md:w-32 md:mt-8 lg:w-full lg:mt-0 lg:max-w-none xl:w-32 xl:h-[520px] 2xl:h-[500px] xl:mt-12 2xl:mt-9">
+                <Slider
+                  ref={sliderRef}
+                  {...settings}
+                  className="h-auto w-full relative pt-2 lg:pt-0"
+                >
+                  {currentThumbnails?.map((image, index) => (
+                    <button
+                      key={"thumbnailImage" + image?.url}
+                      className={`w-full h-auto aspect-sqaure transition-all animate-fadeIn ml-2 first:ml-0 md:ml-0 md:flex md:justify-center md:mt-4 lg:justify-normal lg:mt-0 xl:mt-4 xl:ml-0 xl:flex xl:justify-center 2xl:mt-3
+                        focus-visible:outline-none focus:outline-none outline-none`}
+                      onClick={() => {
+                        setActiveThumbnailIndex(index);
+                        setActiveImage(image);
+                      }}
+                    >
+                      <Image
+                        loading="lazy"
+                        className={`w-24 h-24 xs:w-28 xs:h-28 object-contain aspect-sqaure sm:w-24 sm:h-24 rouned-lg border-2 rounded-lg ${
+                          index == activeThumbnailIndex
+                            ? "border-black"
+                            : "border-black-300"
+                        }`}
+                        data={image}
+                      />
+                    </button>
+                  ))}
+                </Slider>
 
-        <br />
-        <Suspense
-          fallback={
-            <ProductForm
-              product={product}
-              selectedVariant={selectedVariant}
-              variants={[]}
-              tags={tempTags}
-              extraOptions={extraOptions}
-              setExtraOptions={setExtraOptions}
-              showErrors={showErrors}
-              error={error}
-              hasTrueValue={hasTrueValue}
-              setShowErrors={setShowErrors}
-              optionErrors={optionErrors}
-              setOptionErrors={setOptionErrors}
-            />
-          }
-        >
-          <Await
-            errorElement="There was a problem loading product variants"
-            resolve={variants}
+                {hasPrevSlide && (
+                  <IconButton
+                    onClick={previousSlide}
+                    size="medium"
+                    className="bg-gray-200 absolute z-0 bottom-1/2 translate-y-1/2 left-0 -translate-x-1/3
+                    xs:left-0 xs:-translate-x-1/2 md:left-1/2 md:-translate-x-1/2 md:-top-1 md:-translate-y-1/2 md:rotate-90 md:h-10 md:w-10 md:flex md:justiyf-center md:items-center
+                    lg:top-1/2 lg:-tranlate-y-1/2 lg:left-0 lg:rotate-0
+                    xl:left-1/2 xl:-translate-x-1/2 xl:-top-3 xl:-translate-y-1/2 xl:rotate-90 xl:h-10 xl:w-10 xl:flex xl:justiyf-center xl:items-center
+                    2xl:-top-4"
+                  >
+                    <ChevronLeftRoundedIcon
+                      fontSize="32px"
+                      className="text-gray-700"
+                    />
+                  </IconButton>
+                )}
+                {hasNextSlide && (
+                  <IconButton
+                    onClick={nextSlide}
+                    size="medium"
+                    className="bg-gray-200 absolute z-0 bottom-1/2 translate-y-1/2 right-0
+                    xs:-right-3 xs:translate-x-1/2 sm:-right-1 md:left-1/2 md:-translate-x-1/2 md:bottom-16 md:rotate-90 md:w-10 md:h-10
+                    lg:bottom-1/2 lg:-tranlate-y-1/2 lg:-right-2 lg:ml-auto lg:rotate-0 lg:-translate-x-1/2
+                    xl:left-1/2 xl:-translate-x-1/2 xl:bottom-9 xl:rotate-90 xl:w-10 xl:h-10 xl:m-0 
+                    2xl:bottom-8 "
+                  >
+                    <ChevronRightRoundedIcon
+                      fontSize="32px"
+                      className="text-gray-700"
+                    />
+                  </IconButton>
+                )}
+              </div>
+            )}
+          </div> */}
+        {/* <ProductImage image={selectedVariant?.image} /> */}
+        <div className="product-main">
+          <h1
+            style={{fontWeight: 400, fontSize: '2.25rem', marginBottom: '20px'}}
           >
-            {(data) => (
+            {title}
+          </h1>
+
+          {selectedVariant?.price?.amount && (
+            <h5 style={{marginBottom: '20px'}} className="font-bold text-md">
+              {'Prijs:'}
+              <span className="font-light ml-2">
+                <FormatedPrice
+                  value={(
+                    parseFloat(selectedVariant?.price?.amount) +
+                    parseFloat(calculatePrice(extraOptions, OptionSets))
+                  ).toFixed(2)}
+                />
+              </span>
+            </h5>
+          )}
+
+          <Suspense
+            fallback={
               <ProductForm
                 product={product}
                 selectedVariant={selectedVariant}
-                variants={data?.product?.variants.nodes || []}
+                variants={[]}
                 tags={tempTags}
                 extraOptions={extraOptions}
                 setExtraOptions={setExtraOptions}
@@ -447,18 +556,42 @@ export default function Product() {
                 optionErrors={optionErrors}
                 setOptionErrors={setOptionErrors}
               />
-            )}
-          </Await>
-        </Suspense>
+            }
+          >
+            <Await
+              errorElement="Er was een probleem met het laden van de varianten."
+              resolve={variants}
+            >
+              {(data) => (
+                <ProductForm
+                  product={product}
+                  selectedVariant={selectedVariant}
+                  variants={data?.product?.variants.nodes || []}
+                  tags={tempTags}
+                  extraOptions={extraOptions}
+                  setExtraOptions={setExtraOptions}
+                  showErrors={showErrors}
+                  error={error}
+                  hasTrueValue={hasTrueValue}
+                  setShowErrors={setShowErrors}
+                  optionErrors={optionErrors}
+                  setOptionErrors={setOptionErrors}
+                />
+              )}
+            </Await>
+          </Suspense>
+        </div>
+      </div>
 
-        <br />
-        <br />
-        <p>
-          <strong>Description</strong>
-        </p>
-        <br />
-        <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
-        <br />
+      <div className="flex flex-wrap items-center container mx-auto lg:max-w-5xl">
+        <span className="bg-primary p-4 px-6 text-white rounded-t">
+          <span className="font-bold w-full -mb-2">Productbeschrijving:</span>
+        </span>
+        <p
+          style={{padding: 16}}
+          dangerouslySetInnerHTML={{__html: descriptionHtml}}
+          className="border-[1px] border-gray-200 p-4 leading-7 tracking-wide"
+        ></p>
       </div>
       <Analytics.ProductView
         data={{
@@ -481,34 +614,42 @@ export default function Product() {
 
 const PRODUCT_VARIANT_FRAGMENT = `#graphql
   fragment ProductVariant on ProductVariant {
-    availableForSale
-    compareAtPrice {
-      amount
-      currencyCode
-    }
     id
-    image {
-      __typename
-      id
-      url
-      altText
-      width
-      height
-    }
-    price {
+    title
+    sku
+    unitPrice {
       amount
       currencyCode
     }
-    product {
-      title
-      handle
+    image {
+      altText
+      height
+      id
+      src
+      url
+      width
     }
     selectedOptions {
       name
       value
     }
-    sku
-    title
+    compareAtPriceV2 {
+      amount
+      currencyCode
+    }
+    compareAtPrice {
+      amount
+      currencyCode
+    }
+    currentlyNotInStock
+    priceV2 {
+      currencyCode
+      amount
+    }
+    price {
+      amount
+      currencyCode
+    }
     unitPrice {
       amount
       currencyCode
@@ -534,9 +675,23 @@ const PRODUCT_FRAGMENT = `#graphql
     selectedVariant: variantBySelectedOptions(selectedOptions: $selectedOptions, ignoreUnknownOptions: true, caseInsensitiveMatch: true) {
       ...ProductVariant
     }
-    variants(first: 50) {
+    variants(first: 250) {
       nodes {
         ...ProductVariant
+      }
+    }
+    media(first: 100) {
+      nodes {
+        ... on MediaImage {
+          id
+          image {
+            id
+            height
+            altText
+            url
+            width
+          }
+        }
       }
     }
     seo {
@@ -592,7 +747,6 @@ const VARIANTS_QUERY = `#graphql
 /** @typedef {import('@shopify/remix-oxygen').SerializeFrom<typeof loader>} LoaderReturnData */
 
 export async function action({context, request}) {
-  console.log('Product page action');
   const formData = await request.formData();
   const action = JSON.parse(formData.get('action'));
 

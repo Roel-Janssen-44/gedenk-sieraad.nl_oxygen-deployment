@@ -3,6 +3,7 @@ import {Link} from '@remix-run/react';
 import {useAside} from '~/components/Aside';
 import {CartLineItem} from '~/components/CartLineItem';
 import {CartSummary} from './CartSummary';
+import {Button} from './chadcn/Button';
 
 /**
  * The main cart component that displays the cart items and summary.
@@ -49,13 +50,10 @@ function CartEmpty({hidden = false}) {
   return (
     <div hidden={hidden}>
       <br />
-      <p>
-        Looks like you haven&rsquo;t added anything yet, let&rsquo;s get you
-        started!
-      </p>
+      <p>Je winkelmandje is leeg.</p>
       <br />
       <Link to="/collections" onClick={close} prefetch="viewport">
-        Continue shopping →
+        <Button>Verder shoppen</Button>
       </Link>
     </div>
   );
