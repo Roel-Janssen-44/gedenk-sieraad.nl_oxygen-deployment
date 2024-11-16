@@ -20,18 +20,18 @@ import ProductInfo from '~/components/ProductInfo';
  */
 
 export const meta = ({data}) => {
-  return [{title: `Hydrogen | ${data?.product.title ?? ''}`}];
-  // return [
-  //   {title: `${data?.product?.seo?.title ?? ''} -- gedenk-sieraad.nl`},
-  //   {
-  //     name: 'description',
-  //     content: `${data?.product.seo?.description ?? ''} -- gedenk-sieraad.nl`,
-  //   },
-  //   {
-  //     property: 'og:image',
-  //     content: data?.product?.selectedVariant?.image?.url ?? '',
-  //   },
-  // ];
+  // return [{title: `Hydrogen | ${data?.product.title ?? ''}`}];
+  return [
+    {title: `${data?.product?.seo?.title ?? ''} -- gedenk-sieraad.nl`},
+    {
+      name: 'description',
+      content: `${data?.product.seo?.description ?? ''} -- gedenk-sieraad.nl`,
+    },
+    {
+      property: 'og:image',
+      content: data?.product?.selectedVariant?.image?.url ?? '',
+    },
+  ];
 };
 
 /**
