@@ -32,7 +32,7 @@ export default function CollectionCollage({collections}) {
               index === 2
                 ? 'lg:flex-row-reverse xl:flex-col-reverse xl:max-w-md xl:mb-auto'
                 : ''
-            }
+            } 
             `}
           >
             <div className="p-4 pt-5 flex flex-col justify-center">
@@ -46,7 +46,7 @@ export default function CollectionCollage({collections}) {
                     className="before:mb-1 before:mr-2 before:inline-block before:content-[''] before:w-16 before:bg-[#c79385] before:rounded before:h-[3px]"
                   ></p>
                 ) : (
-                  'Loading...'
+                  'Aan het laden...'
                 )}
               </div>
               <a

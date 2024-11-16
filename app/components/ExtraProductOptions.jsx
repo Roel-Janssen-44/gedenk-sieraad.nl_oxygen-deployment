@@ -69,7 +69,7 @@ export default function ExtraProductOptions({
   };
 
   return (
-    <div className="flex flex-col gap-6 mb-6">
+    <div className="flex flex-col gap-6 mb-6 max-w-lg">
       {tagsOrder
         .filter((tag) => tags.includes(tag))
         .map((tag, index) => {

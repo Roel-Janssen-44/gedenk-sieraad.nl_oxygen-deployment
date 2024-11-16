@@ -23,7 +23,7 @@ export const meta = ({data}) => {
     },
     {
       property: 'og:image',
-      content: '../../public/images/hero-image-1.webp',
+      content: '../opengraph-image.png',
     },
   ];
 };

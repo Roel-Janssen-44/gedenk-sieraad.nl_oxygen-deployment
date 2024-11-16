@@ -2,12 +2,17 @@
 
 import {Button} from '~/components/chadcn/Button';
 import ProductGridItem from '~/components/ProductGridItem';
-
+import {useEffect, useState} from 'react';
 export default function CollectionSlider({collection}) {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
   return (
     <div className="py-14 bg-white">
       <div className="container">
-        {collection.collection != null ? (
+        {collection.collection != null && (
           <div className="p-4 rounded">
             <div className="flex flex-col lg:gap-10 lg:flex-row justify-center items-center max-w-6xl mx-auto lg:mb-6 2xl:mb-8">
               <div className="lg:w-1/2">
@@ -15,12 +20,16 @@ export default function CollectionSlider({collection}) {
                   {collection.collection.title}
                 </h2>
                 <div className="mb-4">
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: collection.collection.descriptionHtml,
-                    }}
-                    className="before:mb-1 before:mr-2 before:inline-block before:content-[''] before:w-16 before:bg-primary before:rounded before:h-[3px]"
-                  ></p>
+                  {isClient ? (
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: collection.collection.descriptionHtml,
+                      }}
+                      className="before:mb-1 before:mr-2 before:inline-block before:content-[''] before:w-16 before:bg-[#c79385] before:rounded before:h-[3px]"
+                    ></p>
+                  ) : (
+                    'Aan het laden...'
+                  )}
                 </div>
 
                 <a
@@ -70,11 +79,6 @@ export default function CollectionSlider({collection}) {
             </div>
             {/* </Slider> */}
           </div>
-        ) : (
-          <>
-            <h2>loading</h2>
-            <p>Loading paragraph</p>
-          </>
         )}
       </div>
     </div>

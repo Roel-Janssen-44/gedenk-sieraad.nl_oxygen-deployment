@@ -26,7 +26,6 @@ export default function Hero() {
         <img
           src={`/images/${slides[0].image}`}
           alt={slides[0].imageAlt}
-          fill
           className="object-cover w-full h-full"
         />
         <div className="bg-black absolute top-0 left-0 w-full h-full z-10 opacity-20" />

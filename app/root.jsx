@@ -10,7 +10,7 @@ import {
   ScrollRestoration,
   isRouteErrorResponse,
 } from '@remix-run/react';
-import favicon from '~/assets/favicon.svg';
+import favicon from '~/assets/favicon.ico';
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import tailwindCss from './styles/tailwind.css?url';
@@ -177,7 +177,7 @@ export default function App() {
 
 export function ErrorBoundary() {
   const error = useRouteError();
-  let errorMessage = 'Unknown error';
+  let errorMessage = 'Onbekende error';
   let errorStatus = 500;
 
   if (isRouteErrorResponse(error)) {
@@ -189,7 +189,7 @@ export function ErrorBoundary() {
 
   return (
     <div className="route-error">
-      <h1>Oops</h1>
+      <h1>Oeps</h1>
       <h2>{errorStatus}</h2>
       {errorMessage && (
         <fieldset>

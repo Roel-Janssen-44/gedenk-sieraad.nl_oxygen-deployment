@@ -192,9 +192,15 @@ export default function Product() {
   const [currentThumbnails, setCurrentThumbnails] = useState([]);
   const [activeThumbnailIndex, setActiveThumbnailIndex] = useState(0);
 
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <div className="flex flex-col gap-12">
-      <div className="container flex flex-col items-start lg:flex-row">
+      <div className="container flex flex-col items-start lg:flex-row lg:gap-12">
         {/* Product image */}
         <div className="mb-8 px-0 relative block w-full md:flex md:flex-row-reverse lg:flex-col lg:max-w-lg lg:sticky lg:top-40 lg:mb-0 xl:flex-row-reverse xl:max-w-none 2xl:max-w-2xl 2xl:ml-auto">
           <div className="md:flex-1 lg:mb-4">
@@ -215,11 +221,12 @@ export default function Product() {
             )}
           </div>
           {currentThumbnails.length > 1 && (
-            <div className="flex flex-row flex-wrap mx-auto relative md:flex-col md:flex-wrap md:mt-8 lg:w-full lg:mt-0 lg:flex-row lg:flex-nowrap xl:flex-col xl:flex-wrap xl:w-32 xl:h-[520px] 2xl:h-[500px] xl:mt-12 2xl:mt-9">
+            <div className="flex flex-row flex-nowrap overflow-x-auto gap-2 mx-auto relative md:w-32 md:flex-col md:max-h-[608px] md:overflow-y-auto lg:flex-row lg:w-full xl:flex-col xl:w-32 xl:max-h-[520px]">
+              {/* // <div className="flex flex-row flex-nowrap overflow-x-auto gap-2 mx-auto relative md:flex-row w-full md:h-[520px] md:overflow-y-auto md:flex-wrap md:mt-8 lg:w-full lg:mt-0 lg:flex-row xl:flex-row xl:w-32 xl:h-[520px] xl:overflow-y-auto 2xl:h-[500px] xl:mt-12 2xl:mt-9"> */}
               {currentThumbnails?.map((image, index) => (
                 <button
                   key={'thumbnailImage' + image?.url}
-                  className={`w-full max-w-24 h-full max-h-24 xl:max-w-24 xl:mx-auto xl:w-24 xl:h-24 aspect-sqaure transition-all animate-fadeIn ml-2 first:ml-0 md:ml-0 md:mt-4 lg:mt-0 lg:ml-4 xl:mt-4 xl:ml-0 xl:flex xl:justify-center 2xl:mt-3
+                  className={`w-24 h-24 min-w-24 min-h-24 aspect-sqaure transition-all animate-fadeIn ml-2 xl:flex xl:justify-center
       focus-visible:outline-none focus:outline-none outline-none`}
                   onClick={() => {
                     setActiveThumbnailIndex(index);
@@ -256,11 +263,16 @@ export default function Product() {
         <span className="bg-primary p-4 px-6 text-white rounded-t">
           <span className="font-bold w-full -mb-2">Productbeschrijving:</span>
         </span>
-        <p
-          style={{padding: 16}}
-          dangerouslySetInnerHTML={{__html: descriptionHtml}}
-          className="border-[1px] border-gray-200 p-4 leading-7 tracking-wide"
-        ></p>
+
+        {isClient ? (
+          <p
+            style={{padding: 16}}
+            dangerouslySetInnerHTML={{__html: descriptionHtml}}
+            className="border-[1px] border-gray-200 p-4 leading-7 tracking-wide"
+          ></p>
+        ) : (
+          'Aan het laden...'
+        )}
       </div>
       <Analytics.ProductView
         data={{

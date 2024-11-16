@@ -38,7 +38,13 @@ export default async function handleRequest(
     fontSrc: [
       "'self'",
       'https://fonts.gstatic.com',
-      'https://fonts.googleapis.com/',
+      'https://fonts.googleapis.com',
+    ],
+
+    styleSrc: [
+      "'self'",
+      'https://cdn.shopify.com',
+      'https://fonts.googleapis.com',
     ],
   });
 
