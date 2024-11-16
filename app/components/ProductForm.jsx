@@ -43,6 +43,7 @@ export function ProductForm({
   const [responseData, setResponseData] = useState(null);
   const [newVariantId, setNewVariantId] = useState(null);
   const addToCartButtonRef = useRef(null);
+  const [addToCartError, setAddToCartError] = useState(null);
 
   useEffect(() => {
     if (actionData) {
@@ -54,13 +55,14 @@ export function ProductForm({
   useEffect(() => {
     if (responseData?.status === 'success') {
       setNewVariantId(responseData?.variantId);
+      setAddToCartError(null);
     } else {
-      // Todo - error handling
+      setAddToCartError('Er is iets misgegaan. Probeer het opnieuw.');
     }
   }, [responseData]);
 
   useEffect(() => {
-    console.log('Variant id changed', newVariantId);
+    // console.log('Variant id changed', newVariantId);
     const AddCreatedProductToCart = async () => {
       if (addToCartButtonRef.current) {
         addToCartButtonRef.current.click();
@@ -147,11 +149,11 @@ export function ProductForm({
     value: selectedVariant.sku,
   });
 
-  console.log('extraOptionsArray', extraOptionsArray);
+  // console.log('extraOptionsArray', extraOptionsArray);
 
-  console.log('actionData', actionData);
-  console.log('responseData', responseData);
-  console.log('newVariantId', newVariantId);
+  // console.log('actionData', actionData);
+  // console.log('responseData', responseData);
+  // console.log('newVariantId', newVariantId);
 
   return (
     <div className="product-form">
@@ -211,7 +213,11 @@ export function ProductForm({
           value={JSON.stringify(selectedVariant)}
         />
 
-        <p className="text-red-500">{error}</p>
+        {error && <p className="text-red-500 my-2">{error}</p>}
+        {addToCartError && (
+          <p className="text-red-500 my-2">{addToCartError}</p>
+        )}
+
         <Button
           disabled={hasTrueValue}
           type="submit"
