@@ -80,6 +80,7 @@ export default function CollectionCollage({collections}) {
                 ${index == 2 ? 'lg:top-10 xl:top-0' : ''}
                 `}
                 src={collection.image.url}
+                alt={collection.image.altText}
               />
             </div>
           </div>

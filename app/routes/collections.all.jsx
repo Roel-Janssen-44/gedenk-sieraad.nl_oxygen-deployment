@@ -7,8 +7,17 @@ import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 /**
  * @type {MetaFunction<typeof loader>}
  */
-export const meta = () => {
-  return [{title: `Hydrogen | Products`}];
+// export const meta = () => {
+//   return [{title: `Hydrogen | Products`}];
+// };
+export const meta = ({data}) => {
+  return [
+    {title: `Alle producten -- gedenk-sieraad.nl`},
+    {
+      name: 'description',
+      content: 'Bekijk alle producten van gedenk-sieraad.nl',
+    },
+  ];
 };
 
 /**

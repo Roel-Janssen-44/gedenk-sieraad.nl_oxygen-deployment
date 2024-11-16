@@ -144,6 +144,7 @@ function HeaderMenuMobileToggle() {
   const {open} = useAside();
   return (
     <button
+      aria-label="Menu"
       className="header-menu-mobile-toggle flex-1 reset mr-auto w-auto h-12 flex items-center justify-start text-black"
       onClick={() => open('mobile')}
     >
@@ -156,6 +157,7 @@ function SearchToggle() {
   const {open} = useAside();
   return (
     <button
+      aria-label="Zoeken"
       className="reset text-white flex items-center justify-center w-12 h-12 text-black cursor-pointer"
       onClick={() => open('search')}
     >

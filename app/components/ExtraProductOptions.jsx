@@ -45,8 +45,6 @@ const tagsOrder = [
   'print',
 ];
 
-// To do Vpring
-
 export default function ExtraProductOptions({
   tags,
   extraOptions,
@@ -118,6 +116,4 @@ const components = {
   positie: Positie,
   cord: ParaCord,
   satijn: Satijnen,
-  // =============== Moet nog
-  // Date select
 };

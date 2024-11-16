@@ -35,7 +35,11 @@ export default async function handleRequest(
       'https://rose-historic-gayal-881.mypinata.cloud',
     ],
     frameSrc: ['https://www.youtube.com'],
-    fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+    fontSrc: [
+      "'self'",
+      'https://fonts.gstatic.com',
+      'https://fonts.googleapis.com/',
+    ],
   });
 
   const body = await renderToReadableStream(

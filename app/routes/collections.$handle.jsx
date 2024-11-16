@@ -20,7 +20,17 @@ import {collapseTextChangeRangesAcrossMultipleVersions} from 'typescript';
  * @type {MetaFunction<typeof loader>}
  */
 export const meta = ({data}) => {
-  return [{title: `Hydrogen | ${data?.collection.title ?? ''} Collection`}];
+  return [
+    {title: `${data?.collection.title ?? ''} -- gedenk-sieraad.nl`},
+    {
+      name: 'description',
+      content: data?.collection.description ?? '',
+    },
+    {
+      property: 'og:image',
+      content: data?.collection.image?.url ?? '',
+    },
+  ];
 };
 
 /**
@@ -136,10 +146,6 @@ export default function CollectionHandle({pageProps}) {
   };
   const sortProducts = (sort) => {
     let sortedProducts = [...renderedProducts];
-    //     aanbevolen
-    // bestsellers
-    // laag naar hoog
-    // hoog naar laag
     switch (sort) {
       case 'laag naar hoog':
         console.log('laag naar hoog');
@@ -180,6 +186,7 @@ export default function CollectionHandle({pageProps}) {
               <img
                 className="rounded"
                 src={collection.image.url}
+                alt={collection.image.altText}
                 width={150}
                 height={150}
               />

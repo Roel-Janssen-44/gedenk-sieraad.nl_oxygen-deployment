@@ -15,6 +15,21 @@ import Video from '~/components/Video';
 export const meta = () => {
   return [{title: 'Hydrogen | Home'}];
 };
+export const meta = ({data}) => {
+  return [
+    {
+      title: `Gedenksieraden en herinneringssieraden voor jou persoonlijk gemaakt -- gedenk-sieraad.nl`,
+    },
+    {
+      name: 'description',
+      content: `Exclusieve gedenksieraden om as, haarlokjes en vingerafdrukken van je dierbare in te verwerken en te personaliseren. De online juwelier van voordelige ashangers, memorials, unieke assieraden en See You gedenksieraden. Herinneringssieraden voor huisdieren. Herdenkingswinkel`,
+    },
+    {
+      property: 'og:image',
+      content: '../../public/images/hero-image-1.webp',
+    },
+  ];
+};
 
 /**
  * @param {LoaderFunctionArgs} args
