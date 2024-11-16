@@ -60,7 +60,7 @@ export function ProductForm({
   }, [responseData]);
 
   useEffect(() => {
-    console.log('newVariantId', newVariantId);
+    console.log('Variant id changed', newVariantId);
     const AddCreatedProductToCart = async () => {
       if (addToCartButtonRef.current) {
         addToCartButtonRef.current.click();
@@ -146,6 +146,12 @@ export function ProductForm({
     key: 'Artikelnr',
     value: selectedVariant.sku,
   });
+
+  console.log('extraOptionsArray', extraOptionsArray);
+
+  console.log('actionData', actionData);
+  console.log('responseData', responseData);
+  console.log('newVariantId', newVariantId);
 
   return (
     <div className="product-form">
