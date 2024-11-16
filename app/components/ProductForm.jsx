@@ -43,7 +43,7 @@ export function ProductForm({
   const [responseData, setResponseData] = useState(null);
   const [newVariantId, setNewVariantId] = useState(null);
   const addToCartButtonRef = useRef(null);
-  const [addToCartError, setAddToCartError] = useState(null);
+  // const [addToCartError, setAddToCartError] = useState(null);
 
   useEffect(() => {
     if (actionData) {
@@ -57,7 +57,7 @@ export function ProductForm({
       setNewVariantId(responseData?.variantId);
       setAddToCartError(null);
     } else {
-      setAddToCartError('Er is iets misgegaan. Probeer het opnieuw.');
+      // setAddToCartError('Er is iets misgegaan. Probeer het opnieuw.');
     }
   }, [responseData]);
 
@@ -214,9 +214,9 @@ export function ProductForm({
         />
 
         {error && <p className="text-red-500 my-2">{error}</p>}
-        {addToCartError && (
+        {/* {addToCartError && (
           <p className="text-red-500 my-2">{addToCartError}</p>
-        )}
+        )} */}
 
         <Button
           disabled={hasTrueValue}

@@ -628,7 +628,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t-2 mb-6 mt-6 py-6 border-[#c79385]">
+      <div className="border-t-2 mb-0 mt-6 pt-6 border-[#c79385]">
         <ul className="container gap-6 flex flex-row flex-end items-center justify-end">
           <li>
             <a

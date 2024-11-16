@@ -173,6 +173,10 @@ export default function CollectionHandle({pageProps}) {
     setRenderedProducts(sortedProducts);
   };
 
+  useEffect(() => {
+    setRenderedProducts(collection.products.nodes);
+  }, [collection]);
+
   return (
     <>
       <div className="relative container flex flex-col gap-8 md:flex-row">
