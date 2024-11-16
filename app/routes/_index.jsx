@@ -12,9 +12,6 @@ import Video from '~/components/Video';
 /**
  * @type {MetaFunction}
  */
-export const meta = () => {
-  return [{title: 'Hydrogen | Home'}];
-};
 export const meta = ({data}) => {
   return [
     {
@@ -51,7 +48,7 @@ export async function loader(args) {
  */
 async function loadCriticalData({context}) {
   const [collections] = await Promise.all([
-    context.storefront.query(getCollectionsQuery),
+    context.storefront.query(getTopCollectionsQuery),
     // Add other queries here, so that they are loaded in parallel
   ]);
 
@@ -117,7 +114,7 @@ export default function Homepage() {
   );
 }
 
-const getCollectionsQuery = `#graphql
+const getTopCollectionsQuery = `#graphql
   query Collections {
     collection1: collection(handle: "sieraden-met-vingerprint") {
       ...collectionFields
@@ -206,7 +203,7 @@ const getCollectionExquisite = `#graphql
         width
       }
       seo {
-        description
+        description 
         title
       }
       products(first: 3) {

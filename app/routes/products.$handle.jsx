@@ -196,7 +196,7 @@ export default function Product() {
   return (
     <div className="flex flex-col gap-12">
       <div className="container flex flex-col items-start lg:flex-row">
-        {/* Image section */}
+        {/* Product image */}
         <div className="mb-8 px-0 relative block w-full md:flex md:flex-row-reverse lg:flex-col lg:max-w-lg lg:sticky lg:top-40 lg:mb-0 xl:flex-row-reverse xl:max-w-none 2xl:max-w-2xl 2xl:ml-auto">
           <div className="md:flex-1 lg:mb-4">
             {activeImage && (
@@ -216,11 +216,11 @@ export default function Product() {
             )}
           </div>
           {currentThumbnails.length > 1 && (
-            <div className="max-w-lg mx-auto relative md:w-32 md:mt-8 lg:w-full lg:mt-0 lg:max-w-none xl:w-32 xl:h-[520px] 2xl:h-[500px] xl:mt-12 2xl:mt-9">
+            <div className="flex flex-row flex-wrap mx-auto relative md:flex-col md:flex-wrap md:mt-8 lg:w-full lg:mt-0 lg:flex-row lg:flex-nowrap xl:flex-col xl:flex-wrap xl:w-32 xl:h-[520px] 2xl:h-[500px] xl:mt-12 2xl:mt-9">
               {currentThumbnails?.map((image, index) => (
                 <button
                   key={'thumbnailImage' + image?.url}
-                  className={`w-full h-auto aspect-sqaure transition-all animate-fadeIn ml-2 first:ml-0 md:ml-0 md:flex md:justify-center md:mt-4 lg:justify-normal lg:mt-0 xl:mt-4 xl:ml-0 xl:flex xl:justify-center 2xl:mt-3
+                  className={`w-full max-w-24 h-full max-h-24 xl:max-w-24 xl:mx-auto xl:w-24 xl:h-24 aspect-sqaure transition-all animate-fadeIn ml-2 first:ml-0 md:ml-0 md:mt-4 lg:mt-0 lg:ml-4 xl:mt-4 xl:ml-0 xl:flex xl:justify-center 2xl:mt-3
       focus-visible:outline-none focus:outline-none outline-none`}
                   onClick={() => {
                     setActiveThumbnailIndex(index);
@@ -229,10 +229,10 @@ export default function Product() {
                 >
                   <img
                     loading="lazy"
-                    className={`w-24 h-24 xs:w-28 xs:h-28 object-contain aspect-sqaure sm:w-24 sm:h-24 rouned-lg border-2 rounded-lg ${
+                    className={`w-24 h-24 xl:w-24 xl:h-24 xs:w-28 xs:h-28 object-contain aspect-sqaure sm:w-24 sm:h-24 rouned-lg border-2 rounded-lg ${
                       index == activeThumbnailIndex
                         ? 'border-black'
-                        : 'border-black-300'
+                        : 'border-gray-300'
                     }`}
                     src={image.url}
                     alt={image.altText}
@@ -244,7 +244,6 @@ export default function Product() {
         </div>
 
         {/* Product info */}
-
         <ProductInfo
           product={product}
           extraImages={extraImages}
@@ -252,68 +251,6 @@ export default function Product() {
           setActiveThumbnailIndex={setActiveThumbnailIndex}
           setActiveImage={setActiveImage}
         />
-        {/* <div className="product-main">
-          <h1
-            style={{fontWeight: 400, fontSize: '2.25rem', marginBottom: '20px'}}
-          >
-            {title}
-          </h1>
-
-          {selectedVariant?.price?.amount && (
-            <h5 style={{marginBottom: '20px'}} className="font-bold text-md">
-              {'Prijs:'}
-              <span className="font-light ml-2">
-                <FormatedPrice
-                  value={(
-                    parseFloat(selectedVariant?.price?.amount) +
-                    parseFloat(calculatePrice(extraOptions, OptionSets))
-                  ).toFixed(2)}
-                />
-              </span>
-            </h5>
-          )}
-
-          <Suspense
-            fallback={
-              <ProductForm
-                product={product}
-                selectedVariant={selectedVariant}
-                variants={[]}
-                tags={product.tags}
-                extraOptions={extraOptions}
-                setExtraOptions={setExtraOptions}
-                showErrors={showErrors}
-                error={error}
-                hasTrueValue={hasTrueValue}
-                setShowErrors={setShowErrors}
-                optionErrors={optionErrors}
-                setOptionErrors={setOptionErrors}
-              />
-            }
-          >
-            <Await
-              errorElement="Er was een probleem met het laden van de varianten."
-              resolve={variants}
-            >
-              {(data) => (
-                <ProductForm
-                  product={product}
-                  selectedVariant={selectedVariant}
-                  variants={data?.product?.variants.nodes || []}
-                  tags={product.tags}
-                  extraOptions={extraOptions}
-                  setExtraOptions={setExtraOptions}
-                  showErrors={showErrors}
-                  error={error}
-                  hasTrueValue={hasTrueValue}
-                  setShowErrors={setShowErrors}
-                  optionErrors={optionErrors}
-                  setOptionErrors={setOptionErrors}
-                />
-              )}
-            </Await>
-          </Suspense>
-        </div> */}
       </div>
 
       <div className="flex flex-wrap items-center container mx-auto lg:max-w-5xl">
