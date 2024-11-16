@@ -76,12 +76,71 @@ export function ProductForm({
   }, [newVariantId]);
 
   let extraOptionsArray = extraOptions
-    .filter((item) => item.value != null && item.value !== '')
-    .map((item) => ({
-      key: item.key,
-      value:
-        typeof item.value === 'string' ? item.value : item.value.join(', '),
-    }));
+    .filter((item) => {
+      if (item.value != null && item.value != '') {
+        return item;
+      }
+    })
+
+    .flatMap((item) => {
+      if (typeof item.value == 'string') {
+        if (item.value != '') {
+          return {
+            key: item.key,
+            value: item.value,
+          };
+        }
+      } else if (typeof item.value == 'object') {
+        if (typeof item.value[0].value == 'object') {
+          let newOptions = [];
+          if (typeof item.value[0].value == 'string') {
+            if (item.value[0].value != '') {
+              let newString = '';
+              item.value.forEach((value, index) => {
+                if (index > 0) {
+                  newString += `, ${value.value}`;
+                } else {
+                  newString += value.value;
+                }
+              });
+              return {
+                key: item.key,
+                value: newString,
+              };
+            }
+          }
+          return newOptions;
+        } else {
+          let newOptions = [];
+          item.value.forEach((nestedItem) => {
+            if (typeof nestedItem.value == 'object') {
+              let newString = '';
+              nestedItem.value?.forEach((nestedNestedItem, index) => {
+                if (index > 0) {
+                  newString += ` , ${nestedNestedItem}`;
+                } else {
+                  newString += nestedNestedItem;
+                }
+              });
+              if (newString != '') {
+                newOptions.push({
+                  key: nestedItem.key,
+                  value: newString,
+                });
+              }
+            } else {
+              if (nestedItem.value != '') {
+                newOptions.push({
+                  key: nestedItem.key,
+                  value: nestedItem.value,
+                });
+              }
+            }
+          });
+          return newOptions;
+        }
+      }
+    });
 
   extraOptionsArray.unshift({
     key: 'Artikelnr',

@@ -479,6 +479,8 @@ export async function action({context, request}) {
       },
     };
 
+    // console.log('ADMIN_TOKEN');
+    // console.log(ADMIN_TOKEN);
     const options = {
       method: method,
       headers: {
@@ -499,6 +501,10 @@ export async function action({context, request}) {
     try {
       const response = await fetch(url, options);
       const data = await response.json();
+      console.log('data');
+      console.log(data);
+      console.log(data.variant);
+      console.log(data.variant.id);
       return {
         status: 'success',
         message: '',
