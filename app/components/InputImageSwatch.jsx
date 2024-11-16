@@ -18,29 +18,22 @@ export default function InputImageSwatch({value, onChange, title, options}) {
         {options.map((option) => (
           <TooltipProvider delayDuration={400} key={title + '-' + option.value}>
             <Tooltip>
-              <TooltipTrigger>
-                <Button
-                  onClick={() => onChange(option.value)}
-                  variant="outlined"
-                  size="small"
-                  className="w-auto p-0"
+              <TooltipTrigger onClick={() => onChange(option.value)}>
+                <div
+                  className={`border-2 p-1 rounded relative ${
+                    value == option.value
+                      ? 'border-black hover:border-black text-black hover:text-black'
+                      : 'border-gray-300 text-black hover:border-gray-600 hover:text-black'
+                  } lowercase p-0`}
                 >
-                  <div
-                    className={`border-2 p-1 rounded relative ${
-                      value == option.value
-                        ? 'border-black hover:border-black text-black hover:text-black'
-                        : 'border-gray-300 text-black hover:border-gray-600 hover:text-black'
-                    } lowercase p-0`}
-                  >
-                    <img
-                      src={option.image.url}
-                      width={32}
-                      height={32}
-                      alt={option.image.altTekst}
-                      loading="lazy"
-                    />
-                  </div>
-                </Button>
+                  <img
+                    src={option.image.url}
+                    width={32}
+                    height={32}
+                    alt={option.image.altTekst}
+                    loading="lazy"
+                  />
+                </div>
               </TooltipTrigger>
 
               <TooltipContent>
