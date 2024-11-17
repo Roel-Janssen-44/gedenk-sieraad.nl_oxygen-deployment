@@ -187,12 +187,9 @@ export async function action({request, context}) {
       result = await cart.removeLines(inputs.lineIds);
       break;
     case 'CustomAddToCart':
-      console.log('CustomAddToCart');
       // Parse the input directly without trying to access merchandiseId separately first
       const parsedLines = JSON.parse(inputs.lines); // This will be an object
 
-      console.log('parsedLines');
-      console.log(parsedLines);
       // Use the parsed object to create newLine
       let newLine;
       if (parsedLines?.attributes) {
@@ -207,20 +204,10 @@ export async function action({request, context}) {
           quantity: parsedLines.quantity,
         };
       }
-      console.log('newLine');
-      console.log(newLine);
 
       // If you want lines to be an array
       const lines = [newLine];
-
-      console.log('lines');
-      console.log(JSON.stringify(lines));
-
       result = await cart.addLines(lines);
-
-      console.log('result');
-      console.log(result);
-      console.log(result.userErrors[0]);
       break;
     case CartForm.ACTIONS.DiscountCodesUpdate: {
       const formDiscountCode = inputs.discountCode;

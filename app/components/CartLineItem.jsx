@@ -3,7 +3,8 @@ import {useVariantUrl} from '~/lib/variants';
 import {Link} from '@remix-run/react';
 import {ProductPrice} from './ProductPrice';
 import {useAside} from './Aside';
-import {Trash} from 'lucide-react';
+import {Trash2} from 'lucide-react';
+import {FormatedPrice} from '~/components/ProductPrice';
 /**
  * A single line item in the cart. It displays the product image, title, price.
  * It also provides controls to update the quantity or remove the line item.
@@ -45,7 +46,12 @@ export function CartLineItem({layout, line}) {
             <strong>{product.title}</strong>
           </p>
         </Link>
-        <ProductPrice price={line?.cost?.totalAmount} />
+        {line?.cost?.totalAmount && (
+          <FormatedPrice
+            value={parseFloat(line?.cost?.totalAmount.amount).toFixed(2)}
+          />
+        )}
+        {/* <ProductPrice price={line?.cost?.totalAmount} /> */}
         <ul>
           {selectedOptions.map((option) => (
             <li key={option.name}>
@@ -139,8 +145,8 @@ function CartLineRemoveButton({lineIds, disabled}) {
       action={CartForm.ACTIONS.LinesRemove}
       inputs={{lineIds}}
     >
-      <button disabled={disabled} className="cursor-pointer" type="submit">
-        <Trash />
+      <button disabled={disabled} className="cursor-pointer mr-3" type="submit">
+        <Trash2 />
       </button>
     </CartForm>
   );

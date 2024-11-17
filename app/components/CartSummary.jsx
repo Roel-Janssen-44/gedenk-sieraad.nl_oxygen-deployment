@@ -1,6 +1,7 @@
 import {CartForm, Money} from '@shopify/hydrogen';
 import {useRef} from 'react';
-
+import {Button} from '~/components/chadcn/Button';
+import {FormatedPrice} from '~/components/ProductPrice';
 /**
  * @param {CartSummaryProps}
  */
@@ -10,13 +11,16 @@ export function CartSummary({cart, layout}) {
 
   return (
     <div aria-labelledby="cart-summary" className={className}>
-      <h4>Totals</h4>
+      <h4 className="sr-only">Totaal</h4>
       <dl className="cart-subtotal">
-        <dt>Subtotal</dt>
+        <dt>Subtotaal: </dt>
         <dd>
           {cart.cost?.subtotalAmount?.amount ? (
-            <Money data={cart.cost?.subtotalAmount} />
+            <FormatedPrice
+              value={parseFloat(cart.cost?.subtotalAmount.amount).toFixed(2)}
+            />
           ) : (
+            // <Money withoutTrailingZeros data={cart.cost?.subtotalAmount} />
             '-'
           )}
         </dd>
@@ -36,7 +40,7 @@ function CartCheckoutActions({checkoutUrl}) {
   return (
     <div>
       <a href={checkoutUrl} target="_self">
-        <p>Continue to Checkout &rarr;</p>
+        <Button>Ga door naar de kassa</Button>
       </a>
       <br />
     </div>
@@ -59,12 +63,12 @@ function CartDiscounts({discountCodes}) {
       {/* Have existing discount, display it with a remove option */}
       <dl hidden={!codes.length}>
         <div>
-          <dt>Discount(s)</dt>
+          <dt>Kortingscode</dt>
           <UpdateDiscountForm>
             <div className="cart-discount">
               <code>{codes?.join(', ')}</code>
               &nbsp;
-              <button>Remove</button>
+              <button>Verwijderen</button>
             </div>
           </UpdateDiscountForm>
         </div>
@@ -73,9 +77,9 @@ function CartDiscounts({discountCodes}) {
       {/* Show an input to apply a discount */}
       <UpdateDiscountForm discountCodes={codes}>
         <div>
-          <input type="text" name="discountCode" placeholder="Discount code" />
+          <input type="text" name="discountCode" placeholder="Kortingscode" />
           &nbsp;
-          <button type="submit">Apply</button>
+          <button type="submit">Toepassen</button>
         </div>
       </UpdateDiscountForm>
     </div>
@@ -130,7 +134,7 @@ function CartGiftCard({giftCardCodes}) {
       {/* Have existing gift card applied, display it with a remove option */}
       <dl hidden={!codes.length}>
         <div>
-          <dt>Applied Gift Card(s)</dt>
+          <dt>Cadeaubon</dt>
           <UpdateGiftCardForm>
             <div className="cart-discount">
               <code>{codes?.join(', ')}</code>
@@ -150,11 +154,11 @@ function CartGiftCard({giftCardCodes}) {
           <input
             type="text"
             name="giftCardCode"
-            placeholder="Gift card code"
+            placeholder="Cadeaubon code"
             ref={giftCardCodeInput}
           />
           &nbsp;
-          <button type="submit">Apply</button>
+          <button type="submit">Toepassen</button>
         </div>
       </UpdateGiftCardForm>
     </div>

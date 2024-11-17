@@ -4,6 +4,7 @@ import {getPaginationVariables, Analytics} from '@shopify/hydrogen';
 import {SearchForm} from '~/components/SearchForm';
 import {SearchResults} from '~/components/SearchResults';
 import {getEmptyPredictiveSearchResult} from '~/lib/search';
+import {Button} from '~/components/chadcn/Button';
 
 /**
  * @type {MetaFunction}
@@ -39,23 +40,25 @@ export default function SearchPage() {
   if (type === 'predictive') return null;
 
   return (
-    <div className="search">
-      <h1>Search</h1>
+    <div className="search container">
+      <h1 style={{marginBottom: 10}}>Zoeken</h1>
       <SearchForm>
         {({inputRef}) => (
           <>
             <input
               defaultValue={term}
               name="q"
-              placeholder="Search…"
+              placeholder="Zoeken.."
               ref={inputRef}
               type="search"
             />
             &nbsp;
-            <button type="submit">Search</button>
+            <Button type="submit">Zoeken</Button>
           </>
         )}
       </SearchForm>
+      <br />
+      <br />
       {error && <p style={{color: 'red'}}>{error}</p>}
       {!term || !result?.total ? (
         <SearchResults.Empty />
@@ -88,6 +91,14 @@ const SEARCH_PRODUCT_FRAGMENT = `#graphql
     title
     trackingParameters
     vendor
+    images(first: 1) {
+      nodes {
+        altText
+        height
+        url
+        width
+      }
+    }
     variants(first: 1) {
       nodes {
         id
@@ -217,7 +228,7 @@ export const SEARCH_QUERY = `#graphql
 async function regularSearch({request, context}) {
   const {storefront} = context;
   const url = new URL(request.url);
-  const variables = getPaginationVariables(request, {pageBy: 8});
+  const variables = getPaginationVariables(request, {pageBy: 50});
   const term = String(url.searchParams.get('q') || '');
 
   // Search articles, pages, and products for the `q` term

@@ -4,6 +4,7 @@ import Grid from './Grid';
 import ProductGridItem from './ProductGridItem';
 
 export default function ProductGrid({collectionProducts}) {
+  console.log('collectionProducts', collectionProducts);
   return (
     <>
       <Grid>

@@ -91,7 +91,7 @@ function SearchAside() {
           {({items, total, term, state, closeSearch}) => {
             const {articles, collections, pages, products, queries} = items;
 
-            if (state === 'loading' && term.current) {
+            if (state === 'Aan het laden...' && term.current) {
               return <div>Aan het laden...</div>;
             }
 

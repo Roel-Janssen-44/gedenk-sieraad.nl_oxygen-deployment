@@ -1,6 +1,8 @@
 import {Link} from '@remix-run/react';
 import {Image, Money, Pagination} from '@shopify/hydrogen';
 import {urlWithTrackingParams} from '~/lib/search';
+import ProductGridItem from './ProductGridItem';
+import ProductGrid from './ProductGrid';
 
 /**
  * @param {Omit<SearchResultsProps, 'error' | 'type'>}
@@ -95,7 +97,10 @@ function SearchResultsProducts({term, products}) {
   return (
     <div className="search-result">
       <h2>Producten</h2>
-      <Pagination connection={products}>
+      {products?.nodes.length && (
+        <ProductGrid collectionProducts={products.nodes} />
+      )}
+      {/* <Pagination connection={products}>
         {({nodes, isLoading, NextLink, PreviousLink}) => {
           const ItemsMarkup = nodes.map((product) => {
             const productUrl = urlWithTrackingParams({
@@ -104,25 +109,33 @@ function SearchResultsProducts({term, products}) {
               term,
             });
 
-            return (
-              <div className="search-results-item" key={product.id}>
-                <Link prefetch="intent" to={productUrl}>
-                  {product.variants.nodes[0].image && (
-                    <Image
-                      data={product.variants.nodes[0].image}
-                      alt={product.title}
-                      width={50}
-                    />
-                  )}
-                  <div>
-                    <p>{product.title}</p>
-                    <small>
-                      <Money data={product.variants.nodes[0].price} />
-                    </small>
-                  </div>
-                </Link>
-              </div>
-            );
+            // return (
+            //   <ProductGridItem
+            //     key={product.id}
+            //     product={product}
+            //     url={productUrl}
+            //   />
+            // );
+
+            // return (
+            //   <div className="search-results-item" key={product.id}>
+            //     <Link prefetch="intent" to={productUrl}>
+            //       {product.variants.nodes[0].image && (
+            //         <Image
+            //           data={product.variants.nodes[0].image}
+            //           alt={product.title}
+            //           width={50}
+            //         />
+            //       )}
+            //       <div>
+            //         <p>{product.title}</p>
+            //         <small>
+            //           <Money data={product.variants.nodes[0].price} />
+            //         </small>
+            //       </div>
+            //     </Link>
+            //   </div>
+            // );
           });
 
           return (
@@ -144,8 +157,7 @@ function SearchResultsProducts({term, products}) {
             </div>
           );
         }}
-      </Pagination>
-      <br />
+      </Pagination> */}
     </div>
   );
 }
