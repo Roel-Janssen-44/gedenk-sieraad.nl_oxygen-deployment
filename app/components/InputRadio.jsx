@@ -48,7 +48,7 @@ export default function InputRadio({onChange, title, options, multiple}) {
                       />
                     </DialogTrigger>
                     <DialogContent>
-                      <div className="fixed overflow-hidden left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-[528px] max-h-[528px]">
+                      <div className="w-full h-full max-w-[528px] max-h-[528px]">
                         <img
                           aria-hidden
                           src={option.imageUrl}

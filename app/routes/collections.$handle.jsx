@@ -55,7 +55,7 @@ async function loadCriticalData({context, params, request}) {
   const {handle} = params;
   const {storefront} = context;
   const paginationVariables = getPaginationVariables(request, {
-    pageBy: 30,
+    pageBy: 250,
   });
 
   if (!handle) {

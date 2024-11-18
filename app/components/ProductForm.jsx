@@ -55,7 +55,7 @@ export function ProductForm({
   useEffect(() => {
     if (responseData?.status === 'success') {
       setNewVariantId(responseData?.variantId);
-      setAddToCartError(null);
+      // setAddToCartError(null);
     } else {
       // setAddToCartError('Er is iets misgegaan. Probeer het opnieuw.');
     }
