@@ -24,11 +24,11 @@ export const meta = ({data}) => {
     {title: `${data?.collection.title ?? ''} -- gedenk-sieraad.nl`},
     {
       name: 'description',
-      content: data?.collection.description ?? '',
+      content: data?.collection?.description ?? '',
     },
     {
       property: 'og:image',
-      content: data?.collection.image?.url ?? '',
+      content: data?.collection?.image?.url ?? '',
     },
   ];
 };

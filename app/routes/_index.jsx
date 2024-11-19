@@ -187,7 +187,7 @@ const getCollectionLuxury = `#graphql
           vendor
         }
       }
-    }
+    } 
   }
 `;
 const getCollectionExquisite = `#graphql
