@@ -3,6 +3,7 @@ import {useLoaderData, Link} from '@remix-run/react';
 import {getPaginationVariables, Image, Money} from '@shopify/hydrogen';
 import {useVariantUrl} from '~/lib/variants';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
+import ProductGrid from '~/components/ProductGrid';
 
 /**
  * @type {MetaFunction<typeof loader>}
@@ -41,7 +42,7 @@ export async function loader(args) {
 async function loadCriticalData({context, request}) {
   const {storefront} = context;
   const paginationVariables = getPaginationVariables(request, {
-    pageBy: 8,
+    pageBy: 250,
   });
 
   const [{products}] = await Promise.all([
@@ -68,9 +69,10 @@ export default function Collection() {
   const {products} = useLoaderData();
 
   return (
-    <div className="collection">
-      <h1>Products</h1>
-      <PaginatedResourceSection
+    <div className="collection container">
+      <h1>Producten</h1>
+      <ProductGrid collectionProducts={products.nodes} />
+      {/* <PaginatedResourceSection
         connection={products}
         resourcesClassName="products-grid"
       >
@@ -81,7 +83,7 @@ export default function Collection() {
             loading={index < 8 ? 'eager' : undefined}
           />
         )}
-      </PaginatedResourceSection>
+      </PaginatedResourceSection> */}
     </div>
   );
 }
@@ -92,32 +94,32 @@ export default function Collection() {
  *   loading?: 'eager' | 'lazy';
  * }}
  */
-function ProductItem({product, loading}) {
-  const variant = product.variants.nodes[0];
-  const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
-  return (
-    <Link
-      className="product-item"
-      key={product.id}
-      prefetch="intent"
-      to={variantUrl}
-    >
-      {product.featuredImage && (
-        <Image
-          alt={product.featuredImage.altText || product.title}
-          aspectRatio="1/1"
-          data={product.featuredImage}
-          loading={loading}
-          sizes="(min-width: 45em) 400px, 100vw"
-        />
-      )}
-      <h4>{product.title}</h4>
-      <small>
-        <Money data={product.priceRange.minVariantPrice} />
-      </small>
-    </Link>
-  );
-}
+// function ProductItem({product, loading}) {
+//   // const variant = product.variants.nodes[0];
+//   // const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
+//   return (
+//     <Link
+//       className="product-item"
+//       key={product.id}
+//       prefetch="intent"
+//       to={variantUrl}
+//     >
+//       {product.featuredImage && (
+//         <Image
+//           alt={product.featuredImage.altText || product.title}
+//           aspectRatio="1/1"
+//           data={product.featuredImage}
+//           loading={loading}
+//           sizes="(min-width: 45em) 400px, 100vw"
+//         />
+//       )}
+//       <h4>{product.title}</h4>
+//       <small>
+//         <Money data={product.priceRange.minVariantPrice} />
+//       </small>
+//     </Link>
+//   );
+// }
 
 // const PRODUCT_ITEM_FRAGMENT = `#graphql
 //   fragment MoneyProductItem on MoneyV2 {
@@ -183,6 +185,14 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
     }
   }
 `;
+// variants(first: 1) {
+//    nodes {
+//      selectedOptions {
+//        name
+//        value
+//      }
+//    }
+//  }
 
 // NOTE: https://shopify.dev/docs/api/storefront/2024-01/objects/product
 const CATALOG_QUERY = `#graphql
