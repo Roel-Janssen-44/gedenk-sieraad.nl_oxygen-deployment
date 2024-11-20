@@ -554,3 +554,8 @@ button.reset:hover:not(:has(> *)) {
     max-width: 1536px;
   }
 }
+
+#pagecontent p {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
