@@ -129,7 +129,7 @@ export function HeaderMenu({
 function HeaderCtas({isLoggedIn, cart}) {
   return (
     <nav
-      className="header-ctas justify-end w-full text-white container"
+      className="header-ctas justify-end w-full text-white container xl:flex-0 xl:pl-10"
       role="navigation"
     >
       <HeaderMenuMobileToggle />

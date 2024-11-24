@@ -267,7 +267,7 @@ export default function ProductInfo({
   const tags = product.tags;
 
   return (
-    <div className="product-main">
+    <div className="product-main 2xl:mr-auto">
       <h1 style={{fontWeight: 400, fontSize: '2.25rem', marginBottom: '20px'}}>
         {product.title}
       </h1>

@@ -23,12 +23,12 @@ export function CartLineItem({layout, line}) {
     <li key={id} className="cart-line">
       {image && (
         <Image
+          style={{objectFit: 'scale-down', width: '100px', height: 'auto'}}
           alt={title}
-          aspectRatio="1/1"
           data={image}
-          height={100}
           loading="lazy"
           width={100}
+          className="w-[100px]"
         />
       )}
 
