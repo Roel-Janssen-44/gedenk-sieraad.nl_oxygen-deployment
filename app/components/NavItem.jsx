@@ -47,7 +47,7 @@ export default function NavItem({
         </NavLink>
 
         {item.items.length > 0 ? (
-          <div className="w-auto min-w-[120px] font-title absolute invisible w-auto opacity-0 group-hover:visible group-hover:bg-white group-hover:opacity-100 p-4 rounded shadow-md flex flex-col gap-3 left-1/2 -translate-x-1/2 top-6">
+          <div className="min-w-[120px] font-title absolute invisible w-auto opacity-0 group-hover:visible group-hover:bg-white group-hover:opacity-100 p-4 rounded shadow-md flex flex-col gap-3 left-0 -translate-x-0 top-6">
             {item.items.map((subItem, index) => {
               let subItemUrl =
                 item.url.includes('myshopify.com') ||
