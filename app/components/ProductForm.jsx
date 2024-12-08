@@ -269,6 +269,7 @@ function ProductOptions({option}) {
       <div className="product-options-grid">
         {option.values.map(({value, isAvailable, isActive, to}) => {
           if (value.includes('WD options')) return;
+          if (value.toLowerCase().includes('mws options')) return;
           return (
             <Link
               key={option.name + value}
