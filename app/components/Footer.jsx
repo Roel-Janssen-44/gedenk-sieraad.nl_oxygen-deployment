@@ -599,7 +599,7 @@ export default function Footer() {
         </div>
         <div className="max-w-md w-full mx-auto md:w-[336px] md:max-w-[336px] 2xl:mt-0">
           <p className="mb-3 block relative">
-            Bij een aankoopbedrag vanaf €300,- ontvang je gratis onze rosé gold
+            Bij een aankoopbedrag vanaf €250,- ontvang je gratis onze rosé gold
             metalen USB stick 3.0 - 16 GB geheugen t.w.v. €9,95
           </p>
           <img
