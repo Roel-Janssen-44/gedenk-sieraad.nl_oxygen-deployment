@@ -613,7 +613,7 @@ export default function Footer() {
         <div className="max-w-md w-full mx-auto md:w-[336px] md:max-w-[336px] md:mb-20 2xl:mb-0 ">
           <p className="mb-2">
             Voor alle sieraden in de webshop geldt : twee jaar garantie en
-            gratis verzending!
+            gratis verzending vanaf €60,-!
           </p>
           <a
             href="https://gedenk-sieraad.be"
