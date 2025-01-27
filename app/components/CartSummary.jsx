@@ -10,7 +10,7 @@ export function CartSummary({cart, layout}) {
     layout === 'page' ? 'cart-summary-page' : 'cart-summary-aside';
 
   return (
-    <div aria-labelledby="cart-summary" className={className}>
+    <div aria-labelledby="cart-summary mb-4" className={className}>
       <h4 className="sr-only">Totaal</h4>
       <dl className="cart-subtotal">
         <dt>Subtotaal: </dt>
