@@ -166,27 +166,27 @@ export const creoolOptions = [
   },
   {
     value: "Creool glad 12 mm geelgoud 9 KT",
-    price: 329,
+    price: 349,
   },
   {
     value: "Creool glad 12 mm witgoud 9 KT",
-    price: 329,
+    price: 349,
   },
   {
     value: "Creool glad 12 mm roségoud 9 KT",
-    price: 329,
+    price: 349,
   },
   {
     value: "Creool met zirkonia's 12 mm geelgoud 9 KT",
-    price: 439,
+    price: 469,
   },
   {
     value: "Creool met zirkonia's 12 mm witgoud 9 KT",
-    price: 439,
+    price: 469,
   },
   {
     value: "Creool met zirkonia's 12 mm roségoud 9 KT",
-    price: 439,
+    price: 469,
   },
   {
     value: "Creool glad 14 mm geelgoud 9 KT",
