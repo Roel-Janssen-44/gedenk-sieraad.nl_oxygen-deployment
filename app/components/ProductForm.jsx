@@ -45,6 +45,11 @@ export function ProductForm({
   const addToCartButtonRef = useRef(null);
   // const [addToCartError, setAddToCartError] = useState(null);
 
+  // useEffect(() => {
+  //   console.log('extraOptions');
+  //   console.log(extraOptions);
+  // }, [extraOptions]);
+
   useEffect(() => {
     if (actionData) {
       setResponseData(actionData);
@@ -148,6 +153,11 @@ export function ProductForm({
     key: 'Artikelnr',
     value: selectedVariant.sku,
   });
+
+  useEffect(() => {
+    console.log('extraOptionsArray');
+    console.log(extraOptionsArray);
+  }, [extraOptionsArray]);
 
   // console.log('extraOptionsArray', extraOptionsArray);
 

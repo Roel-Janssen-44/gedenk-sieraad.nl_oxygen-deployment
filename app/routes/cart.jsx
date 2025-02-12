@@ -193,10 +193,20 @@ export async function action({request, context}) {
       // Use the parsed object to create newLine
       let newLine;
       if (parsedLines?.attributes) {
+        console.log('hasOptionset');
+        const updatedAttributes = parsedLines.attributes.map((attr) =>
+          attr.key === 'armbandmaat'
+            ? {...attr, key: 'aangesloten polsmaat'}
+            : attr,
+        );
+
+        // const hasOptionset = parsedLines?.attributes?.key?.find('armbandmaat');
+        console.log(JSON.stringify(parsedLines?.attributes));
+        console.log(JSON.stringify(updatedAttributes));
         newLine = {
           merchandiseId: parsedLines.merchandiseId,
           quantity: parsedLines.quantity,
-          attributes: parsedLines?.attributes,
+          attributes: updatedAttributes,
         };
       } else {
         newLine = {

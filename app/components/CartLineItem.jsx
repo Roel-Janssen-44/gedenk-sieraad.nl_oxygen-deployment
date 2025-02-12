@@ -56,6 +56,7 @@ export function CartLineItem({layout, line}) {
           {selectedOptions.map((option) => (
             <li key={option.name}>
               <small>
+                {/* {option.name ==} */}
                 {option.name}: {option.value}
               </small>
             </li>
