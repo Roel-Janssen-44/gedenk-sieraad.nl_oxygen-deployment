@@ -210,7 +210,7 @@ export default function FilterDrawerFilters({
       amount: 0,
     },
     {
-      name: '9 KT geelgoud',
+      name: '9 KT geel',
       amount: 0,
     },
     {
@@ -218,7 +218,7 @@ export default function FilterDrawerFilters({
       amount: 0,
     },
     {
-      name: '9 KT witgoud',
+      name: '9 KT wit',
       amount: 0,
     },
     {
@@ -226,7 +226,7 @@ export default function FilterDrawerFilters({
       amount: 0,
     },
     {
-      name: '9 KT roségoud',
+      name: '9 KT rosé',
       amount: 0,
     },
     {
