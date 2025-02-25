@@ -92,7 +92,7 @@ export function HeaderMenu({
     >
       {viewport === 'mobile' && (
         <>
-          <NavLink
+          {/* <NavLink
             end
             onClick={closeAside}
             prefetch="intent"
@@ -101,7 +101,19 @@ export function HeaderMenu({
             className={'mb-3'}
           >
             Home
-          </NavLink>
+          </NavLink> */}
+          <a
+            // end
+            // onClick={closeAside}
+            // prefetch="intent"
+            // style={activeLinkStyle}
+            // to="/"
+            onClick={closeAside}
+            href="/"
+            className={'mb-3'}
+          >
+            Home
+          </a>
         </>
       )}
       {(menu || FALLBACK_HEADER_MENU).items.map((item, index) => {

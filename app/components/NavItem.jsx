@@ -31,7 +31,7 @@ export default function NavItem({
   return (
     <>
       <div className="relative group hidden w-auto xl:block ">
-        <NavLink
+        {/* <NavLink
           className="text-black xl:text-white header-menu-item relative text-md w-auto xl:w-auto xl:flex xl:items-center xl:justify-center"
           end
           key={item.id}
@@ -44,7 +44,18 @@ export default function NavItem({
             {item.title}{' '}
             {item.items.length > 0 && <ChevronDown size={'16px'} />}
           </span>
-        </NavLink>
+        </NavLink> */}
+        <a
+          className="text-black xl:text-white header-menu-item relative text-md w-auto xl:w-auto xl:flex xl:items-center xl:justify-center"
+          href={url}
+          onClick={closeAside}
+          key={item.id}
+        >
+          <span className="flex flex-row relative gap-1 text-left items-center justify-center w-auto no-underline hover:no-underline group-hover:underline z-20">
+            {item.title}{' '}
+            {item.items.length > 0 && <ChevronDown size={'16px'} />}
+          </span>
+        </a>
 
         {item.items.length > 0 ? (
           <div className="min-w-[120px] font-title absolute invisible w-auto opacity-0 group-hover:visible group-hover:bg-white group-hover:opacity-100 p-4 rounded shadow-md flex flex-col gap-3 left-0 -translate-x-0 top-6">
@@ -75,7 +86,7 @@ export default function NavItem({
         ) : null}
       </div>
       <div className="block xl:hidden mb-3">
-        <NavLink
+        {/* <NavLink
           className="header-menu-item relative text-md w-20 xl:w-28 xl:flex xl:items-center xl:justify-center"
           end
           key={item.id}
@@ -87,7 +98,17 @@ export default function NavItem({
           <span className="relative text-center w-40 no-underline hover:no-underline group-hover:text-white z-20">
             {item.title}
           </span>
-        </NavLink>{' '}
+        </NavLink>{' '} */}
+        <a
+          className="header-menu-item relative text-md w-20 xl:w-28 xl:flex xl:items-center xl:justify-center"
+          href={url}
+          onClick={closeAside}
+          key={item.id}
+        >
+          <span className="relative text-center w-40 no-underline hover:no-underline group-hover:text-white z-20">
+            {item.title}
+          </span>
+        </a>{' '}
       </div>
     </>
   );
