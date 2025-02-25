@@ -242,11 +242,11 @@ export default function FilterDrawerFilters({
       amount: 0,
     },
     {
-      name: 'Zilver/geelgoud verguld',
+      name: 'Zilver/geel verguld',
       amount: 0,
     },
     {
-      name: 'Zilver/roségoud verguld',
+      name: 'Zilver/rosé verguld',
       amount: 0,
     },
   ];
