@@ -102,7 +102,7 @@ export default function NavItem({
         <a
           className="header-menu-item relative text-md w-20 xl:w-28 xl:flex xl:items-center xl:justify-center"
           href={url}
-          onClick={closeAside}
+          // onClick={closeAside}
           key={item.id}
         >
           <span className="relative text-center w-40 no-underline hover:no-underline group-hover:text-white z-20">
