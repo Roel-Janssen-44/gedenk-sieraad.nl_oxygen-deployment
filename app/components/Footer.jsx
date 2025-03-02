@@ -159,6 +159,14 @@ export default function Footer() {
             <li>
               <a
                 className="py-1 block hover:opacity-60 transition-opacity"
+                href="/pages/uitleg-goud-en-zilver-gehaltes"
+              >
+                Uitleg goud en zilver gehaltes
+              </a>
+            </li>
+            <li>
+              <a
+                className="py-1 block hover:opacity-60 transition-opacity"
                 href="/pages/de-juiste-ringmaat-bepalen"
               >
                 De juiste ringmaat bepalen
