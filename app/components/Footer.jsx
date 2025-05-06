@@ -131,7 +131,7 @@
 
 import {Button} from '~/components/chadcn/Button';
 
-import {StickyNote, Clock, Phone, Mail} from 'lucide-react';
+import {StickyNote, MapPinned, Clock, Phone, Mail} from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -218,6 +218,11 @@ export default function Footer() {
               {/* <NoteRoundedIcon fontSize="small" sx={{ marginTop: "2px" }} /> */}
               <StickyNote />
               BTW nummer: NL001816537B08 <br /> en KvK nummer: 54210666
+            </li>
+            <li className="my-2 flex flex-row gap-1">
+              {/* <NoteRoundedIcon fontSize="small" sx={{ marginTop: "2px" }} /> */}
+              <MapPinned />
+              Straatsburglaan 10 <br /> 6137 JC Sittard-Geleen 
             </li>
           </ul>
           {/* Payment icons */}
