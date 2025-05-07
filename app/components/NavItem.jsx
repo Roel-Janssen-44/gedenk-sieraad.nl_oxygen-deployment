@@ -4,6 +4,7 @@ import {NavLink} from '@remix-run/react';
 import {useAside} from '~/components/Aside';
 import {useLocation} from 'react-router-dom';
 import {ChevronDown} from 'lucide-react';
+import {useState} from 'react';
 
 export default function NavItem({
   item,
@@ -27,6 +28,10 @@ export default function NavItem({
   }
 
   const {open} = useAside();
+
+  console.log('item', item);
+
+  const [activeSubMenu, setActiveSubMenu] = useState(null);
 
   return (
     <>
@@ -85,8 +90,8 @@ export default function NavItem({
           </div>
         ) : null}
       </div>
-      <div className="block xl:hidden mb-3">
-        {/* <NavLink
+      {/* <div className="block xl:hidden mb-3"> */}
+      {/* <NavLink
           className="header-menu-item relative text-md w-20 xl:w-28 xl:flex xl:items-center xl:justify-center"
           end
           key={item.id}
@@ -99,7 +104,7 @@ export default function NavItem({
             {item.title}
           </span>
         </NavLink>{' '} */}
-        <a
+      {/* <a
           className="header-menu-item relative text-md w-20 xl:w-28 xl:flex xl:items-center xl:justify-center"
           href={url}
           // onClick={closeAside}
@@ -108,7 +113,66 @@ export default function NavItem({
           <span className="relative text-center w-40 no-underline hover:no-underline group-hover:text-white z-20">
             {item.title}
           </span>
-        </a>{' '}
+        </a>{' '} */}
+      {/* </div> */}
+      <div className="block xl:hidden mb-3">
+        {activeSubMenu ? (
+          <>
+            {/* <button
+              className="text-sm text-gray-500 mb-4"
+              onClick={() => setActiveSubMenu(null)}
+            >
+              ← Sluiten
+            </button> */}
+            <button
+              className="text-left mb-4 block w-auto header-menu-item relative text-md "
+              // href={url}
+              onClick={() => setActiveSubMenu(null)}
+              // onClick={closeAside}
+              key={item.id}
+              style={{
+                marginBottom: '20px',
+              }}
+            >
+              <span className="mb-4 relative text-center w-auto no-underline hover:no-underline group-hover:text-white z-20">
+                {item.title}
+                {/* Sluiten */}
+              </span>
+            </button>
+            {activeSubMenu.items.map((subItem) => {
+              let subItemUrl =
+                item.url.includes('myshopify.com') ||
+                item.url.includes(publicStoreDomain) ||
+                item.url.includes(primaryDomainUrl)
+                  ? new URL(subItem.url).pathname
+                  : subItem.url;
+
+              return (
+                <NavLink
+                  className="block mb-3 pl-4 text-black"
+                  key={subItem.id}
+                  to={subItemUrl}
+                  onClick={closeAside}
+                >
+                  - {subItem.title}
+                </NavLink>
+              );
+            })}
+          </>
+        ) : (
+          <button
+            className="header-menu-item text-md text-left block w-full"
+            onClick={() => {
+              if (item.items.length > 0) {
+                setActiveSubMenu(item); // open submenu
+              } else {
+                window.location.href = url; // fallback navigation
+              }
+            }}
+          >
+            <span className="w-auto block">{item.title}</span>
+          </button>
+        )}
       </div>
     </>
   );

@@ -70,6 +70,16 @@ export default function Page() {
       </header>
       <main className="container" id="pagecontent">
         <p dangerouslySetInnerHTML={{__html: page.body}}></p>
+        {page.title == 'Contact' && (
+          <div className="max-w-screen-lg md:w-7/12 lg:w-5/12 xl:w-4/12 xl:px-2 2xl:max-w-[400px] mt-10 w-full mx-auto">
+            <h2 className="text-2xl font-bold mb-4">Adres</h2>
+            <p class="text-sm">
+              Straatsburglaan 10
+              <br />
+              6137 JC Sittard-Geleen
+            </p>
+          </div>
+        )}
       </main>
     </div>
   );

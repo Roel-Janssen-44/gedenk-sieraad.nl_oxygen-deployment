@@ -217,12 +217,11 @@ export default function Footer() {
             <li className="my-2 flex flex-row gap-1">
               {/* <NoteRoundedIcon fontSize="small" sx={{ marginTop: "2px" }} /> */}
               <StickyNote />
-              BTW nummer: NL001816537B08 <br /> en KvK nummer: 54210666
+              BTW nummer: NL001816537B08
             </li>
-            <li className="my-2 flex flex-row gap-1">
+            <li className="pl-[30px] my-2 flex flex-row gap-1">
               {/* <NoteRoundedIcon fontSize="small" sx={{ marginTop: "2px" }} /> */}
-              <MapPinned />
-              Straatsburglaan 10 <br /> 6137 JC Sittard-Geleen 
+              en KvK nummer: 54210666
             </li>
           </ul>
           {/* Payment icons */}
@@ -624,7 +623,7 @@ export default function Footer() {
           />
         </div>
         <div className="max-w-md w-full mx-auto md:w-[336px] md:max-w-[336px] md:mb-20 2xl:mb-0 ">
-          <p className="mb-2">
+          <p className="mb-2 relative block">
             Voor alle sieraden in de webshop geldt : twee jaar garantie en
             gratis verzending vanaf €60,-!
           </p>
@@ -632,11 +631,9 @@ export default function Footer() {
             href="https://gedenk-sieraad.be"
             rel="nofollow"
             target="_blank"
-            className="block relative mt-2"
+            className="relative mt-2 block"
           >
-            <Button>
-              In België ook online te bezoeken op: gedenk-sieraad.be
-            </Button>
+            <Button>In België te bezoeken op: gedenk-sieraad.be</Button>
           </a>
         </div>
       </div>
