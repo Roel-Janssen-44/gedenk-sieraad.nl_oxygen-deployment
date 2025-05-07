@@ -29,8 +29,6 @@ export default function NavItem({
 
   const {open} = useAside();
 
-  console.log('item', item);
-
   const [activeSubMenu, setActiveSubMenu] = useState(null);
 
   return (
