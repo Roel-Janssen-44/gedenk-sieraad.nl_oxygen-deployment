@@ -28,7 +28,11 @@ export function checkForActiveMaterial(activeMaterialList, activeMaterial) {
 export function calculatePrice(selectedOptions, optionSets) {
   let totalPrice = 0;
 
+  console.log('Selected Options:', selectedOptions);
+  console.log('Option Sets:', optionSets);
+
   for (let i = 0; i < selectedOptions.length; i++) {
+    console.log('Processing option:', selectedOptions[i]);
     if (selectedOptions[i].key != 'upload') {
       const optionKey = selectedOptions[i].key + 'Options';
       const currentOptionSet = findOptionSet(optionSets, optionKey);
@@ -136,6 +140,7 @@ export function calculatePrice(selectedOptions, optionSets) {
       } else {
         selectedTargetValue?.forEach((selectedTarget) => {
           if (selectedTarget.key === 'ExtraWoord') {
+            console.log('Selected extra word:', selectedTarget.value);
             if (selectedTarget.value == '1 extra woord') {
               totalPrice += 14.95;
             } else if (selectedTarget.value == '2 extra woorden') {
@@ -163,9 +168,31 @@ export function findOptionSet(optionSets, optionSetKey) {
 export function findPriceByValue(optionSets, targetKey, targetValue) {
   const optionSet = optionSets[targetKey.toLowerCase() + 'Options'];
 
+  console.log(
+    `Finding price for key: ${targetKey}, value: ${targetValue} in option set:`,
+    optionSet,
+  );
+
+  if (targetValue == '1 extra woord') {
+    console.log(
+      `Found price for key: ${targetKey}, value: ${targetValue}: 14.95`,
+    );
+    return 14.95;
+  } else if (targetValue == '2 extra woorden') {
+    console.log(
+      `Found price for key: ${targetKey}, value: ${targetValue}: 19.95`,
+    );
+    return 19.95;
+  }
+
   if (optionSet && Array.isArray(optionSet)) {
     const foundOption = optionSet.find(
       (option) => option.value === targetValue,
+    );
+
+    console.log(
+      `Found option for key: ${targetKey}, value: ${targetValue}:`,
+      foundOption,
     );
 
     if (foundOption && typeof foundOption.price !== 'undefined') {
