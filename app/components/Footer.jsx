@@ -207,21 +207,21 @@ export default function Footer() {
             </li>
             <li className="my-2 flex flex-row items-center gap-1">
               {/* <LocalPhoneRoundedIcon fontSize="small" /> */}
-              <Phone /> & WhatsApp 06 43 79 15 84
+              <Phone /> & WhatsApp +31 6 15 89 30 12
             </li>
-            <li className="my-2 flex flex-row items-center gap-1">
-              {/* <AccessTimeRoundedIcon fontSize="small" /> */}
-              <Clock />
+            {/* <li className="my-2 flex flex-row items-center gap-1"> */}
+            {/* <AccessTimeRoundedIcon fontSize="small" /> */}
+            {/* <Clock />
               Iedere dag van 09:00 tot 21:00 uur
-            </li>
+            </li> */}
             <li className="my-2 flex flex-row gap-1">
               {/* <NoteRoundedIcon fontSize="small" sx={{ marginTop: "2px" }} /> */}
               <StickyNote />
-              BTW nummer: NL001816537B08
+              BTW nummer: NL003759363B85
             </li>
             <li className="pl-[30px] my-2 flex flex-row gap-1">
               {/* <NoteRoundedIcon fontSize="small" sx={{ marginTop: "2px" }} /> */}
-              en KvK nummer: 54210666
+              en KvK nummer: 82990581
             </li>
           </ul>
           {/* Payment icons */}
@@ -609,7 +609,7 @@ export default function Footer() {
             </li>
           </ul>
         </div>
-        <div className="max-w-md w-full mx-auto md:w-[336px] md:max-w-[336px] 2xl:mt-0">
+        {/* <div className="max-w-md w-full mx-auto md:w-[336px] md:max-w-[336px] 2xl:mt-0">
           <p className="mb-3 block relative">
             Bij een aankoopbedrag vanaf €250,- ontvang je gratis onze rosé gold
             metalen USB stick 3.0 - 8 GB geheugen t.w.v. €9,95
@@ -621,7 +621,7 @@ export default function Footer() {
             className="rounded-lg w-auto block mt-2 h-auto xl:w-[200px]"
             alt="Foto van een USB van gedenk-sieraad.nl"
           />
-        </div>
+        </div> */}
         <div className="max-w-md w-full mx-auto md:w-[336px] md:max-w-[336px] md:mb-20 2xl:mb-0 ">
           <p className="mb-2 relative block">
             Voor alle sieraden in de webshop geldt : twee jaar garantie en
@@ -629,7 +629,7 @@ export default function Footer() {
           </p>
           <a
             href="https://gedenk-sieraad.be"
-            rel="nofollow"
+            rel="nofollow noopener noreferrer"
             target="_blank"
             className="relative mt-2 block"
           >
